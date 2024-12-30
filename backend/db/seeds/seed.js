@@ -1,7 +1,5 @@
 const format = require('pg-format');
 const db = require('../connection');
-const user_preferences = require('../data/test-data/user_preferences');
-const payments = require('../data/test-data/payments');
 
 const seed = ({
   usersData,
@@ -43,7 +41,7 @@ const seed = ({
                                     CREATE TABLE user_activity (
                                     activity_id SERIAL PRIMARY KEY,
                                     user_id INT,
-                                    activity_type VARCHAR(50),
+                                    activity_type VARCHAR(50) NOT NULL,
                                     activity_timestamp TIMESTAMP)`);
                     })
                     .then(() => {
@@ -64,7 +62,7 @@ const seed = ({
                           user_id INT,
                           event_id INT,
                           amount INT,
-                          status VARCHAR(50),
+                          payment_status VARCHAR(50),
                           payment_method VARCHAR(50))`
                           );
                         });
@@ -97,10 +95,10 @@ const seed = ({
 
       const insertUserActivityQueryStr = format(
         'INSERT INTO user_activity (user_id, activity_type, activity_timestamp) VALUES %L;',
-        userActvityData.map(({ user_id, activity_id, activity_type }) => [
+        userActvityData.map(({ user_id, activity_type, activity_timestamp }) => [
           user_id,
-          activity_id,
           activity_type,
+          activity_timestamp,
         ])
       );
       const userActivityPromise = db.query(insertUserActivityQueryStr);
@@ -120,13 +118,13 @@ const seed = ({
       const eventsPromise = db.query(insertEventsQueryStr);
 
       const insertPaymentQueryStr = format(
-        'INSERT into payments (user_id, event_id, amount, status, status, payment_method) VALUES %L;',
-        payments.map(
-          ({ user_id, event_id, amount, status, payment_method }) => [
+        'INSERT into payments (user_id, event_id, amount, payment_status, payment_method) VALUES %L;',
+        paymentsData.map(
+          ({ user_id, event_id, amount, payment_status, payment_method }) => [
             user_id,
             event_id,
             amount,
-            status,
+            payment_status,
             payment_method,
           ]
         )

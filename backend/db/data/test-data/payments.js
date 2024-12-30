@@ -4,7 +4,7 @@ module.exports = [
     user_id: 1,
     event_id: 1,
     amount: 50,
-    status: 'paid',
+    payment_status: 'paid',
     payment_method: 'credit card',
   },
   {
@@ -12,7 +12,7 @@ module.exports = [
     user_id: 1,
     event_id: 2,
     amount: 30,
-    status: 'paid',
+    payment_status: 'paid',
     payment_method: 'paypal',
   },
   {
@@ -20,7 +20,7 @@ module.exports = [
     user_id: 1,
     event_id: 3,
     amount: 0,
-    status: 'free',
+    payment_status: 'free',
     payment_method: 'none',
   },
   {
@@ -28,7 +28,7 @@ module.exports = [
     user_id: 2,
     event_id: 1,
     amount: 20,
-    status: 'paid',
+    payment_status: 'paid',
     payment_method: 'debit card',
   },
   {
@@ -36,7 +36,7 @@ module.exports = [
     user_id: 2,
     event_id: 4,
     amount: 25,
-    status: 'unpaid',
+    payment_status: 'unpaid',
     payment_method: 'none',
   },
   {
@@ -44,7 +44,7 @@ module.exports = [
     user_id: 3,
     event_id: 2,
     amount: 50,
-    status: 'pending',
+    payment_status: 'pending',
     payment_method: 'credit card',
   },
   {
@@ -52,7 +52,7 @@ module.exports = [
     user_id: 3,
     event_id: 5,
     amount: 40,
-    status: 'paid',
+    payment_status: 'paid',
     payment_method: 'paypal',
   },
   {
@@ -60,7 +60,7 @@ module.exports = [
     user_id: 4,
     event_id: 3,
     amount: 0,
-    status: 'free',
+    payment_status: 'free',
     payment_method: 'none',
   },
   {
@@ -68,7 +68,7 @@ module.exports = [
     user_id: 4,
     event_id: 1,
     amount: 45,
-    status: 'paid',
+    payment_status: 'paid',
     payment_method: 'debit card',
   },
   {
@@ -76,7 +76,7 @@ module.exports = [
     user_id: 5,
     event_id: 2,
     amount: 55,
-    status: 'paid',
+    payment_status: 'paid',
     payment_method: 'credit card',
   },
   {
@@ -84,7 +84,7 @@ module.exports = [
     user_id: 5,
     event_id: 6,
     amount: 60,
-    status: 'unpaid',
+    payment_status: 'unpaid',
     payment_method: 'none',
   },
   {
@@ -92,7 +92,7 @@ module.exports = [
     user_id: 1,
     event_id: 4,
     amount: 15,
-    status: 'paid',
+    payment_status: 'paid',
     payment_method: 'paypal',
   },
   {
@@ -100,7 +100,7 @@ module.exports = [
     user_id: 2,
     event_id: 5,
     amount: 70,
-    status: 'pending',
+    payment_status: 'pending',
     payment_method: 'credit card',
   },
   {
@@ -108,7 +108,7 @@ module.exports = [
     user_id: 3,
     event_id: 4,
     amount: 50,
-    status: 'paid',
+    payment_status: 'paid',
     payment_method: 'debit card',
   },
   {
@@ -116,7 +116,7 @@ module.exports = [
     user_id: 4,
     event_id: 2,
     amount: 35,
-    status: 'paid',
+    payment_status: 'paid',
     payment_method: 'paypal',
   },
   {
@@ -124,7 +124,7 @@ module.exports = [
     user_id: 1,
     event_id: 5,
     amount: 20,
-    status: 'unpaid',
+    payment_status: 'unpaid',
     payment_method: 'none',
   },
   {
@@ -132,7 +132,7 @@ module.exports = [
     user_id: 5,
     event_id: 6,
     amount: 80,
-    status: 'pending',
+    payment_status: 'pending',
     payment_method: 'credit card',
   },
   {
@@ -140,7 +140,7 @@ module.exports = [
     user_id: 2,
     event_id: 6,
     amount: 90,
-    status: 'paid',
+    payment_status: 'paid',
     payment_method: 'paypal',
   },
   {
@@ -148,7 +148,7 @@ module.exports = [
     user_id: 3,
     event_id: 1,
     amount: 40,
-    status: 'paid',
+    payment_status: 'paid',
     payment_method: 'debit card',
   },
   {
@@ -156,7 +156,7 @@ module.exports = [
     user_id: 4,
     event_id: 4,
     amount: 30,
-    status: 'free',
+    payment_status: 'free',
     payment_method: 'none',
   },
 ];
