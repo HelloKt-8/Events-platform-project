@@ -23,8 +23,8 @@ const seed = ({
                             username VARCHAR(50) NOT NULL,
                             password VARCHAR(60) NOT NULL,
                             email VARCHAR(50) NOT NULL,
-                            created_at TIMESTAMP,
-                            updated_at TIMESTAMP);`
+                            created_at TIMESTAMP NOT NULL,
+                            updated_at TIMESTAMP NOT NULL);`
                 )
                 .then(() => {
                   return db
@@ -75,11 +75,13 @@ const seed = ({
     })
     .then(() => {
       const insertUsersQueryStr = format(
-        'INSERT INTO users (username, password, email) VALUES %L;',
-        usersData.map(({ username, password, email }) => [
+        'INSERT INTO users (username, password, email, created_at, updated_at) VALUES %L;',
+        usersData.map(({ username, password, email, created_at, updated_at }) => [
           username,
           password,
           email,
+          created_at,
+          updated_at,
         ])
       );
       const usersPromise = db.query(insertUsersQueryStr);

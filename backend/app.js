@@ -1,9 +1,12 @@
-const express = require("express")
-const cors = require("cors")
+const express = require('express');
+const cors = require('cors');
 
-const app = express()
+const app = express();
 
-const {getUsers} = require("./controllers/controllers")
+const { getUsers, getUserId } = require('./controllers/controllers');
 
 //endpoints
-app.get("/api/users", getUsers)
+app.get('/api/users', getUsers);
+app.get('/api/users/:user_id', getUserId);
+
+module.exports = app;
