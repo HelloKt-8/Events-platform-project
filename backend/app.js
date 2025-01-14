@@ -25,13 +25,13 @@ const {
 app.get('/api/users', getUsers);
 app.get('/api/users/:user_id', getUserId);
 app.get('/api/user_preferences', getUserPreferences)
-app.get('/api/user_activity/:user_id', getUserActivity)
+app.get('/api/user_activity', getUserActivity)
 app.get('/api/events', getEvents)
 app.get('/api/payments/:event_id', getPaymentStatusId)
 
 app.patch('/api/users/:user_id', patchUser)
 app.patch('/api/events/:event_id', patchEvent)
-app.patch('/api/users/:user_id/user_preferences', patchUserPreferences)
+app.patch('/api/user_preferences/:user_id/:preference_id', patchUserPreferences)
 
 app.delete('/api/users/:user_id', deleteUser)
 app.delete('/api/user_preferences/:user_preference_id', deleteUserPreference)

@@ -113,7 +113,7 @@ module.exports = [
   },
   {
     event_id: 15,
-    user_id: 5,
+    user_id: 1,
     event_name: 'Reading Marathon',
     event_date: '2025-01-10',
     event_type: 'books',
@@ -121,7 +121,7 @@ module.exports = [
   },
   {
     event_id: 16,
-    user_id: 1,
+    user_id: 2,
     event_name: 'Comedy Show',
     event_date: '2025-01-12',
     event_type: 'comedy',
@@ -129,7 +129,7 @@ module.exports = [
   },
   {
     event_id: 17,
-    user_id: 2,
+    user_id: 3,
     event_name: 'Political Debate Watch',
     event_date: '2025-01-15',
     event_type: 'politics',
@@ -137,7 +137,7 @@ module.exports = [
   },
   {
     event_id: 18,
-    user_id: 3,
+    user_id: 4,
     event_name: 'Football Game',
     event_date: '2025-01-18',
     event_type: 'sport',
@@ -145,7 +145,7 @@ module.exports = [
   },
   {
     event_id: 19,
-    user_id: 4,
+    user_id: 5,
     event_name: 'Dance Party',
     event_date: '2025-01-20',
     event_type: 'party',
@@ -153,10 +153,51 @@ module.exports = [
   },
   {
     event_id: 20,
-    user_id: 5,
+    user_id: 1,
     event_name: 'Romantic Getaway',
     event_date: '2025-01-22',
     event_type: 'romance',
     payment_status: 'paid',
+  },
+  // Added reassigned events
+  {
+    event_id: 15,
+    user_id: 2,
+    event_name: 'Reading Marathon',
+    event_date: '2025-01-10',
+    event_type: 'books',
+    payment_status: 'paid',
+  },
+  {
+    event_id: 16,
+    user_id: 3,
+    event_name: 'Comedy Show',
+    event_date: '2025-01-12',
+    event_type: 'comedy',
+    payment_status: 'free',
+  },
+  {
+    event_id: 17,
+    user_id: 4,
+    event_name: 'Political Debate Watch',
+    event_date: '2025-01-15',
+    event_type: 'politics',
+    payment_status: 'paid',
+  },
+  {
+    event_id: 18,
+    user_id: 5,
+    event_name: 'Football Game',
+    event_date: '2025-01-18',
+    event_type: 'sport',
+    payment_status: 'pending',
+  },
+  {
+    event_id: 19,
+    user_id: 1,
+    event_name: 'Dance Party',
+    event_date: '2025-01-20',
+    event_type: 'party',
+    payment_status: 'unpaid',
   },
 ];
