@@ -9,7 +9,6 @@ const {
     getUserPreferences,
     getUserActivity,
     getEvents,
-    getPaymentStatusId,
     patchUser,
     patchEvent,
     patchUserPreferences,
@@ -27,7 +26,7 @@ app.get('/api/users/:user_id', getUserId);
 app.get('/api/user_preferences', getUserPreferences)
 app.get('/api/user_activity', getUserActivity)
 app.get('/api/events', getEvents)
-app.get('/api/payments/:event_id', getPaymentStatusId)
+app.get('/api/event_attendees/:event_id', getEventAttendees)
 
 app.patch('/api/users/:user_id', patchUser)
 app.patch('/api/events/:event_id', patchEvent)
@@ -36,6 +35,7 @@ app.patch('/api/user_preferences/:user_id/:preference_id', patchUserPreferences)
 app.delete('/api/users/:user_id', deleteUser)
 app.delete('/api/user_preferences/:user_preference_id', deleteUserPreference)
 app.delete('/api/events/:event_id', deleteEvent)
+app.delete('/api/events/:event_id/eventattendees/:user_id', deleteEventAttendee);
 
 app.post('/api/users', createUser)
 app.post('/api/user_preferences', createPreferences)
