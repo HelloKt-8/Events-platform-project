@@ -379,47 +379,45 @@ describe('GET /event_attendees/:event_id', () => {
 
 // TESTING PATCH API/USERS/:USER_ID ---------------------------------------------------
 describe('PATCH/api/users/user_id', () => {
-  test('200: successfully updates one single changeable item of user information', async () => {
+  test.only('200: successfully updates one single changeable item of user information', async () => {
     const response = await request(app).patch('/api/users/1').send({
       username: 'johndoe777',
     });
     expect(response.status).toBe(200);
-    expect(reponse.body.updated_at).not.toBe(response.body.created_at);
-    expect(response.body).toEqual({
+    const { updatedUser } = response.body;
+    expect(updatedUser).toMatchObject({
       user_id: 1,
       username: 'johndoe777',
       password: 'password123!',
-      email: 'johndoe@example.com',
-      created_at: '2024-12-01T10:00:00.000Z',
-      updated_at: '2024-12-15T14:30:00.000Z',
+      email: 'john.doe@example.com',
+      user_type: 'staff',
     });
   });
 
-  test('200: successfully updates multiple items of changeable user information', async () => {
+  test.only('200: successfully updates multiple items of changeable user information', async () => {
     const response = await request(app).patch('/api/users/3').send({
       username: 'coolgamer500',
       password: 'cheesecake2024',
       email: 'coolgamer@gmail.com',
     });
     expect(response.status).toBe(200);
-    expect(reponse.body.updated_at).not.toBe(response.body.created_at);
-    expect(response.body).toEqual({
+    const { updatedUser } = response.body;
+    expect(updatedUser).toMatchObject({
       user_id: 3,
       username: 'coolgamer500',
       password: 'cheesecake2024',
       email: 'coolgamer@gmail.com',
-      created_at: '2024-12-10T09:45:00.000Z',
-      updated_at: '2024-12-15T11:00:00.000Z',
+      user_type: 'admin',
     });
   });
 
-  test('400: responds with an appropriate error message when not changing anything', async () => {
+  test.only('400: responds with an appropriate error message when not changing anything', async () => {
     const response = await request(app).patch('/api/users/1').send({});
     expect(response.status).toBe(400);
     expect(response.body.msg).toBe('Bad request: invalid data format');
   });
 
-  test('404: responds with an appropriate error message when user_id is valid but does not exist', async () => {
+  test.only('404: responds with an appropriate error message when user_id is valid but does not exist', async () => {
     const updatedUser = {
       username: 'coolgamer500',
       password: 'cheesecake2024',
@@ -432,7 +430,7 @@ describe('PATCH/api/users/user_id', () => {
     expect(response.body.msg).toBe('user_id does not exist: 9999');
   });
 
-  test('404: responds with an appropriate error message when user_id is not valid', async () => {
+  test.only('400: responds with an appropriate error message when user_id is not valid', async () => {
     const updatedUser = {
       username: 'coolgamer500',
       password: 'cheesecake2024',
@@ -445,7 +443,7 @@ describe('PATCH/api/users/user_id', () => {
     expect(response.body.msg).toBe('Bad request: invalid data format');
   });
 
-  test('400: responds with an appropriate error message when passed an invalid type in the body', async () => {
+  test.only('400: responds with an appropriate error message when passed an invalid type in the body', async () => {
     const response = await request(app)
       .patch('/api/users/5')
       .send({ username: 1234 });
@@ -456,159 +454,150 @@ describe('PATCH/api/users/user_id', () => {
 
 // TESTING PATCH API/EVENTS/:event_id ---------------------------------------------------
 describe('PATCH/api/events/:event_id', () => {
-  test('200: successfully updates one single changeable item of event information', async () => {
-    const response = await request(app).patch('/api/events/4').send({
-      event_name: 'Political Debate',
+  test.only('200: successfully updates one single changeable item of event information', async () => {
+    const response = await request(app).patch('/api/events/10').send({
+      event_name: 'Political Party',
     });
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({
-      event_id: 17,
-      user_id: 4,
-      event_name: 'Political Debate',
-      event_date: '2025-01-15',
-      event_type: 'politics',
-      payment_status: 'paid',
+    const { updatedEvent } = response.body;
+    expect(updatedEvent).toMatchObject({
+      event_id: 10,
+      event_name: 'Political Party',
+      event_date: '2025-02-20T00:00:00.000Z',
+      event_type: 'party',
+      event_cost: 25,
     });
   });
 
-  test('200: successfully updates multiple items of changeable event information', async () => {
-    const response = await request(app).patch('/api/events/18').send({
-      event_name: 'Basketball Game',
-      event_date: '2025-04-19',
+  test.only('200: successfully updates multiple items of changeable event information', async () => {
+    const response = await request(app).patch('/api/events/8').send({
+      event_name: 'Animal feeding',
+      event_cost: 7,
     });
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({
-      event_id: 18,
-      user_id: 5,
-      event_name: 'Basketball Game',
-      event_date: '2025-04-19',
-      event_type: 'sport',
-      payment_status: 'pending',
+    const { updatedEvent } = response.body;
+    expect(updatedEvent).toMatchObject({
+      event_id: 8,
+      event_name: 'Animal feeding',
+      event_type: 'animals',
+      event_date: '2025-02-10T00:00:00.000Z',
+      event_cost: 7,
     });
   });
 
-  test('404: returns error when event ID is not found', async () => {
+  test.only('404: returns error when event ID is not found', async () => {
     const response = await request(app).patch('/api/events/999').send({
       event_name: 'Non-existent Event',
     });
     expect(response.status).toBe(404);
     expect(response.body).toEqual({
-      error: 'Event not found',
+      msg: 'Event_id does not exist: 999',
     });
   });
 
-  test('400: returns error when required fields are missing', async () => {
+  test.only('400: returns error when required fields are missing', async () => {
+    const response = await request(app).patch('/api/events/4').send({});
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      msg: 'Bad request: invalid data format',
+    });
+  });
+
+  test.only('400: returns error when data type is invalid', async () => {
     const response = await request(app).patch('/api/events/4').send({
-      // Missing event_name
+      event_date: 'not-a-date',
     });
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      error: 'Missing required fields: event_name',
+      msg: 'Bad request: invalid data format',
     });
   });
 
-  test('400: returns error when data type is invalid', async () => {
-    const response = await request(app).patch('/api/events/4').send({
-      event_date: 'not-a-date', // Invalid date format
-    });
-    expect(response.status).toBe(400);
-    expect(response.body).toEqual({
-      error: 'Invalid date format',
-    });
-  });
-
-  test('400: returns error when event ID is invalid format', async () => {
+  test.only('400: returns error when event ID is invalid format', async () => {
     const response = await request(app).patch('/api/events/abc').send({
       event_name: 'Invalid ID Format',
+      event_date: 'not-a-date',
+      event_cost: 'not-a-cost',
     });
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      error: 'Invalid event ID format',
-    });
-  });
-
-  test('400: returns error when payment status is invalid', async () => {
-    const response = await request(app).patch('/api/events/4').send({
-      payment_status: 'invalid_status', // Invalid payment status
-    });
-    expect(response.status).toBe(400);
-    expect(response.body).toEqual({
-      error: 'Invalid payment status',
+      msg: 'Bad request: invalid data format',
     });
   });
 });
 
 // TESTING PATCH API/user_preferences/:user_id ---------------------------------------------------
 describe('PATCH/api/user_preferences/:user_id', () => {
-  test('200: successfully updates one single changeable item of preference information', async () => {
+  test.only('200: successfully updates one single changeable item of preference information', async () => {
     const response = await request(app)
-      .patch('/api/user_preferences/1?preference_id=3')
+      .patch('/api/user_preferences/1/3')
       .send({
         preference_type: 'cheeseboards',
       });
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({
+    const { updatedPreference } = response.body
+    expect(updatedPreference).toEqual({
       preference_id: 3,
       user_id: 1,
       preference_type: 'cheeseboards',
     });
   });
 
-  test('400: returns error when required fields are missing', async () => {
+  test.only('400: returns error when required fields are missing', async () => {
     const response = await request(app)
-      .patch('/api/user_preferences/4?preference_id=13')
+      .patch('/api/user_preferences/4/13')
       .send({});
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      error: 'Missing required fields: preference_type',
+      msg: 'Bad request: invalid data format',
     });
   });
 
-  test('400: returns error when data type is invalid', async () => {
+  test.only('400: returns error when data type is invalid', async () => {
     const response = await request(app)
-      .patch('/api/user_preferences/4?preference_id=14')
+      .patch('/api/user_preferences/4/14')
       .send({
         preference_type: 324234, // Invalid date format
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      error: 'Invalid preference type',
+      msg: 'Bad request: invalid data format',
     });
   });
 
-  test('400: returns error when user ID is invalid format', async () => {
+  test.only('400: returns error when user ID is invalid format', async () => {
     const response = await request(app)
-      .patch('/api/user_preferences/abc')
+      .patch('/api/user_preferences/abc/1')
       .send({
         event_name: 'Invalid ID Format',
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      error: 'Invalid user ID format',
+      msg: 'Bad request: invalid data format',
     });
   });
 
-  test('404: returns error when user does not exist', async () => {
+  test.only('404: returns error when user does not exist', async () => {
     const response = await request(app)
-      .patch('/api/user_preferences/9999?preference_id=1')
+      .patch('/api/user_preferences/9999/1')
       .send({
         preference_type: 'cheeseboards',
       });
     expect(response.status).toBe(404);
     expect(response.body).toEqual({
-      error: 'User not found',
+      msg: 'User_id or preference_id not found',
     });
   });
 
-  test('404: returns error when preference does not exist', async () => {
+  test.only('404: returns error when preference does not exist', async () => {
     const response = await request(app)
-      .patch('/api/user_preferences/1?preference_id=9999')
+      .patch('/api/user_preferences/1/9999')
       .send({
         preference_type: 'cheeseboards',
       });
     expect(response.status).toBe(404);
     expect(response.body).toEqual({
-      error: 'Preference not found',
+      msg: 'User_id or preference_id not found',
     });
   });
 });

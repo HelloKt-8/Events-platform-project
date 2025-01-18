@@ -4,7 +4,10 @@ const {
   selectUserPreferences, 
   selectUserActivity,
   selectEvents,
-  selectEventAttendees
+  selectEventAttendees,
+  changeUser,
+  changeEvent,
+  changePreference
 } = require('../models/models');
 
 exports.getUsers = async (req, res, next) => {
@@ -62,7 +65,45 @@ exports.getEventAttendees = async (req, res, next) => {
     const eventAttendees = await selectEventAttendees(event_id)
     res.status(200).send({ eventAttendees })
   } catch(error) {
-    console.error(error)
+    next(error)
+  }
+}
+
+exports.patchUser = async (req, res, next) => {
+const {user_id} = req.params
+
+const { username, password, email } = req.body
+
+try {
+  const updatedUser = await changeUser(user_id, username, password, email)
+  //console.log(updatedUser, 'CONTROLLER PATCH USER')
+  res.status(200).send({ updatedUser })
+} catch(error) {
+  next(error)
+}
+}
+
+exports.patchEvent = async (req, res, next) => {
+  const {event_id} = req.params
+  const { event_name, event_date, event_type, event_cost } = req.body
+  
+  try {
+    const updatedEvent = await changeEvent(event_id, event_name, event_date, event_type, event_cost )
+    res.status(200).send({ updatedEvent })
+  } catch(error) {
+    next(error)
+  }
+  }
+
+exports.patchUserPreferences = async (req, res, next) => {
+  const { user_id, preference_id } = req.params
+  const { preference_type } = req.body
+//console.log(user_id, preference_id, preference_type, 'CONTROLLER' )
+  try {
+    const updatedPreference = await changePreference(user_id, preference_id, preference_type)
+   // console.log(updatedPreference)
+    res.status(200).send({ updatedPreference })
+  } catch(error){
     next(error)
   }
 }

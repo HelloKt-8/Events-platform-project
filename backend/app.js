@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
+app.use(express.json());
 
 const { 
     getUsers, 
@@ -10,9 +11,9 @@ const {
     getUserActivity,
     getEvents,
     getEventAttendees,
-    // patchUser,
-    // patchEvent,
-    // patchUserPreferences,
+    patchUser,
+    patchEvent,
+    patchUserPreferences,
     // deleteUser,
     // deleteUserPreference,
     // deleteEvent,
@@ -29,9 +30,9 @@ app.get('/api/user_activity', getUserActivity)
 app.get('/api/events', getEvents)
 app.get('/api/event_attendees/:event_id', getEventAttendees)
 
-// app.patch('/api/users/:user_id', patchUser)
-// app.patch('/api/events/:event_id', patchEvent)
-// app.patch('/api/user_preferences/:user_id/:preference_id', patchUserPreferences)
+app.patch('/api/users/:user_id', patchUser)
+app.patch('/api/events/:event_id', patchEvent)
+app.patch('/api/user_preferences/:user_id/:preference_id', patchUserPreferences)
 
 // app.delete('/api/users/:user_id', deleteUser)
 // app.delete('/api/user_preferences/:user_preference_id', deleteUserPreference)
