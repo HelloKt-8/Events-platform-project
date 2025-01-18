@@ -8,7 +8,8 @@ const {
     getUserId,
     getUserPreferences,
     getUserActivity,
-    // getEvents,
+    getEvents,
+    getEventAttendees,
     // patchUser,
     // patchEvent,
     // patchUserPreferences,
@@ -18,7 +19,6 @@ const {
     // createUser,
     // createPreferences,
     // createEvent,
-    // getEventAttendees,
  } = require('./controllers/controllers');
 
 //endpoints
@@ -26,8 +26,8 @@ app.get('/api/users', getUsers);
 app.get('/api/users/:user_id', getUserId);
 app.get('/api/user_preferences', getUserPreferences)
 app.get('/api/user_activity', getUserActivity)
-// app.get('/api/events', getEvents)
-// app.get('/api/event_attendees/:event_id', getEventAttendees)
+app.get('/api/events', getEvents)
+app.get('/api/event_attendees/:event_id', getEventAttendees)
 
 // app.patch('/api/users/:user_id', patchUser)
 // app.patch('/api/events/:event_id', patchEvent)

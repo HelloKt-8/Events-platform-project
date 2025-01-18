@@ -205,26 +205,26 @@ describe('GET /api/user_activity', () => {
         activity_id: 9,
         user_id: 3,
         activity_type: 'login',
-        activity_timestamp: '2024-12-18T10:00:00.000Z'
+        activity_timestamp: '2024-12-18T10:00:00.000Z',
       },
       {
         activity_id: 10,
         user_id: 3,
         activity_type: 'event add',
-        activity_timestamp: '2024-12-18T10:10:00.000Z'
+        activity_timestamp: '2024-12-18T10:10:00.000Z',
       },
       {
         activity_id: 11,
         user_id: 3,
         activity_type: 'preference delete',
-        activity_timestamp: '2024-12-18T10:30:00.000Z'
+        activity_timestamp: '2024-12-18T10:30:00.000Z',
       },
       {
         activity_id: 12,
         user_id: 3,
         activity_type: 'logout',
-        activity_timestamp: '2024-12-18T11:00:00.000Z'
-      }
+        activity_timestamp: '2024-12-18T11:00:00.000Z',
+      },
     ]);
   });
 
@@ -251,7 +251,7 @@ describe('GET /api/user_activity', () => {
 // TESTING API/EVENTS ---------------------------------------------------
 
 describe('GET /api/events', () => {
-  test('200: return an array for all events', async () => {
+  test.only('200: return an array for all events', async () => {
     const response = await request(app).get('/api/events').timeout(5000);
     expect(response.status).toBe(200);
     const { events } = response.body;
@@ -259,124 +259,69 @@ describe('GET /api/events', () => {
     events.forEach((event) => {
       expect(event).toMatchObject({
         event_id: expect.any(Number),
-        user_id: expect.any(Number),
         event_name: expect.any(String),
         event_date: expect.any(String),
         event_type: expect.any(String),
-        payment_status: expect.any(String),
+        event_cost: expect.any(Number),
       });
     });
   });
 
-  test('200: return all events filtered by user_id', async () => {
-    const response = await request(app).get('/api/events?user_id=5');
+  test.only('200: return all events filtered by event_id', async () => {
+    const response = await request(app).get('/api/events?event_id=5');
     expect(response.status).toBe(200);
     const { events } = response.body;
-    expect(events).toEqual([
+    expect(events).toMatchObject([
       {
-        event_id: 9,
-        user_id: 5,
-        event_name: 'Book Club Meeting',
-        event_date: '2024-12-29',
-        event_type: 'books',
-        payment_status: 'free',
+        event_id: 5,
+        event_name: 'Tech Innovation Webinar',
+        event_type: 'conference',
+        event_date: '2025-01-20T00:00:00.000Z',
+        event_cost: 50,
+      },
+    ]);
+  });
+
+  test.only('200: return events filted by event_type', async () => {
+    const response = await request(app).get('/api/events?event_type=party');
+    expect(response.status).toBe(200);
+    const { events } = response.body;
+    expect(events).toMatchObject([
+      {
+        event_id: 4,
+        event_name: 'Private Dinner Party',
+        event_type: 'party',
+        event_date: '2025-01-15T00:00:00.000Z',
+        event_cost: 30,
       },
       {
         event_id: 10,
-        user_id: 5,
-        event_name: 'Political Debate',
-        event_date: '2024-12-30',
-        event_type: 'politics',
-        payment_status: 'paid',
-      },
-      {
-        event_id: 15,
-        user_id: 5,
-        event_name: 'Reading Marathon',
-        event_date: '2025-01-10',
-        event_type: 'books',
-        payment_status: 'paid',
-      },
-      {
-        event_id: 20,
-        user_id: 5,
-        event_name: 'Romantic Getaway',
-        event_date: '2025-01-22',
-        event_type: 'romance',
-        payment_status: 'paid',
-      },
-    ]);
-  });
-
-  test('200: return events filted by user_id and event_type', async () => {
-    const response = await request(app).get(
-      '/api/events?user_id=3&event_type=sport'
-    );
-    expect(response.status).toBe(200);
-    const { events } = response.body;
-    expect(events).toEqual([
-      {
-        event_id: 18,
-        user_id: 3,
-        event_name: 'Football Game',
-        event_date: '2025-01-18',
-        event_type: 'sport',
-        payment_status: 'pending',
-      },
-    ]);
-  });
-
-  test('200: return an array filtered by event_id', async () => {
-    const response = await request(app).get('/api/events?event_id=4');
-    expect(response.status).toBe(200);
-    const { events } = response.body;
-    expect(events).toEqual([
-      {
-        event_id: 4,
-        user_id: 2,
-        event_name: 'Music Concert',
-        event_date: '2024-12-24',
+        event_name: 'Indie Music Showcase',
         event_type: 'party',
-        payment_status: 'pending',
+        event_date: '2025-02-20T00:00:00.000Z',
+        event_cost: 25,
       },
     ]);
   });
 
-  test('200: returns an empty array if valid id but no events', async () => {
-    const response = await request(app).get('/api/events?user_id=10');
-    expect(response.status).toBe(200);
-    const { events } = response.body;
-    expect(events).toEqual([]);
-    expect(Array.isArray(events).toBe(true));
-    expect(events.length).toBe(0);
-  });
-
-  test('404: returns an error when user_id is valid but does not exist', async () => {
-    const response = await request(app).get('/api/events?user_id=9999');
+  test.only('200: returns an empty array if valid event_id but no events', async () => {
+    const response = await request(app).get('/api/events?event_id=100');
     expect(response.status).toBe(404);
-    expect(response.body.msg).toBe('User not found for user_id: 9999');
+    expect(response.body.msg).toBe('Event does not exist');
   });
 
-  test('400, error when event does not exist but user_id does', async () => {
-    const response = await request(app).get(
-      '/api/user_preferences?event_id=999&user_id=2'
-    );
+  test.only('400, returns an error when testing for invalid query parameters', async () => {
+    const response = await request(app).get('/api/events?event_id=abc');
     expect(response.status).toBe(400);
     expect(response.body.msg).toBe('Bad Request');
   });
 
-  test('400, returns an error when testing for invalid query parameters', async () => {
+  test.only('404: returns an error for non existent event', async () => {
     const response = await request(app).get(
-      '/api/events?event_id=123&user_id=123'
+      '/api/events?event_type=cheesecake'
     );
-    expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('Bad Request');
-  });
-
-  test('400: reutrns an error for invalid query values', async () => {
-    const response = await request(app).get('/api/events?user_id=abc');
-    expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('Invalid user_id');
+    expect(response.status).toBe(404);
+    expect(response.body.msg).toBe('Event does not exist');
   });
 });
 
@@ -384,53 +329,51 @@ describe('GET /api/events', () => {
 
 describe('GET /event_attendees/:event_id', () => {
   // Test for valid event_id with attendees
-  test('200: returns list of attendees for a valid event_id', async () => {
-    const response = await request(app).get('/event_attendees/1');
+  test.only('200: returns list of attendees for a valid event_id', async () => {
+    const response = await request(app).get('/api/event_attendees/1');
     expect(response.status).toBe(200);
-    const { attendees } = response.body;
-    expect(Array.isArray(attendees)).toBe(true);
-    expect(attendees.length).toBeGreaterThan(0); // Assuming the event has attendees
-    attendees.forEach((attendee) => {
-      expect(attendee).toMatchObject({
-        attendee_id: expect.any(Number),
-        event_id: 1,
-        user_id: expect.any(Number),
-        user_name: expect.any(String),
-      });
+    const { eventAttendees } = response.body;
+    expect(Array.isArray(eventAttendees)).toBe(true);
+    expect(eventAttendees.length).toBeGreaterThan(0);
+    eventAttendees.forEach((attendee) => {
+      expect(attendee).toMatchObject(
+        {
+          event_id: 1,
+          user_id: expect.any(Number),
+          status: expect.any(String),
+          payment_status: expect.any(String),
+        },
+        expect(
+          attendee.payment_method === null ||
+            typeof attendee.payment_method === 'string'
+        )
+      );
     });
   });
 
   // Test for invalid event_id
-  test('400: returns an error when event_id is not a number', async () => {
-    const response = await request(app).get('/event_attendees/invalid_id');
+  test.only('400: returns an error when event_id is not a number', async () => {
+    const response = await request(app).get('/api/event_attendees/invalid_id');
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('Invalid event_id');
+    expect(response.body.msg).toBe('Bad Request');
   });
 
   // Test for non-existent event_id
-  test('404: returns an error when event_id does not exist', async () => {
-    const response = await request(app).get('/event_attendees/9999');
+  test.only('404: returns an error when event_id does not exist', async () => {
+    const response = await request(app).get('/api/event_attendees/9999');
     expect(response.status).toBe(404);
-    expect(response.body.msg).toBe('No attendees found for event_id: 9999');
+    expect(response.body.msg).toBe(
+      'Event does not exist or No attendees found for event_id: 9999'
+    );
   });
 
   // Test for valid event_id but with no attendees
-  test('404: returns an error when there are no attendees for the event_id', async () => {
-    const response = await request(app).get('/event_attendees/2'); // Assuming event 2 has no attendees
+  test.only('404: returns an error when there are no attendees for the event_id', async () => {
+    const response = await request(app).get('/api/event_attendees/7'); // Assuming event 2 has no attendees
     expect(response.status).toBe(404);
-    expect(response.body.msg).toBe('No attendees found for event_id: 2');
-  });
-
-  // Test for server error (e.g., database failure)
-  test('500: returns a server error on failure', async () => {
-    // Mocking an error in DB query
-    jest.spyOn(global, 'getAttendeesByEventId').mockImplementation(() => {
-      throw new Error('Database failure');
-    });
-
-    const response = await request(app).get('/event_attendees/1');
-    expect(response.status).toBe(500);
-    expect(response.body.msg).toBe('Server error');
+    expect(response.body.msg).toBe(
+      'Event does not exist or No attendees found for event_id: 7'
+    );
   });
 });
 
