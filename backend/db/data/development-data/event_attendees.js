@@ -1,4 +1,4 @@
-const eventAttendeesData = [
+module.exports = [
     // Event ID 1: Local Football Match
     {
       event_id: 1,

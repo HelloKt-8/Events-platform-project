@@ -11,7 +11,7 @@ exports.selectUser = async (user_id) => {
   const user = await db.query(sqlQuery, [user_id]);
   if (user.rows.length === 0) {
     return Promise.reject({
-      status: 400,
+      status: 404,
       msg: `User not found for user_id: ${user_id}`,
     });
   }
@@ -26,23 +26,27 @@ exports.selectUserPreferences = async (user_id, preference_type) => {
 
   const params = user_id && preference_type ? [user_id, preference_type] : preference_type ? [preference_type] : user_id ? [user_id] : [];
   const result = await db.query(sqlQuery, params);
+  if (result.rows.length === 0) {
+    return Promise.reject({
+      status: 404,
+      msg: `User not found for user_id or preference_type`,
+    });
+  }
   return result.rows
 }
-
-
 
 exports.selectUserActivity = async (user_id) => {
   const sqlQuery = 'SELECT * FROM user_activity WHERE user_id = $1;';
   const userActivity = await db.query(sqlQuery, [user_id]);
   if (userActivity.rows.length === 0){
     return Promise.reject({
-      status: 400,
-      msg: `User Activity not found for user_id: ${user_id}`,
+      status: 404,
+      msg: `User_id or User_Activity not found`,
     })
   }
-  return userActivity.rows[0]
+  return userActivity.rows
 }
 
-exports.selectEvents = async () => {
-  const sqlQuery = 'SELECT * FROM events'
-}
+// exports.selectEvents = async () => {
+//   const sqlQuery = 'SELECT * FROM events'
+// }
