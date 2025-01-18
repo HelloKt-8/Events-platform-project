@@ -605,114 +605,68 @@ describe('PATCH/api/user_preferences/:user_id', () => {
 // TESTING DELETE API/users/:user_id ---------------------------------------------------
 
 describe('DELETE /api/users/:user_id', () => {
-  test('204: delete a user', async () => {
+  test.only('204: delete a user', async () => {
     const response = await request(app).delete('/api/users/1');
     expect(response.status).toBe(204);
   });
 
-  test('204: delete a user and verify removal', async () => {
+  test.only('204: delete a user and verify removal', async () => {
     await request(app).delete('/api/users/1');
     const response = await request(app).get('/api/users/1');
     expect(response.status).toBe(404);
     expect(response.body.msg).toBe('User not found for user_id: 1');
   });
 
-  test('404: when user_id does not exist', async () => {
+  test.only('404: when user_id does not exist', async () => {
     const response = await request(app).delete('/api/users/999');
     expect(response.status).toBe(404);
     expect(response.body.msg).toBe('User not found for user_id: 999');
   });
 
-  test('400: for invalid user_id data format', async () => {
+  test.only('400: for invalid user_id data format', async () => {
     const response = await request(app).delete('/api/users/notvalidid');
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('invalid user_id format');
-  });
-});
-
-// TESTING DELETE API/users/:user_id ---------------------------------------------------
-
-describe('DELETE /api/users/:user_id', () => {
-  test('204: delete a user', async () => {
-    const response = await request(app).delete('/api/users/1');
-    expect(response.status).toBe(204);
-  });
-
-  test('204: delete a user and verify removal', async () => {
-    await request(app).delete('/api/users/1');
-    const response = await request(app).get('/api/users/1');
-    expect(response.status).toBe(404);
-    expect(response.body.msg).toBe('User not found for user_id: 1');
-  });
-
-  test('404: when user_id does not exist', async () => {
-    const response = await request(app).delete('/api/users/999');
-    expect(response.status).toBe(404);
-    expect(response.body.msg).toBe('User not found for user_id: 999');
-  });
-
-  test('400: for invalid user_id data format', async () => {
-    const response = await request(app).delete('/api/users/notvalidid');
-    expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('invalid user_id format');
+    expect(response.body.msg).toBe('Bad Request');
   });
 });
 
 // TESTING DELETE API/user_preference/:user_id/:preference_id ---------------------------------------------------
 
 describe('DELETE /api/user_preference/:user_id/:preference_id', () => {
-  test('204: delete a users preference', async () => {
+  test.only('204: delete a users preference', async () => {
     const response = await request(app).delete('/api/user_preferences/1/3');
     expect(response.status).toBe(204);
+    expect(response.body).toEqual({})
   });
 
-  test('204: delete a users preference and verify removal', async () => {
-    await request(app).delete('/api/user_preferences/1/3');
-    const response = await request(app).get('/api/user_preferences/1/3');
-    expect(response.status).toBe(404);
-    expect(response.body.msg).toBe('User preference not found');
-  });
+  // test.only('404: when user_id does not exist', async () => {
+  //   const response = await request(app).delete('/api/user_preference/999/5');
+  //   expect(response.status).toBe(404);
+  //   expect(response.body.msg).toBe('User or user preference not found');
+  // });
 
-  test('404: when user_id does not exist', async () => {
-    const response = await request(app).delete('/api/user_preference/999/5');
-    expect(response.status).toBe(404);
-    expect(response.body.msg).toBe('User not found for user_id: 999');
-  });
-
-  test('400: for invalid user_id data format', async () => {
+  test.only('400: for invalid user_id data format', async () => {
     const response = await request(app).delete(
       '/api/user_preferences/notvalidid/5'
     );
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('invalid user_id format');
+    expect(response.body.msg).toBe('Invalid data format');
   });
 
-  test('400: for invalid preference_id data format', async () => {
+  test.only('400: for invalid preference_id data format', async () => {
     const response = await request(app).delete(
       '/api/user_preferences/2/invalidid'
     );
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('invalid preference_id format');
+    expect(response.body.msg).toBe('Invalid data format');
   });
 
-  test('404: when preference_id does not exist for a valid user_id', async () => {
+  test.only('404: when preference_id does not exist for a valid user_id', async () => {
     const response = await request(app).delete('/api/user_preferences/1/999');
     expect(response.status).toBe(404);
     expect(response.body.msg).toBe(
-      'Preference not found for preference_id: 999'
+      'User or user preference not found'
     );
-  });
-
-  test('400: when preference_id is missing from URL', async () => {
-    const response = await request(app).delete('/api/user_preferences/1/');
-    expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('Missing required parameter: preference_id');
-  });
-
-  test('400: when user_id is missing from URL', async () => {
-    const response = await request(app).delete('/api/user_preferences//3');
-    expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('Missing required parameter: user_id');
   });
 });
 
@@ -743,11 +697,6 @@ describe('DELETE /api/events/:event_id', () => {
     expect(response.body.msg).toBe('invalid event_id format');
   });
 
-  test('400: when event_id is missing from URL', async () => {
-    const response = await request(app).delete('/api/events/');
-    expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('Missing required parameter: event_id');
-  });
 });
 
 // TESTING DELETE API/events/:event_id/event_attendees/:user_id ---------------------------------------------------

@@ -14,9 +14,9 @@ const {
     patchUser,
     patchEvent,
     patchUserPreferences,
-    // deleteUser,
-    // deleteUserPreference,
-    // deleteEvent,
+    deleteUser,
+    deleteUserPreference,
+    deleteEvent,
     // createUser,
     // createPreferences,
     // createEvent,
@@ -34,9 +34,9 @@ app.patch('/api/users/:user_id', patchUser)
 app.patch('/api/events/:event_id', patchEvent)
 app.patch('/api/user_preferences/:user_id/:preference_id', patchUserPreferences)
 
-// app.delete('/api/users/:user_id', deleteUser)
-// app.delete('/api/user_preferences/:user_preference_id', deleteUserPreference)
-// app.delete('/api/events/:event_id', deleteEvent)
+app.delete('/api/users/:user_id', deleteUser)
+app.delete('/api/user_preferences/:user_id/:preference_id', deleteUserPreference)
+app.delete('/api/events/:event_id', deleteEvent)
 // app.delete('/api/events/:event_id/eventattendees/:user_id', deleteEventAttendee);
 
 // app.post('/api/users', createUser)

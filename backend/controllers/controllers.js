@@ -7,7 +7,9 @@ const {
   selectEventAttendees,
   changeUser,
   changeEvent,
-  changePreference
+  changePreference,
+  removeUser,
+  removeUserPreference
 } = require('../models/models');
 
 exports.getUsers = async (req, res, next) => {
@@ -107,3 +109,23 @@ exports.patchUserPreferences = async (req, res, next) => {
     next(error)
   }
 }
+
+exports.deleteUser = async (req, res, next) => {
+  const { user_id } = req.params;
+  try {
+    await removeUser(user_id);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteUserPreference = async (req, res, next) => {
+  const { user_id, preference_id } = req.params;
+  try {
+    await removeUserPreference(user_id, preference_id);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+};

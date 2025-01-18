@@ -183,7 +183,7 @@ WHERE event_id = $1 RETURNING *;`;
 exports.changePreference = async (user_id, preference_id, preference_type) => {
   if (
     (!user_id && !preference_id) ||
-    (!preference_type) ||
+    !preference_type ||
     isNaN(Number(user_id)) ||
     isNaN(Number(preference_id)) ||
     (preference_type && typeof preference_type !== 'string')
@@ -206,7 +206,7 @@ exports.changePreference = async (user_id, preference_id, preference_type) => {
     });
   } else {
     const queryValues = [user_id, preference_id, preference_type];
- const sqlQuery = `
+    const sqlQuery = `
   UPDATE user_preferences
   SET preference_type = COALESCE($3, preference_type)
   WHERE user_id = $1 AND preference_id = $2
@@ -217,3 +217,48 @@ exports.changePreference = async (user_id, preference_id, preference_type) => {
     return result.rows[0];
   }
 };
+
+exports.removeUser = async (user_id) => {
+  const sqlQuery = `DELETE FROM users WHERE user_id = $1 RETURNING *;`;
+  const queryValues = [user_id];
+  const deletedUser = await db.query(sqlQuery, queryValues);
+  if (deletedUser.rowCount === 0) {
+    return Promise.reject({
+      status: 404,
+      msg: `User not found for user_id: ${user_id}`,
+    });
+  } else {
+    return deletedUser.rows[0];
+  }
+};
+
+exports.removeUserPreference = async (user_id, preference_id) => {
+  // Validate input parameters
+  if (!user_id || isNaN(Number(user_id))) {
+    return Promise.reject({
+      status: 400,
+      msg: 'Invalid data format',
+    });
+  }
+  if (!preference_id || isNaN(Number(preference_id))) {
+    return Promise.reject({
+      status: 400,
+      msg: 'Invalid data format',
+    });
+  }
+
+  const sqlQuery = `DELETE FROM user_preferences WHERE user_id = $1 AND preference_id = $2 RETURNING *;`;
+  const queryValues = [user_id, preference_id];
+  const deletedPreferences = await db.query(sqlQuery, queryValues);
+
+  if (deletedPreferences.rowCount === 0) {
+    return Promise.reject({
+      status: 404,
+      msg: 'User or user preference not found',
+    });
+  }
+
+  return deletedPreferences.rows[0];
+};
+
+;
