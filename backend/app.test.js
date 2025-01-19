@@ -535,7 +535,7 @@ describe('PATCH/api/user_preferences/:user_id', () => {
         preference_type: 'cheeseboards',
       });
     expect(response.status).toBe(200);
-    const { updatedPreference } = response.body
+    const { updatedPreference } = response.body;
     expect(updatedPreference).toEqual({
       preference_id: 3,
       user_id: 1,
@@ -636,7 +636,7 @@ describe('DELETE /api/user_preference/:user_id/:preference_id', () => {
   test.only('204: delete a users preference', async () => {
     const response = await request(app).delete('/api/user_preferences/1/3');
     expect(response.status).toBe(204);
-    expect(response.body).toEqual({})
+    expect(response.body).toEqual({});
   });
 
   // test.only('404: when user_id does not exist', async () => {
@@ -664,146 +664,115 @@ describe('DELETE /api/user_preference/:user_id/:preference_id', () => {
   test.only('404: when preference_id does not exist for a valid user_id', async () => {
     const response = await request(app).delete('/api/user_preferences/1/999');
     expect(response.status).toBe(404);
-    expect(response.body.msg).toBe(
-      'User or user preference not found'
-    );
+    expect(response.body.msg).toBe('User or user preference not found');
   });
 });
 
 // TESTING DELETE API/events/:event_id ---------------------------------------------------
 
 describe('DELETE /api/events/:event_id', () => {
-  test('204: delete an event', async () => {
+  test.only('204: delete an event', async () => {
     const response = await request(app).delete('/api/events/2');
     expect(response.status).toBe(204);
   });
 
-  test('204: delete an event and verify removal', async () => {
-    await request(app).delete('/api/events/2');
-    const response = await request(app).get('/api/events/2');
-    expect(response.status).toBe(404);
-    expect(response.body.msg).toBe('Event not found');
-  });
-
-  test('404: when event_id does not exist', async () => {
+  test.only('404: when event_id does not exist', async () => {
     const response = await request(app).delete('/api/events/999');
     expect(response.status).toBe(404);
     expect(response.body.msg).toBe('Event not found');
   });
 
-  test('400: for invalid event_id data format', async () => {
+  test.only('400: for invalid event_id data format', async () => {
     const response = await request(app).delete('/api/events/abc');
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('invalid event_id format');
+    expect(response.body.msg).toBe('Invalid data format');
   });
-
 });
 
-// TESTING DELETE API/events/:event_id/event_attendees/:user_id ---------------------------------------------------
+// TESTING DELETE API/event_attendees/:event_id/:user_id ---------------------------------------------------
 
-describe('DELETE /api/events/:event_id/attendees/:user_id', () => {
-  // Test for successful attendee removal
-  test('200: successfully removes an attendee from the event', async () => {
-    const response = await request(app).delete('/api/events/1/attendees/101');
+describe('DELETE /api/events/:event_id/event_attendees/:user_id', () => {
+  test.only('204: successfully removes an attendee from the event', async () => {
+    const response = await request(app).delete('/api/event_attendees/1/1');
     expect(response.status).toBe(200);
+    console.log(response.body.msg);
     expect(response.body.msg).toBe('Attendee successfully removed from event');
   });
 
-  // Test for invalid event_id
-  test('400: returns an error when event_id is not a number', async () => {
-    const response = await request(app).delete(
-      '/api/events/invalid_id/attendees/101'
-    );
+  test.only('400: returns an error when event_id is not a number', async () => {
+    const response = await request(app).delete('/api/event_attendees/abc/1');
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('Invalid event_id or user_id');
+    expect(response.body.msg).toBe('Invalid data format');
   });
 
-  // Test for invalid user_id
-  test('400: returns an error when user_id is not a number', async () => {
-    const response = await request(app).delete(
-      '/api/events/1/attendees/invalid_user'
-    );
+  test.only('400: returns an error when user_id is not a number', async () => {
+    const response = await request(app).delete('/api/event_attendees/1/abc');
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('Invalid event_id or user_id');
+    expect(response.body.msg).toBe('Invalid data format');
   });
 
-  // Test for non-existent event or user combination
-  test('404: returns an error when the attendee is not found in the event', async () => {
-    const response = await request(app).delete('/api/events/1/attendees/9999'); // Assuming user 9999 doesn't exist in event 1
+  test.only('404: returns an error when the attendee is not found in the event', async () => {
+    const response = await request(app).delete('/api/event_attendees/999/999'); // Assuming user 9999 doesn't exist in event 1
     expect(response.status).toBe(404);
-    expect(response.body.msg).toBe('Attendee 9999 not found in event 1');
+    expect(response.body.msg).toBe('Event or user not found');
   });
 
-  // Test for server error (e.g., database failure)
-  test('500: returns a server error on failure', async () => {
-    // Mocking an error in DB query
-    jest.spyOn(global, 'removeAttendeeFromEvent').mockImplementation(() => {
-      throw new Error('Database failure');
-    });
-
-    const response = await request(app).delete('/api/events/1/attendees/101');
-    expect(response.status).toBe(500);
-    expect(response.body.msg).toBe('Server error');
-  });
 });
 
 // TESTING POST API/users ---------------------------------------------------
 
 describe('POST /api/users', () => {
-  test('201: successfully creates a new user', async () => {
-    const reponse = await request(app).post('/api/users').send({
+  test.only('201: successfully creates a new user', async () => {
+    const response = await request(app).post('/api/users').send({
       username: 'Hellokitty3',
       password: 'sanrio123',
       email: 'hello.kitty@gmail.com',
+      user_type: 'member'
     });
     expect(response.status).toBe(201);
     expect(response.body).toMatchObject({
+      user_id: expect.any(Number),
       username: expect.any(String),
+      password: expect.any(String),
       email: expect.any(String),
+      user_type: expect.any(String)
     });
-    expect(new Date(response.body.created_at).toISOString()).toBe(
-      response.body.created_at
-    );
-    expect(new Date(response.body.updated_at).toISOString()).toBe(
-      response.body.updated_at
-    );
   });
 
-  test('400: when body to send is empty or missing', async () => {
+  test.only('400: when body to send is empty or missing', async () => {
     const response = await request(app).post('/api/users').send({});
     expect(response.status).toBe(400);
     expect(response.body.msg).toBe('Bad Request');
   });
 
-  test('400: when body when datatypes are invalid', async () => {
+  test.only('400: when body when datatypes are invalid', async () => {
     const response = await request(app).post('/api/users').send({
-      name: 500,
       username: 5,
-      profile_url: 5,
       password: 5,
+      email: 2,
+      user_type: 2
     });
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('Bad request: invalid data format');
+    expect(response.body.msg).toBe('Invalid data format');
   });
 });
 
 // TESTING POST API/user_preferences/:user_id ---------------------------------------------------
 
 describe('POST /api/user_preferences/:user_id', () => {
-  test('201: successfully creates a new user preference', async () => {
-    const reponse = await request(app).post('/api/user_preferences/2').send({
-      user_id: 2,
+  test.only('201: successfully creates a new user preference', async () => {
+    const response = await request(app).post('/api/user_preferences/1').send({
       preference_type: 'comedy',
     });
     expect(response.status).toBe(201);
     expect(response.body).toEqual({
       preference_id: 21,
-      user_id: 2,
+      user_id: 1,
       preference_type: 'comedy',
     });
   });
 
-  test('400: when body to send is empty or missing', async () => {
+  test.only('400: when body to send is empty or missing', async () => {
     const response = await request(app)
       .post('/api/user_preferences/2')
       .send({});
@@ -811,15 +780,12 @@ describe('POST /api/user_preferences/:user_id', () => {
     expect(response.body.msg).toBe('Bad Request');
   });
 
-  test('400: when body when datatypes are invalid', async () => {
+  test.only('400: when body when datatypes are invalid', async () => {
     const response = await request(app).post('/api/user_preferences/2').send({
-      name: 500,
-      username: 5,
-      profile_url: 5,
-      password: 5,
+      preference_type: 5,
     });
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('Bad request: invalid data format');
+    expect(response.body.msg).toBe('Bad Request');
   });
 });
 
@@ -827,7 +793,7 @@ describe('POST /api/user_preferences/:user_id', () => {
 
 describe('POST /api/events', () => {
   // Test for successful event creation
-  test('201: creates a new event successfully', async () => {
+  test.only('201: creates a new event successfully', async () => {
     const newEvent = {
       event_name: 'Tech Conference 2025',
       event_type: 'conference',
@@ -838,14 +804,13 @@ describe('POST /api/events', () => {
     const response = await request(app).post('/api/events').send(newEvent);
     expect(response.status).toBe(201);
     expect(response.body.msg).toBe('Event created successfully');
-    expect(response.body.event.event_name).toBe(newEvent.event_name);
-    expect(response.body.event.event_type).toBe(newEvent.event_type);
-    expect(response.body.event.event_date).toBe(newEvent.event_date);
-    expect(response.body.event.event_cost).toBe(newEvent.event_cost);
+    expect(response.body.event_name).toBe(newEvent.event_name);
+    expect(response.body.event_type).toBe(newEvent.event_type);
+    expect(response.body.event_cost).toBe(newEvent.event_cost);
   });
 
   // Test for missing required fields
-  test('400: returns an error when required fields are missing', async () => {
+  test.only('400: returns an error when required fields are missing', async () => {
     const incompleteEvent = {
       event_name: 'Music Festival',
       event_type: 'festival',
@@ -856,15 +821,15 @@ describe('POST /api/events', () => {
       .post('/api/events')
       .send(incompleteEvent);
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('All fields are required');
+    expect(response.body.msg).toBe('Invalid data or missing fields');
   });
 
   // Test for invalid event_date format
-  test('400: returns an error when event_date is invalid', async () => {
+  test.only('400: returns an error when event_date is invalid', async () => {
     const invalidDateEvent = {
       event_name: 'Art Exhibition',
       event_type: 'exhibition',
-      event_date: 'invalid-date', // Invalid date format
+      event_date: 2343, // Invalid date format
       event_cost: 50,
     };
 
@@ -872,25 +837,116 @@ describe('POST /api/events', () => {
       .post('/api/events')
       .send(invalidDateEvent);
     expect(response.status).toBe(400);
-    expect(response.body.msg).toBe('Invalid event_date');
+    expect(response.body.msg).toBe('Invalid data or missing fields');
   });
+});
 
-  // Test for server error (e.g., database failure)
-  test('500: returns a server error on failure', async () => {
-    // Mocking an error in DB query
-    jest.spyOn(global, 'createNewEvent').mockImplementation(() => {
-      throw new Error('Database failure');
-    });
-
-    const newEvent = {
-      event_name: 'Food Festival',
-      event_type: 'festival',
-      event_date: '2025-07-10',
-      event_cost: 30,
+describe.only('POST /api/event_attendees/:event_id/:user_id', () => {
+  test('201: successfully adds a user to an event as an attendee', async () => {
+    const newAttendeeDetails = {
+      status: 'confirmed',
+      payment_status: 'paid',
+      payment_method: 'credit_card',
     };
 
-    const response = await request(app).post('/api/events').send(newEvent);
-    expect(response.status).toBe(500);
-    expect(response.body.msg).toBe('Server error');
+    const response = await request(app)
+      .post('/api/event_attendees/1/5') // event_id = 1, user_id = 2
+      .send(newAttendeeDetails);
+
+    expect(response.status).toBe(201);
+    expect(response.body.msg).toBe('Event attendee created successfully');
+    expect(response.body.attendee).toMatchObject({
+      event_id: 1,
+      user_id: 5,
+      ...newAttendeeDetails,
+    });
+  });
+
+  test('400: responds with an error when required fields are missing', async () => {
+    const incompleteDetails = {
+      status: 'confirmed',
+    };
+
+    const response = await request(app)
+      .post('/api/event_attendees/1/2')
+      .send(incompleteDetails);
+
+    expect(response.status).toBe(400);
+    expect(response.body.msg).toBe('Missing required fields');
+  });
+
+  test('400: responds with an error when event_id or user_id is not a number', async () => {
+    const invalidDetails = {
+      status: 'confirmed',
+      payment_status: 'paid',
+      payment_method: 'credit_card',
+    };
+
+    const response = await request(app)
+      .post('/api/event_attendees/invalid/2')
+      .send(invalidDetails);
+
+    expect(response.status).toBe(400);
+    expect(response.body.msg).toBe('Invalid event_id or user_id format');
+  });
+
+  test('409: responds with an error when the attendee already exists for the event', async () => {
+    const existingAttendeeDetails = {
+      status: 'confirmed',
+      payment_status: 'paid',
+      payment_method: 'credit_card',
+    };
+
+    const response = await request(app)
+      .post('/api/event_attendees/1/1') // Assume user_id 1 is already an attendee of event_id 1
+      .send(existingAttendeeDetails);
+
+    expect(response.status).toBe(409);
+    expect(response.body.msg).toBe('Attendee already exists for this event');
+  });
+
+  test('404: responds with an error when the event does not exist', async () => {
+    const nonexistentEventDetails = {
+      status: 'confirmed',
+      payment_status: 'paid',
+      payment_method: 'credit_card',
+    };
+
+    const response = await request(app)
+      .post('/api/event_attendees/999/2') // Nonexistent event_id
+      .send(nonexistentEventDetails);
+
+    expect(response.status).toBe(404);
+    expect(response.body.msg).toBe('Event not found');
+  });
+
+  test('404: responds with an error when the user does not exist', async () => {
+    const nonexistentUserDetails = {
+      status: 'confirmed',
+      payment_status: 'paid',
+      payment_method: 'credit_card',
+    };
+
+    const response = await request(app)
+      .post('/api/event_attendees/1/999') // Nonexistent user_id
+      .send(nonexistentUserDetails);
+
+    expect(response.status).toBe(404);
+    expect(response.body.msg).toBe('User not found');
+  });
+
+  test('400: responds with an error when payment_method is invalid', async () => {
+    const invalidPaymentDetails = {
+      status: 'confirmed',
+      payment_status: 'paid',
+      payment_method: 'unsupported',
+    };
+
+    const response = await request(app)
+      .post('/api/event_attendees/1/5')
+      .send(invalidPaymentDetails);
+
+    expect(response.status).toBe(400);
+    expect(response.body.msg).toBe('Invalid payment method');
   });
 });

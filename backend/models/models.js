@@ -233,14 +233,12 @@ exports.removeUser = async (user_id) => {
 };
 
 exports.removeUserPreference = async (user_id, preference_id) => {
-  // Validate input parameters
-  if (!user_id || isNaN(Number(user_id))) {
-    return Promise.reject({
-      status: 400,
-      msg: 'Invalid data format',
-    });
-  }
-  if (!preference_id || isNaN(Number(preference_id))) {
+  if (
+    !user_id ||
+    isNaN(Number(user_id)) ||
+    !preference_id ||
+    isNaN(Number(preference_id))
+  ) {
     return Promise.reject({
       status: 400,
       msg: 'Invalid data format',
@@ -261,4 +259,160 @@ exports.removeUserPreference = async (user_id, preference_id) => {
   return deletedPreferences.rows[0];
 };
 
-;
+exports.removeEvent = async (event_id) => {
+  if (!event_id || isNaN(Number(event_id))) {
+    return Promise.reject({
+      status: 400,
+      msg: 'Invalid data format',
+    });
+  }
+  const sqlQuery = `DELETE FROM events WHERE event_id = $1 RETURNING *;`;
+  const queryValues = [event_id];
+  const deletedEvent = await db.query(sqlQuery, queryValues);
+  if (deletedEvent.rowCount === 0) {
+    return Promise.reject({
+      status: 404,
+      msg: `Event not found`,
+    });
+  } else {
+    return deletedEvent.rows[0];
+  }
+};
+
+exports.removeEventAttendee = async (event_id, user_id) => {
+  if (
+    !event_id ||
+    isNaN(Number(event_id)) ||
+    !user_id ||
+    isNaN(Number(user_id))
+  ) {
+    return Promise.reject({
+      status: 400,
+      msg: 'Invalid data format',
+    });
+  }
+  const sqlQuery = `DELETE FROM event_attendees WHERE event_id = $1 AND user_id = $2 RETURNING *;`;
+  const queryValues = [event_id, user_id];
+  const deletedEvent = await db.query(sqlQuery, queryValues);
+  if (deletedEvent.rowCount === 0) {
+    return Promise.reject({
+      status: 404,
+      msg: `Event or user not found`,
+    });
+  } else {
+    return deletedEvent.rows[0];
+  }
+};
+
+exports.makeUser = async (username, password, email, user_type) => {
+  if (!password || !username || !email || !user_type) {
+    return Promise.reject({ status: 400, msg: 'Bad Request' });
+  }
+
+  if (
+    typeof email !== 'string' ||
+    typeof username !== 'string' ||
+    typeof user_type !== 'string' ||
+    typeof password !== 'string'
+  ) {
+    return Promise.reject({
+      status: 400,
+      msg: 'Invalid data format',
+    });
+  }
+
+  const sqlQuery = `
+        INSERT INTO users (username, password, email, user_type)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+    `;
+
+  const user = await db.query(sqlQuery, [username, password, email, user_type]);
+  return user.rows[0];
+};
+
+exports.makePreference = async (user_id, preference_type) => {
+  if (
+    !user_id ||
+    isNaN(Number(user_id)) ||
+    !preference_type ||
+    typeof preference_type !== 'string'
+  ) {
+    return Promise.reject({ status: 400, msg: 'Bad Request' });
+  }
+
+  const sqlQuery = `
+        INSERT INTO user_preferences (user_id, preference_type)
+        VALUES ($1, $2)
+        RETURNING *;
+    `;
+
+  const preference = await db.query(sqlQuery, [user_id, preference_type]);
+  return preference.rows[0];
+};
+
+exports.makeEvent = async (event_name, event_type, event_date, event_cost) => {
+  if (
+    typeof event_name !== 'string' ||
+    typeof event_type !== 'string' ||
+    typeof event_date !== 'string' ||
+    isNaN(Number(event_cost))
+  ) {
+    return Promise.reject({ status: 400, msg: 'Invalid data or missing fields' });
+  }
+
+  const sqlQuery = `
+        INSERT INTO events (event_name, event_type, event_date, event_cost)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+    `;
+
+  const event = await db.query(sqlQuery, [event_name, event_type, event_date, event_cost]);
+  console.log(event.rows[0]);
+  return event.rows[0];
+};
+
+exports.insertEventAttendee = async (event_id, user_id, status, payment_status, payment_method) => {
+  // Validate input
+  if (!event_id || isNaN(Number(event_id)) || !user_id || isNaN(Number(user_id))) {
+    throw { status: 400, msg: 'Invalid event_id or user_id format' };
+  }
+
+  // Check if the event exists
+  const eventCheck = await db.query(`SELECT * FROM events WHERE event_id = $1`, [event_id]);
+  if (eventCheck.rowCount === 0) {
+    throw { status: 404, msg: 'Event not found' };
+  }
+
+  // Check if the user exists
+  const userCheck = await db.query(`SELECT * FROM users WHERE user_id = $1`, [user_id]);
+  if (userCheck.rowCount === 0) {
+    throw { status: 404, msg: 'User not found' };
+  }
+
+  // Check for duplicate attendee
+  const duplicateCheck = await db.query(
+    `SELECT * FROM event_attendees WHERE event_id = $1 AND user_id = $2`,
+    [event_id, user_id]
+  );
+  if (duplicateCheck.rowCount > 0) {
+    throw { status: 409, msg: 'Attendee already exists for this event' };
+  }
+
+  // Validate payment method
+  const validPaymentMethods = ['credit_card', 'paypal', 'cash'];
+  if (!validPaymentMethods.includes(payment_method)) {
+    throw { status: 400, msg: 'Invalid payment method' };
+  }
+
+  // Insert attendee
+  const insertQuery = `
+    INSERT INTO event_attendees (event_id, user_id, status, payment_status, payment_method)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING *;
+  `;
+  const queryValues = [event_id, user_id, status, payment_status, payment_method];
+
+  const result = await db.query(insertQuery, queryValues);
+  return result.rows[0];
+};

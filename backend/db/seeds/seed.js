@@ -23,8 +23,8 @@ const seed = ({
           password VARCHAR(60) NOT NULL,
           email VARCHAR(50) NOT NULL,
           user_type VARCHAR(20) CHECK (user_type IN ('staff', 'member', 'admin')) NOT NULL,
-          created_at TIMESTAMP NOT NULL,
-          updated_at TIMESTAMP NOT NULL
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
       `);
     })
