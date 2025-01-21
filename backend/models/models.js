@@ -110,7 +110,6 @@ exports.changeUser = async (user_id, username, password, email) => {
   const checkUser = await db.query(
     `SELECT * FROM USERS WHERE user_id = ${user_id}`
   );
-  // console.log(checkUser.rows, 'MODELS')
   if (checkUser.rows.length === 0) {
     return Promise.reject({
       status: 404,
@@ -124,8 +123,6 @@ password = COALESCE($3, password),
 email = COALESCE($4, email) 
 WHERE user_id = $1 RETURNING *;`;
     const result = await db.query(sqlQuery, queryValues);
-
-    //console.log(result.rows, 'MODELS PATCH USER')
 
     return result.rows[0];
   }
@@ -358,7 +355,10 @@ exports.makeEvent = async (event_name, event_type, event_date, event_cost) => {
     typeof event_date !== 'string' ||
     isNaN(Number(event_cost))
   ) {
-    return Promise.reject({ status: 400, msg: 'Invalid data or missing fields' });
+    return Promise.reject({
+      status: 400,
+      msg: 'Invalid data or missing fields',
+    });
   }
 
   const sqlQuery = `
@@ -367,30 +367,47 @@ exports.makeEvent = async (event_name, event_type, event_date, event_cost) => {
         RETURNING *;
     `;
 
-  const event = await db.query(sqlQuery, [event_name, event_type, event_date, event_cost]);
+  const event = await db.query(sqlQuery, [
+    event_name,
+    event_type,
+    event_date,
+    event_cost,
+  ]);
   console.log(event.rows[0]);
   return event.rows[0];
 };
 
-exports.insertEventAttendee = async (event_id, user_id, status, payment_status, payment_method) => {
-  // Validate input
-  if (!event_id || isNaN(Number(event_id)) || !user_id || isNaN(Number(user_id))) {
+exports.insertEventAttendee = async (
+  event_id,
+  user_id,
+  status,
+  payment_status,
+  payment_method
+) => {
+  if (
+    !event_id ||
+    isNaN(Number(event_id)) ||
+    !user_id ||
+    isNaN(Number(user_id))
+  ) {
     throw { status: 400, msg: 'Invalid event_id or user_id format' };
   }
 
-  // Check if the event exists
-  const eventCheck = await db.query(`SELECT * FROM events WHERE event_id = $1`, [event_id]);
+  const eventCheck = await db.query(
+    `SELECT * FROM events WHERE event_id = $1`,
+    [event_id]
+  );
   if (eventCheck.rowCount === 0) {
     throw { status: 404, msg: 'Event not found' };
   }
 
-  // Check if the user exists
-  const userCheck = await db.query(`SELECT * FROM users WHERE user_id = $1`, [user_id]);
+  const userCheck = await db.query(`SELECT * FROM users WHERE user_id = $1`, [
+    user_id,
+  ]);
   if (userCheck.rowCount === 0) {
     throw { status: 404, msg: 'User not found' };
   }
 
-  // Check for duplicate attendee
   const duplicateCheck = await db.query(
     `SELECT * FROM event_attendees WHERE event_id = $1 AND user_id = $2`,
     [event_id, user_id]
@@ -399,19 +416,23 @@ exports.insertEventAttendee = async (event_id, user_id, status, payment_status, 
     throw { status: 409, msg: 'Attendee already exists for this event' };
   }
 
-  // Validate payment method
   const validPaymentMethods = ['credit_card', 'paypal', 'cash'];
   if (!validPaymentMethods.includes(payment_method)) {
     throw { status: 400, msg: 'Invalid payment method' };
   }
 
-  // Insert attendee
   const insertQuery = `
     INSERT INTO event_attendees (event_id, user_id, status, payment_status, payment_method)
     VALUES ($1, $2, $3, $4, $5)
     RETURNING *;
   `;
-  const queryValues = [event_id, user_id, status, payment_status, payment_method];
+  const queryValues = [
+    event_id,
+    user_id,
+    status,
+    payment_status,
+    payment_method,
+  ];
 
   const result = await db.query(insertQuery, queryValues);
   return result.rows[0];

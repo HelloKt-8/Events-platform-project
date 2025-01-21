@@ -1,16 +1,15 @@
 module.exports = [
-    // Event ID 1: Local Football Match
     {
       event_id: 1,
       user_id: 1,
-      status: 'confirmed',  // User 1 is confirmed for the football match
+      status: 'confirmed', 
       payment_status: 'paid',
       payment_method: 'credit_card',
     },
     {
       event_id: 1,
       user_id: 2,
-      status: 'pending',  // User 2 is pending for the football match
+      status: 'pending',  
       payment_status: 'unpaid',
       payment_method: null,
     },
@@ -21,8 +20,6 @@ module.exports = [
       payment_status: 'paid',
       payment_method: 'paypal',
     },
-  
-    // Event ID 2: Stand-Up Comedy Show
     {
       event_id: 2,
       user_id: 1,
@@ -44,8 +41,6 @@ module.exports = [
       payment_status: 'refunded',
       payment_method: 'credit_card',
     },
-  
-    // Event ID 3: Meetup: Networking & Drinks
     {
       event_id: 3,
       user_id: 2,
@@ -67,8 +62,6 @@ module.exports = [
       payment_status: 'paid',
       payment_method: 'credit_card',
     },
-  
-    // Event ID 4: Private Dinner Party
     {
       event_id: 4,
       user_id: 4,
@@ -83,8 +76,6 @@ module.exports = [
       payment_status: 'unpaid',
       payment_method: null,
     },
-  
-    // Event ID 5: Tech Innovation Webinar
     {
       event_id: 5,
       user_id: 1,

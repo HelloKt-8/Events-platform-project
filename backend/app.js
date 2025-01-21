@@ -24,7 +24,7 @@ const {
     addEventAttendee
  } = require('./controllers/controllers');
 
-//endpoints
+
 app.get('/api/users', getUsers);
 app.get('/api/users/:user_id', getUserId);
 app.get('/api/user_preferences', getUserPreferences)

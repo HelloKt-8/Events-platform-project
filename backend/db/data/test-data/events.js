@@ -4,7 +4,7 @@ module.exports = [
     event_name: 'Local Football Match',
     event_type: 'sport',
     event_date: '2025-01-01',
-    event_cost: 0, // Free for development testing
+    event_cost: 0, 
   },
   {
     event_id: 2,
@@ -18,7 +18,7 @@ module.exports = [
     event_name: 'Meetup: Networking & Drinks',
     event_type: 'networking',
     event_date: '2025-01-10',
-    event_cost: 0, // Free event
+    event_cost: 0, 
   },
   {
     event_id: 4,
@@ -39,7 +39,7 @@ module.exports = [
     event_name: 'Beginner Yoga Session',
     event_type: 'sport',
     event_date: '2025-01-25',
-    event_cost: 0, // Free session
+    event_cost: 0, 
   },
   {
     event_id: 7,
@@ -53,7 +53,7 @@ module.exports = [
     event_name: 'Animal Rescue Awareness',
     event_type: 'animals',
     event_date: '2025-02-10',
-    event_cost: 0, // Free awareness event
+    event_cost: 0,
   },
   {
     event_id: 9,

@@ -87,7 +87,6 @@ exports.patchUser = async (req, res, next) => {
 
   try {
     const updatedUser = await changeUser(user_id, username, password, email);
-    //console.log(updatedUser, 'CONTROLLER PATCH USER')
     res.status(200).send({ updatedUser });
   } catch (error) {
     next(error);
@@ -115,14 +114,13 @@ exports.patchEvent = async (req, res, next) => {
 exports.patchUserPreferences = async (req, res, next) => {
   const { user_id, preference_id } = req.params;
   const { preference_type } = req.body;
-  //console.log(user_id, preference_id, preference_type, 'CONTROLLER' )
   try {
     const updatedPreference = await changePreference(
       user_id,
       preference_id,
       preference_type
     );
-    // console.log(updatedPreference)
+
     res.status(200).send({ updatedPreference });
   } catch (error) {
     next(error);

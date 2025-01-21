@@ -15,7 +15,6 @@ const seed = ({
     .then(() => db.query(`DROP TABLE IF EXISTS user_preferences;`))
     .then(() => db.query(`DROP TABLE IF EXISTS users;`))
     .then(() => {
-      // Create tables in the correct order
       return db.query(`
         CREATE TABLE users (
           user_id SERIAL PRIMARY KEY,
@@ -74,7 +73,6 @@ const seed = ({
       `);
     })
     .then(async () => {
-      // Insert data into tables
       const insertUsersQueryStr = format(
         'INSERT INTO users (username, password, email, user_type, created_at, updated_at) VALUES %L RETURNING user_id;',
         usersData.map(({ username, password, email, user_type, created_at, updated_at }) => [

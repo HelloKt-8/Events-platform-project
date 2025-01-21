@@ -13,8 +13,6 @@ afterAll(() => {
   return db.end();
 });
 
-// TESTING API/USERS---------------------------------------------------
-
 describe('GET /api/users', () => {
   test.only('200: return an array of users', async () => {
     const response = await request(app).get('/api/users');
@@ -31,8 +29,6 @@ describe('GET /api/users', () => {
     });
   });
 });
-
-//TESTING API/USERS/:USER_ID---------------------------------------------------
 
 describe('GET /api/users/3', () => {
   test.only('200: return an array for a specific user', async () => {
@@ -62,8 +58,6 @@ describe('GET /api/users/3', () => {
     expect(response.body.msg).toBe('Bad Request');
   });
 });
-
-// TESTING API/USER_PREFERENCES ---------------------------------------------------
 
 describe('GET /api/user_preferences', () => {
   test.only('200: return an array for all user preferences', async () => {
@@ -193,8 +187,6 @@ describe('GET /api/user_preferences', () => {
   });
 });
 
-// TESTING API/USER_ACTIVITY ---------------------------------------------------
-
 describe('GET /api/user_activity', () => {
   test.only('200: returns array of user_acitivty filtered by user_id', async () => {
     const response = await request(app).get('/api/user_activity?user_id=3');
@@ -247,8 +239,6 @@ describe('GET /api/user_activity', () => {
     expect(response.body.msg).toBe('User_id or User_Activity not found');
   });
 });
-
-// TESTING API/EVENTS ---------------------------------------------------
 
 describe('GET /api/events', () => {
   test.only('200: return an array for all events', async () => {
@@ -325,10 +315,7 @@ describe('GET /api/events', () => {
   });
 });
 
-// TESTING API/EVENT_ATTENDEES/:event_id ---------------------------------------------------
-
 describe('GET /event_attendees/:event_id', () => {
-  // Test for valid event_id with attendees
   test.only('200: returns list of attendees for a valid event_id', async () => {
     const response = await request(app).get('/api/event_attendees/1');
     expect(response.status).toBe(200);
@@ -351,14 +338,12 @@ describe('GET /event_attendees/:event_id', () => {
     });
   });
 
-  // Test for invalid event_id
   test.only('400: returns an error when event_id is not a number', async () => {
     const response = await request(app).get('/api/event_attendees/invalid_id');
     expect(response.status).toBe(400);
     expect(response.body.msg).toBe('Bad Request');
   });
 
-  // Test for non-existent event_id
   test.only('404: returns an error when event_id does not exist', async () => {
     const response = await request(app).get('/api/event_attendees/9999');
     expect(response.status).toBe(404);
@@ -367,7 +352,6 @@ describe('GET /event_attendees/:event_id', () => {
     );
   });
 
-  // Test for valid event_id but with no attendees
   test.only('404: returns an error when there are no attendees for the event_id', async () => {
     const response = await request(app).get('/api/event_attendees/7'); // Assuming event 2 has no attendees
     expect(response.status).toBe(404);
@@ -377,7 +361,6 @@ describe('GET /event_attendees/:event_id', () => {
   });
 });
 
-// TESTING PATCH API/USERS/:USER_ID ---------------------------------------------------
 describe('PATCH/api/users/user_id', () => {
   test.only('200: successfully updates one single changeable item of user information', async () => {
     const response = await request(app).patch('/api/users/1').send({
@@ -452,7 +435,6 @@ describe('PATCH/api/users/user_id', () => {
   });
 });
 
-// TESTING PATCH API/EVENTS/:event_id ---------------------------------------------------
 describe('PATCH/api/events/:event_id', () => {
   test.only('200: successfully updates one single changeable item of event information', async () => {
     const response = await request(app).patch('/api/events/10').send({
@@ -526,7 +508,6 @@ describe('PATCH/api/events/:event_id', () => {
   });
 });
 
-// TESTING PATCH API/user_preferences/:user_id ---------------------------------------------------
 describe('PATCH/api/user_preferences/:user_id', () => {
   test.only('200: successfully updates one single changeable item of preference information', async () => {
     const response = await request(app)
@@ -557,7 +538,7 @@ describe('PATCH/api/user_preferences/:user_id', () => {
     const response = await request(app)
       .patch('/api/user_preferences/4/14')
       .send({
-        preference_type: 324234, // Invalid date format
+        preference_type: 324234,
       });
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
@@ -602,8 +583,6 @@ describe('PATCH/api/user_preferences/:user_id', () => {
   });
 });
 
-// TESTING DELETE API/users/:user_id ---------------------------------------------------
-
 describe('DELETE /api/users/:user_id', () => {
   test.only('204: delete a user', async () => {
     const response = await request(app).delete('/api/users/1');
@@ -630,20 +609,12 @@ describe('DELETE /api/users/:user_id', () => {
   });
 });
 
-// TESTING DELETE API/user_preference/:user_id/:preference_id ---------------------------------------------------
-
 describe('DELETE /api/user_preference/:user_id/:preference_id', () => {
   test.only('204: delete a users preference', async () => {
     const response = await request(app).delete('/api/user_preferences/1/3');
     expect(response.status).toBe(204);
     expect(response.body).toEqual({});
   });
-
-  // test.only('404: when user_id does not exist', async () => {
-  //   const response = await request(app).delete('/api/user_preference/999/5');
-  //   expect(response.status).toBe(404);
-  //   expect(response.body.msg).toBe('User or user preference not found');
-  // });
 
   test.only('400: for invalid user_id data format', async () => {
     const response = await request(app).delete(
@@ -668,8 +639,6 @@ describe('DELETE /api/user_preference/:user_id/:preference_id', () => {
   });
 });
 
-// TESTING DELETE API/events/:event_id ---------------------------------------------------
-
 describe('DELETE /api/events/:event_id', () => {
   test.only('204: delete an event', async () => {
     const response = await request(app).delete('/api/events/2');
@@ -688,8 +657,6 @@ describe('DELETE /api/events/:event_id', () => {
     expect(response.body.msg).toBe('Invalid data format');
   });
 });
-
-// TESTING DELETE API/event_attendees/:event_id/:user_id ---------------------------------------------------
 
 describe('DELETE /api/events/:event_id/event_attendees/:user_id', () => {
   test.only('204: successfully removes an attendee from the event', async () => {
@@ -716,10 +683,7 @@ describe('DELETE /api/events/:event_id/event_attendees/:user_id', () => {
     expect(response.status).toBe(404);
     expect(response.body.msg).toBe('Event or user not found');
   });
-
 });
-
-// TESTING POST API/users ---------------------------------------------------
 
 describe('POST /api/users', () => {
   test.only('201: successfully creates a new user', async () => {
@@ -727,7 +691,7 @@ describe('POST /api/users', () => {
       username: 'Hellokitty3',
       password: 'sanrio123',
       email: 'hello.kitty@gmail.com',
-      user_type: 'member'
+      user_type: 'member',
     });
     expect(response.status).toBe(201);
     expect(response.body).toMatchObject({
@@ -735,7 +699,7 @@ describe('POST /api/users', () => {
       username: expect.any(String),
       password: expect.any(String),
       email: expect.any(String),
-      user_type: expect.any(String)
+      user_type: expect.any(String),
     });
   });
 
@@ -750,14 +714,12 @@ describe('POST /api/users', () => {
       username: 5,
       password: 5,
       email: 2,
-      user_type: 2
+      user_type: 2,
     });
     expect(response.status).toBe(400);
     expect(response.body.msg).toBe('Invalid data format');
   });
 });
-
-// TESTING POST API/user_preferences/:user_id ---------------------------------------------------
 
 describe('POST /api/user_preferences/:user_id', () => {
   test.only('201: successfully creates a new user preference', async () => {
@@ -789,10 +751,7 @@ describe('POST /api/user_preferences/:user_id', () => {
   });
 });
 
-// TESTING POST API/events ---------------------------------------------------
-
 describe('POST /api/events', () => {
-  // Test for successful event creation
   test.only('201: creates a new event successfully', async () => {
     const newEvent = {
       event_name: 'Tech Conference 2025',
@@ -809,12 +768,10 @@ describe('POST /api/events', () => {
     expect(response.body.event_cost).toBe(newEvent.event_cost);
   });
 
-  // Test for missing required fields
   test.only('400: returns an error when required fields are missing', async () => {
     const incompleteEvent = {
       event_name: 'Music Festival',
       event_type: 'festival',
-      // Missing event_date and event_cost
     };
 
     const response = await request(app)
@@ -824,12 +781,11 @@ describe('POST /api/events', () => {
     expect(response.body.msg).toBe('Invalid data or missing fields');
   });
 
-  // Test for invalid event_date format
   test.only('400: returns an error when event_date is invalid', async () => {
     const invalidDateEvent = {
       event_name: 'Art Exhibition',
       event_type: 'exhibition',
-      event_date: 2343, // Invalid date format
+      event_date: 2343,
       event_cost: 50,
     };
 
@@ -850,7 +806,7 @@ describe.only('POST /api/event_attendees/:event_id/:user_id', () => {
     };
 
     const response = await request(app)
-      .post('/api/event_attendees/1/5') // event_id = 1, user_id = 2
+      .post('/api/event_attendees/1/5')
       .send(newAttendeeDetails);
 
     expect(response.status).toBe(201);
@@ -898,7 +854,7 @@ describe.only('POST /api/event_attendees/:event_id/:user_id', () => {
     };
 
     const response = await request(app)
-      .post('/api/event_attendees/1/1') // Assume user_id 1 is already an attendee of event_id 1
+      .post('/api/event_attendees/1/1')
       .send(existingAttendeeDetails);
 
     expect(response.status).toBe(409);
@@ -913,7 +869,7 @@ describe.only('POST /api/event_attendees/:event_id/:user_id', () => {
     };
 
     const response = await request(app)
-      .post('/api/event_attendees/999/2') // Nonexistent event_id
+      .post('/api/event_attendees/999/2')
       .send(nonexistentEventDetails);
 
     expect(response.status).toBe(404);
@@ -928,7 +884,7 @@ describe.only('POST /api/event_attendees/:event_id/:user_id', () => {
     };
 
     const response = await request(app)
-      .post('/api/event_attendees/1/999') // Nonexistent user_id
+      .post('/api/event_attendees/1/999')
       .send(nonexistentUserDetails);
 
     expect(response.status).toBe(404);
