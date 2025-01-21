@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-const ENV = process.env.NODE_ENV || 'development';
+const ENV = process.env.NODE_ENV || 'production';
 
 require('dotenv').config({
   path: `${__dirname}/../.env.${ENV}`,
@@ -17,3 +17,9 @@ if (ENV === 'production') {
 }
 
 module.exports = new Pool(config);
+
+console.log("Connecting to database:", process.env.DATABASE_URL);
+console.log("Loading environment file:", `${__dirname}/../.env.${ENV}`);
+const db = require('./connection');
+
+
