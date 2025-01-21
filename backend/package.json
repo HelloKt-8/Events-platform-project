@@ -4,7 +4,8 @@
   "main": "listen.js",
   "scripts": {
     "test": "jest",
-    "start": "node listen.js",
+    "start": "node server.js",
+    "build": "node build.js",
     "dev": "nodemon index.js",
     "setup-dbs": "psql -f ./db/setup.sql",
     "seed": "node db/seeds/run-seed.js",
