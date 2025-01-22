@@ -46,7 +46,6 @@ app.post('/api/user_preferences/:user_id', createPreferences)
 app.post('/api/events', createEvent)
 app.post('/api/event_attendees/:event_id/:user_id', addEventAttendee);
 
-module.exports = app;
 
 app.use((err, req, res, next) => {
     if (err.status && err.msg) {
@@ -63,3 +62,10 @@ app.use((err, req, res, next) => {
         res.status(500).send({ msg: 'Internal Server Error' });
     }
   });
+
+  app.get('/', (req, res) => {
+    res.send('Hello, Railway!');
+  });
+
+
+  module.exports = app;

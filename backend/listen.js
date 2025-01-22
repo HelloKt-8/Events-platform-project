@@ -1,4 +1,10 @@
 const app = require('./app');
-const { PORT = 9090 } = process.env;
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => console.log(`WORKING!! Listening on ${PORT}...`, `SERVER IS RUNNING ON ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+app.get('/', (req, res) => {
+    res.send('Hello, Railway!');
+  });
