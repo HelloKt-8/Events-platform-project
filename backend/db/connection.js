@@ -18,8 +18,4 @@ if (ENV === 'production') {
 
 module.exports = new Pool(config);
 
-console.log("Connecting to database:", process.env.DATABASE_URL);
-console.log("Loading environment file:", `${__dirname}/../.env.${ENV}`);
-const db = require('./connection');
-
 
