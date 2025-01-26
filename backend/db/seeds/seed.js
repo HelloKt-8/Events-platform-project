@@ -55,7 +55,8 @@ const seed = ({
           event_date DATE,
           event_cost INT,
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          event_location VARCHAR(100)
         );
       `);
     })
@@ -101,12 +102,13 @@ const seed = ({
       );
 
       const insertEventsQueryStr = format(
-        'INSERT INTO events (event_name, event_type, event_date, event_cost) VALUES %L RETURNING event_id;',
-        eventsData.map(({ event_name, event_type, event_date, event_cost }) => [
+        'INSERT INTO events (event_name, event_type, event_date, event_cost, event_location) VALUES %L RETURNING event_id;',
+        eventsData.map(({ event_name, event_type, event_date, event_cost, event_location }) => [
           event_name,
           event_type,
           event_date,
           event_cost,
+          event_location,
         ])
       );
       const eventsResult = await db.query(insertEventsQueryStr);

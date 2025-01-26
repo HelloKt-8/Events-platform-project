@@ -5,6 +5,7 @@ module.exports = [
     event_type: 'sport',
     event_date: '2025-01-01',
     event_cost: 0, 
+    event_location: 'Wembley Stadium, London',
   },
   {
     event_id: 2,
@@ -12,6 +13,7 @@ module.exports = [
     event_type: 'comedy',
     event_date: '2025-01-03',
     event_cost: 15,
+    event_location: 'Comedy Store, Soho, London',
   },
   {
     event_id: 3,
@@ -19,6 +21,7 @@ module.exports = [
     event_type: 'networking',
     event_date: '2025-01-10',
     event_cost: 0, 
+    event_location: 'WeWork Office, Shoreditch, London',
   },
   {
     event_id: 4,
@@ -26,6 +29,7 @@ module.exports = [
     event_type: 'party',
     event_date: '2025-01-15',
     event_cost: 30,
+    event_location: 'The Ivy, Covent Garden, London',
   },
   {
     event_id: 5,
@@ -33,6 +37,7 @@ module.exports = [
     event_type: 'conference',
     event_date: '2025-01-20',
     event_cost: 50,
+    event_location: 'Online Event',
   },
   {
     event_id: 6,
@@ -40,6 +45,7 @@ module.exports = [
     event_type: 'sport',
     event_date: '2025-01-25',
     event_cost: 0, 
+    event_location: 'Hyde Park, London',
   },
   {
     event_id: 7,
@@ -47,6 +53,7 @@ module.exports = [
     event_type: 'books',
     event_date: '2025-02-01',
     event_cost: 5,
+    event_location: 'Foyles Bookstore, Charing Cross, London',
   },
   {
     event_id: 8,
@@ -54,6 +61,7 @@ module.exports = [
     event_type: 'animals',
     event_date: '2025-02-10',
     event_cost: 0,
+    event_location: 'Battersea Dogs & Cats Home, London',
   },
   {
     event_id: 9,
@@ -61,6 +69,7 @@ module.exports = [
     event_type: 'politics',
     event_date: '2025-02-15',
     event_cost: 10,
+    event_location: 'City Hall, South Bank, London',
   },
   {
     event_id: 10,
@@ -68,5 +77,6 @@ module.exports = [
     event_type: 'party',
     event_date: '2025-02-20',
     event_cost: 25,
+    event_location: 'O2 Academy, Brixton, London',
   }
-]
+];
