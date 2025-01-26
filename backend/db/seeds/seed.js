@@ -53,6 +53,7 @@ const seed = ({
           event_name VARCHAR(100),
           event_type VARCHAR(50),
           event_date DATE,
+          event_time VARCHAR(50),
           event_cost INT,
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -102,11 +103,12 @@ const seed = ({
       );
 
       const insertEventsQueryStr = format(
-        'INSERT INTO events (event_name, event_type, event_date, event_cost, event_location) VALUES %L RETURNING event_id;',
-        eventsData.map(({ event_name, event_type, event_date, event_cost, event_location }) => [
+        'INSERT INTO events (event_name, event_type, event_date, event_time, event_cost, event_location) VALUES %L RETURNING event_id;',
+        eventsData.map(({ event_name, event_type, event_date, event_time, event_cost, event_location }) => [
           event_name,
           event_type,
           event_date,
+          event_time,
           event_cost,
           event_location,
         ])
