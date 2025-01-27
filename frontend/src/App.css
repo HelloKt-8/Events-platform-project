@@ -1,42 +1,218 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+.topnav {
+  overflow: hidden;
+  background-color: #e9e9e9;
+}
+
+.topnav a {
+  float: right;
+  color: black;
   text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.topnav a.active {
+  background-color: #2196F3;
+  color: white;
+  float: left;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.topnav .search-container {
+  justify-content: center;
+  display: flex;
+  width: 60%;
+}
+
+.topnav input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+  width: 60%
+}
+
+.topnav .search-container button {
+  display: inline-flex;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.topnav .search-container button:hover {
+  background: #ccc;
+}
+
+.slideshow-container {
+  position: relative;
+  max-width: 800px; /* Set the container width */
+  max-height: 500px; /* Set the fixed height for the images */
+  margin: auto;
+  padding-top: 40px;
+  
+}
+
+.mySlides {
+  display: none;
+}
+
+.mySlides img {
+  width: 100%; /* Make the image fill the container width */
+  height: 100%; /* Ensure the image height matches the container */
+  object-fit: contain;
+  border-radius: 50px; /* This will ensure the image maintains its aspect ratio and covers the area without stretching */
+}
+
+.text {
+  position: absolute;
+  bottom: 8px;
+  left: 16px;
+  color: white;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 8px;
+}
+
+button {
+  position: absolute;
+  top: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 16px;
+  cursor: pointer;
+  font-size: 18px;
+  border: none;
+  transform: translateY(-50%);
+}
+
+button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+button:nth-of-type(1) {
+  left: 0;
+}
+
+button:nth-of-type(2) {
+  right: 0;
+}
+
+.dot {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active {
+  background-color: #717171;
+}
+
+.scrollmenu {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 30px;
+  padding-top: 50px;
+  justify-content: space-evenly;
+}
+
+.category-item {
+  text-align: center;
+  margin-right: 60px;
+  background-color: #e9e9e9;
+  padding: 15px;
+  border-radius: 20%; /* Rounded corners for the container */
+}
+
+.category-item img {
+  width: 100px;
+  height: 100px; /* Ensures the icon remains a square */
+  object-fit: cover; /* Keeps the image content inside the square */
+  border-radius: 20%; /* Optional: adds rounded corners to the image itself */
+}
+
+.category-item p {
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+}
+
+.cardCollection {
+  display: flex;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap;
+  padding: 30px;
+  justify-content: space-evenly;
+  gap: 30px
 }
 
 .card {
-  padding: 2em;
+  width: 18rem; /* Fixed width for all cards */
+  height: 25rem; /* Fixed height for all cards */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Card shadow */
+  border-radius: 10px; /* Optional: Rounded corners *//* Ensure content doesn't overflow */
+  background-color: #fff; /* Optional: Background color */
 }
 
-.read-the-docs {
-  color: #888;
+.card-img-top {
+  width: 100%; /* Image width matches the card width */
+  height: 18rem;
+  width: 18rem; /* Fixed height for images */
+  object-fit: cover; /* Ensures the image scales properly */
+}
+
+
+
+.btn {
+  /* Pushes the button to the bottom */
+  padding: 10px 20px;
+  border-radius: 5px; /* Optional: Rounded button */
+}
+
+
+
+
+@media screen and (max-width: 600px) {
+  .slideshow-container {
+    height: 300px; /* Adjust height for mobile */
+  }
+}
+
+
+@media screen and (max-width: 300px) {
+  .topnav .search-container {
+    float: none;
+  }
+  .topnav a, .topnav input[type=text], .topnav .search-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .topnav input[type=text] {
+    border: 1px solid #ccc;  
+  }
+  .search-container input {
+    width: 70%; 
+  }
+  .prev, .next,.text {font-size: 11px}
 }
