@@ -186,6 +186,21 @@ button:nth-of-type(2) {
   border-radius: 5px; /* Optional: Rounded button */
 }
 
+.calender {
+   border:solid 1px #777;
+   width:800px;
+    height: 600px;
+}
+
+iframe {
+  border: 1px solid #777;
+}
+
+iframe {
+  overflow: auto; /* or hidden, scroll */
+}
+
+
 
 
 
