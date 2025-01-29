@@ -3,9 +3,11 @@ import HomePage from "./Pages/homePage";
 import EventPage from "./Pages/eventPage";
 import LoginPage from "./Pages/loginPage";
 import SignUpPage from "./Pages/signUpPage";
+import { AuthProvider } from "./AuthContext";
 
 const App = () => {
   return (
+    <AuthProvider>
     <Router>  {/* Use Router as the wrapper for your Routes */}
       <div className="App">
         <Routes>
@@ -16,6 +18,7 @@ const App = () => {
         </Routes>
       </div>
     </Router>
+    </AuthProvider>
   );
 };
 
