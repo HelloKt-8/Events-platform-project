@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getEventTypes } from "../api calls/fetchingEventTypes";
 import { Link } from "react-router-dom"; // Corrected import
+import { fetchUserProfile } from "../api calls/fetchUserProfiles";
 
 const EventType = () => {
   const [groupedEvents, setGroupedEvents] = useState({});

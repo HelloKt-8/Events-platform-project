@@ -1,6 +1,6 @@
 // src/context/AuthContext.js
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from './supabaseClient'; // Assuming you've already initialized supabase
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { supabase } from "./supabaseClient"; // Assuming you've already initialized supabase
 
 // Create a context for authentication
 const AuthContext = createContext();
@@ -10,20 +10,60 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // To store the user state
   const [loading, setLoading] = useState(true); // To handle loading state during auth
 
-  // Check if the user is logged in when the app loads
+  // Function to fetch the user profile using UUID
+  const fetchUserProfile = async (uuid) => {
+    try {
+      const { data: profiles, error } = await supabase
+        .from("user_profiles")
+        .select("*")
+        .eq("uuid", uuid)
+        .single(); // Assuming one user profile per UUID
+
+      if (error) {
+        throw error;
+      }
+
+      if (profiles) {
+        console.log("Fetched user profile:", profiles);
+        setUser((prevUser) => ({
+          ...prevUser,
+          user_id: profiles.user_id,
+        }));
+      }
+    } catch (error) {
+      console.error("Error fetching user profile:", error.message);
+    }
+  };
+
+  // Fetch session on app load and listen for auth changes
   useEffect(() => {
     const fetchSession = async () => {
       const { data: session } = await supabase.auth.getSession();
-      setUser(session?.user || null);
+      const user = session?.user || null;
+
+      if (user) {
+        setUser(user);
+        await fetchUserProfile(user.id); // Fetch user profile on login
+      }
+
       setLoading(false);
     };
 
     fetchSession();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user || null);
-      setLoading(false);
-    });
+    // Listen for auth state changes (login/logout)
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        const user = session?.user || null;
+        setUser(user);
+
+        if (user) {
+          fetchUserProfile(user.id); // Fetch user profile on login
+        } else {
+          setUser(null); // Set to null when the user logs out
+        }
+      }
+    );
 
     // Cleanup listener on component unmount
     return () => {

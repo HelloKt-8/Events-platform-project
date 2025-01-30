@@ -1,50 +1,48 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom"; // If you use React Router
-import { useAuth } from "../AuthContext";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useAuth } from "../AuthContext"; // Path to your AuthContext
 import { supabase } from "../supabaseClient";
-import { useEffect } from "react";
 
 const Header = () => {
-  const { user, loading } = useAuth();
+  const { user } = useAuth(); // Get user from AuthContext
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut(); // Perform logout
+      navigate("/login"); // Redirect to the login page
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
-  useEffect(() => {
-    if (user) {
-      console.log('User is logged in:', user);
-    } else {
-      console.log('No user is logged in');
-    }
-  }, [user]);
-
   return (
-    <>
-      <div className="topnav">
-        <a className="active" href="/">
-          LondonLife
-        </a>
-        <div className="clickables">
-          {/* Use Link for React Router or standard anchor for basic redirects */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign up</Link>
-          <Link to="/events">Events Calendar</Link>
+    <div className="topnav">
+      <a className="active" href="/">
+        LondonLife
+      </a>
+      <div className="clickables">
+        {!user ? (
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Sign up</Link>
+          </>
+        ) : (
           <button onClick={handleLogout}>Logout</button>
-        </div>
-        <div className="search-container">
-          <form action="/action_page.php">
-            <input type="text" placeholder="Search event" name="search" />
-            <button type="submit">
-              <FontAwesomeIcon icon={faMagnifyingGlass} />
-            </button>
-          </form>
-        </div>
-        if (loading) return <p>Loading...</p>;
+        )}
+        <Link to="/events">Events Calendar</Link>
       </div>
-    </>
+      <div className="search-container">
+        <form action="/action_page.php">
+          <input type="text" placeholder="Search event" name="search" />
+          <button type="submit">
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </button>
+        </form>
+      </div>
+    </div>
   );
 };
 
