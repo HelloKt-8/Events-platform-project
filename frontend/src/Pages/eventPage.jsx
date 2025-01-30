@@ -1,14 +1,124 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
+import { getEventTypes } from "../api calls/fetchingEventTypes";
+import { useAuth } from "../AuthContext"; // Access global state for user
 
 function EventPage() {
+  const { event_id } = useParams();
+  const navigate = useNavigate();
+  const { user } = useAuth(); // Get user from global state
+  const [eventDetails, setEventDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Debugging: Log the user object
+  console.log("User object from global state:", user);
+
+  useEffect(() => {
+    const fetchEventDetails = async () => {
+      try {
+        setLoading(true);
+        const events = await getEventTypes(null, event_id);
+        if (events.length > 0) {
+          setEventDetails(events[0]);
+        } else {
+          setError("Event not found.");
+        }
+      } catch (err) {
+        setError("Failed to fetch event details.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (event_id) {
+      fetchEventDetails();
+    }
+  }, [event_id]);
+
+  // Debugging: Log eventDetails after fetch
+  useEffect(() => {
+    if (eventDetails) {
+      console.log("Fetched event details:", eventDetails);
+    }
+  }, [eventDetails]);
+
+  if (loading) {
+    return (
+      <div>
+        <Header />
+        <p className="loading">Loading event details...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <Header />
+        <p className="error">{error}</p>
+      </div>
+    );
+  }
+
+  // Handle button actions
+  const handleSignUp = () => {
+    if (!user) {
+      navigate("/login"); // Redirect to login page if user is not logged in
+    } else {
+      alert("You have signed up for this event!");
+    }
+  };
+
+  const handleManage = () => {
+    alert("Redirecting to event management page...");
+    // Add navigation logic to the event management page
+  };
+
   return (
     <div>
       <Header />
-      <iframe
-        src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FLondon&showPrint=0&src=a2F0aWVsdWM4QGdtYWlsLmNvbQ&src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&src=Y2IwaWhkcm1kZ2ZydXVlcWE1am00YjVpMnNAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&src=YjBiMGVjY2Q0NTY5YTM1MGQ1NmM2NzE2MDRmODJmN2YxMDY5ZWZmM2EyYTU0MWQ0YWE0NGQyMzZhMWMxMjU0NEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&src=ZW4udWsjaG9saWRheUBncm91cC52LmNhbGVuZGFyLmdvb2dsZS5jb20&color=%23F6BF26&color=%2333B679&color=%23E67C73&color=%239E69AF&color=%230B8043"
-        className="calender"
-      ></iframe>
+      {eventDetails ? (
+        <div className="event-details">
+          <h1 className="event-title">{eventDetails.event_name}</h1>
+          <p><strong>Date:</strong> {eventDetails.event_date.slice(0, -14)}</p>
+          <p><strong>Time:</strong> {eventDetails.event_time}</p>
+          <p><strong>Location:</strong> {eventDetails.event_location}</p>
+          <p><strong>Type:</strong> {eventDetails.event_type}</p>
+          <p><strong>Cost:</strong> {eventDetails.event_cost === 0 ? "Free" : `£${eventDetails.event_cost}`}</p>
+          
+          <div className="event-buttons">
+            {/* Buttons logic */}
+            {user ? (
+              <>
+                {user.user_type === "member" && (
+                  <button className="btn-signup" onClick={handleSignUp}>
+                    Sign Up!
+                  </button>
+                )}
+                {(user.user_type === "admin" || user.user_type === "staff") && (
+                  <>
+                    <button className="btn-signup" onClick={handleSignUp}>
+                      Sign Up!
+                    </button>
+                    <button className="btn-manage" onClick={handleManage}>
+                      Manage
+                    </button>
+                  </>
+                )}
+              </>
+            ) : (
+              <button className="btn-join" onClick={() => navigate("/signup")}>
+                Sign up to join
+              </button>
+            )}
+          </div>
+        </div>
+      ) : (
+        <p className="no-event">No event details available.</p>
+      )}
     </div>
   );
 }

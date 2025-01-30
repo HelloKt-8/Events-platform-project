@@ -200,7 +200,90 @@ iframe {
   overflow: auto; /* or hidden, scroll */
 }
 
+/* EventPage.css */
 
+.event-details {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.event-title {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: center;
+}
+
+.event-details p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+  margin: 8px 0;
+}
+
+.event-details strong {
+  font-weight: bold;
+}
+
+.loading, .error, .no-event {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #ff0000;
+  margin-top: 20px;
+}
+
+.event-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-signup {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-signup:hover {
+  background-color: #45a049;
+}
+
+.btn-manage {
+  padding: 10px 20px;
+  background-color: #f0ad4e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-manage:hover {
+  background-color: #ec971f;
+}
+
+.btn-join {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-join:hover {
+  background-color: #0056b3;
+}
 
 
 

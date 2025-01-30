@@ -11,9 +11,7 @@ function HomePage(){
             <LondonBanner />
             <Categories />
             <EventType />
-            <main>
-            <h1>homepage componenet and other componenets!!</h1>
-            </main>
+
             
         </div>
     )

@@ -1,49 +1,47 @@
-// src/context/AuthContext.js
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { supabase } from "./supabaseClient"; // Assuming you've already initialized supabase
+import { supabase } from "./supabaseClient";
 
-// Create a context for authentication
 const AuthContext = createContext();
 
-// Provider component
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // To store the user state
-  const [loading, setLoading] = useState(true); // To handle loading state during auth
+  const [user, setUser] = useState(null); // Combined auth + profile state
+  const [loading, setLoading] = useState(true); // To handle loading state
 
   // Function to fetch the user profile using UUID
   const fetchUserProfile = async (uuid) => {
     try {
-      const { data: profiles, error } = await supabase
+      const { data: profile, error } = await supabase
         .from("user_profiles")
         .select("*")
         .eq("uuid", uuid)
-        .single(); // Assuming one user profile per UUID
+        .single(); // Fetch profile by UUID
 
       if (error) {
         throw error;
       }
 
-      if (profiles) {
-        console.log("Fetched user profile:", profiles);
-        setUser((prevUser) => ({
-          ...prevUser,
-          user_id: profiles.user_id,
-        }));
-      }
+      return profile; // Return the fetched profile
     } catch (error) {
       console.error("Error fetching user profile:", error.message);
+      return null;
     }
   };
 
-  // Fetch session on app load and listen for auth changes
+  // Fetch session and combine auth + profile data
   useEffect(() => {
     const fetchSession = async () => {
       const { data: session } = await supabase.auth.getSession();
-      const user = session?.user || null;
+      const authUser = session?.user || null;
 
-      if (user) {
-        setUser(user);
-        await fetchUserProfile(user.id); // Fetch user profile on login
+      if (authUser) {
+        const profile = await fetchUserProfile(authUser.id); // Fetch profile by UUID
+        if (profile) {
+          setUser({ ...authUser, ...profile }); // Merge auth user with profile
+        } else {
+          console.error("User profile not found for:", authUser.id);
+        }
+      } else {
+        setUser(null); // Clear user state on logout
       }
 
       setLoading(false);
@@ -53,19 +51,22 @@ export const AuthProvider = ({ children }) => {
 
     // Listen for auth state changes (login/logout)
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        const user = session?.user || null;
-        setUser(user);
+      async (_event, session) => {
+        const authUser = session?.user || null;
 
-        if (user) {
-          fetchUserProfile(user.id); // Fetch user profile on login
+        if (authUser) {
+          const profile = await fetchUserProfile(authUser.id);
+          if (profile) {
+            setUser({ ...authUser, ...profile }); // Merge auth user with profile
+          } else {
+            console.error("User profile not found for:", authUser.id);
+          }
         } else {
-          setUser(null); // Set to null when the user logs out
+          setUser(null); // Clear user state on logout
         }
       }
     );
 
-    // Cleanup listener on component unmount
     return () => {
       authListener?.unsubscribe();
     };
@@ -78,7 +79,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook to access auth context
 export const useAuth = () => {
   return useContext(AuthContext);
 };
