@@ -59,7 +59,7 @@ const seed = ({
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           event_location VARCHAR,
-          event_img VARCHAR
+          event_img TEXT
         );
       `);
     })
