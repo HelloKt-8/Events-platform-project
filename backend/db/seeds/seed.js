@@ -54,10 +54,12 @@ const seed = ({
           event_type VARCHAR(50),
           event_date DATE,
           event_time VARCHAR(50),
+          end_time VARCHAR(50),
           event_cost INT,
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          event_location VARCHAR(100)
+          event_location VARCHAR,
+          event_img VARCHAR
         );
       `);
     })
@@ -103,14 +105,16 @@ const seed = ({
       );
 
       const insertEventsQueryStr = format(
-        'INSERT INTO events (event_name, event_type, event_date, event_time, event_cost, event_location) VALUES %L RETURNING event_id;',
-        eventsData.map(({ event_name, event_type, event_date, event_time, event_cost, event_location }) => [
+        'INSERT INTO events (event_name, event_type, event_date, event_time, end_time, event_cost, event_location, event_img) VALUES %L RETURNING event_id;',
+        eventsData.map(({ event_name, event_type, event_date, event_time, end_time, event_cost, event_location, event_img }) => [
           event_name,
           event_type,
           event_date,
           event_time,
+          end_time,
           event_cost,
           event_location,
+          event_img,
         ])
       );
       const eventsResult = await db.query(insertEventsQueryStr);
