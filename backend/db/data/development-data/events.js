@@ -385,7 +385,7 @@ module.exports = [
     end_time: '13:00',
     event_cost: 20,
     event_location: 'Greenwich Park, London SE10 8QY',
-    event_img: '',
+    event_img: 'https://www.freshpaintstudio.ca/wp-content/uploads/2018/07/paint-in-the-park-1024x683.jpg',
   },
   {
     event_id: 36,
