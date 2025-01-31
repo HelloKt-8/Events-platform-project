@@ -8,7 +8,7 @@ module.exports = [
     end_time: '17:00',
     event_cost: 0,
     event_location: 'Emirates Stadium, Hornsey Rd, London N7 7AJ',
-    event_img: '',
+    event_img: 'https://ffprod.blob.core.windows.net/media/lffp%201_0-optimised.jpg',
   },
   {
     event_id: 2,
@@ -19,7 +19,7 @@ module.exports = [
     end_time: '22:00',
     event_cost: 15,
     event_location: 'The Comedy Store, 1a Oxendon St, London SW1Y 4EE',
-    event_img: '',
+    event_img: 'https://comedycarnival.co.uk/wp-content/uploads/2022/04/Leicester-Square-Comedy-Club-2-e1649097245592.jpg',
   },
   {
     event_id: 3,
@@ -30,7 +30,7 @@ module.exports = [
     end_time: '02:00',
     event_cost: 30,
     event_location: 'The Box Soho, 11-12 Walker’s Ct, London W1F 0ED',
-    event_img: '',
+    event_img: 'https://media.timeout.com/images/102953365/750/562/image.jpg',
   },
   {
     event_id: 4,
@@ -41,7 +41,7 @@ module.exports = [
     end_time: '23:00',
     event_cost: 40,
     event_location: 'O2 Academy Brixton, 211 Stockwell Rd, London SW9 9SL',
-    event_img: '',
+    event_img: 'https://media.timeout.com/images/105948176/750/562/image.jpg',
   },
   {
     event_id: 5,
@@ -53,7 +53,7 @@ module.exports = [
     event_cost: 20,
     event_location:
       'The Avenue Cookery School, 3 Enterprise Way, London SW18 1FZ',
-    event_img: '',
+    event_img: 'https://yhangry.com/wp-content/uploads/2024/10/pexels-anthonyshkraba-production-8902169-scaled.jpg',
   },
   {
     event_id: 6,
@@ -64,7 +64,7 @@ module.exports = [
     end_time: '22:30',
     event_cost: 10,
     event_location: 'Draughts Waterloo, 16 Leake St, London SE1 7NN',
-    event_img: '',
+    event_img: 'https://cdn.thewirecutter.com/wp-content/media/2021/07/boardgames-2048px-2233-2x1-1.jpg?width=2048&quality=75&crop=2:1&auto=webp',
   },
   {
     event_id: 7,
@@ -75,7 +75,7 @@ module.exports = [
     end_time: '20:30',
     event_cost: 50,
     event_location: 'Jamie Oliver Cookery School, Westfield, London W12 7SL',
-    event_img: '',
+    event_img: 'https://images.immediate.co.uk/production/volatile/sites/3/2023/10/MasterChef-bd5b7a3.jpg?quality=90&resize=980,654',
   },
   {
     event_id: 8,
@@ -86,7 +86,7 @@ module.exports = [
     end_time: '10:00',
     event_cost: 100,
     event_location: 'Triyoga Camden, 57 Jamestown Rd, London NW1 7DB',
-    event_img: '',
+    event_img: 'https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F905822743%2F2189329534313%2F1%2Foriginal.20241125-101800?crop=focalpoint&fit=crop&w=512&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=f54e924f4e69ca664bebef12301c379a',
   },
   {
     event_id: 9,
@@ -97,7 +97,7 @@ module.exports = [
     end_time: '17:30',
     event_cost: 25,
     event_location: 'The Free Association, 2 Finsbury Ave, London EC2M 2PP',
-    event_img: '',
+    event_img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBk5Wvei3dWba227qME1BpyJMByIe-GfWi8g&s',
   },
   {
     event_id: 10,
@@ -108,7 +108,7 @@ module.exports = [
     end_time: '20:00',
     event_cost: 0,
     event_location: 'Google Campus, 4-5 Bonhill St, London EC2A 4BX',
-    event_img: '',
+    event_img: 'https://roelto.com/wp-content/uploads/2021/03/TRM_332234290-1024x576.jpeg',
   },
   {
     event_id: 11,
@@ -119,7 +119,7 @@ module.exports = [
     end_time: '19:00',
     event_cost: 10,
     event_location: 'Tate Modern, Bankside, London SE1 9TG',
-    event_img: '',
+    event_img: 'https://quintessentially.com/assets/noted/Header_2022-12-21-144607_bqgf.webp',
   },
   {
     event_id: 12,
@@ -130,7 +130,7 @@ module.exports = [
     end_time: '17:00',
     event_cost: 200,
     event_location: 'General Assembly, 114 Whitechapel High St, London E1 7PT',
-    event_img: '',
+    event_img: 'https://media.licdn.com/dms/image/C5612AQFQ_9qZNjTw5w/article-cover_image-shrink_720_1280/0/1624640033126?e=2147483647&v=beta&t=S4C9mWk3vrq4-dXVBihNLW5VnROLetmyAOrDX9rtuM0',
   },
   {
     event_id: 13,
@@ -141,7 +141,7 @@ module.exports = [
     end_time: '21:30',
     event_cost: 8,
     event_location: 'BFI Southbank, Belvedere Rd, London SE1 8XT',
-    event_img: '',
+    event_img: 'https://www.premiumbeat.com/blog/wp-content/uploads/2018/06/film-festival-cover.jpg',
   },
   {
     event_id: 14,
@@ -153,7 +153,7 @@ module.exports = [
     event_cost: 50,
     event_location:
       'The Photographers’ Gallery, 16-18 Ramillies St, London W1F 7LW',
-    event_img: '',
+    event_img: 'https://londonschoolofphotography.com/wp-content/uploads/2023/03/L1-shutterstock_334912832.jpg',
   },
   {
     event_id: 15,
@@ -165,7 +165,7 @@ module.exports = [
     event_cost: 25,
     event_location:
       'ExCeL London, Royal Victoria Dock, 1 Western Gateway, London E16 1XL',
-    event_img: '',
+    event_img: 'https://blackshellmedia.com/wp-content/uploads/2017/06/Game-convention.jpg',
   },
   {
     event_id: 16,
@@ -176,7 +176,7 @@ module.exports = [
     end_time: '20:00',
     event_cost: 40,
     event_location: 'Berry Bros. & Rudd, 63 Pall Mall, London SW1Y 5HZ',
-    event_img: '',
+    event_img: 'https://images.squarespace-cdn.com/content/v1/6425a5266d20263634116a8e/1682593966268-TGA0EKKUY57GUCIT5PMH/Wine+Flight.jpg',
   },
   {
     event_id: 17,
@@ -187,7 +187,7 @@ module.exports = [
     end_time: '21:00',
     event_cost: 5,
     event_location: 'Waterstones Piccadilly, 203-206 Piccadilly, London W1J 9HD',
-    event_img: '',
+    event_img: 'https://www.middleweb.com/wp-content/uploads/2022/12/Kruger-book-club-720-copy-716x340.jpg',
   },
   {
     event_id: 18,
@@ -198,7 +198,7 @@ module.exports = [
     end_time: '08:00',
     event_cost: 10,
     event_location: 'Hyde Park, London W2 2UH',
-    event_img: '',
+    event_img: 'https://www.fitnessfirst.co.uk/media/2hklkyol/fitnessfirst_gracechurch_260521_0917.jpg?width=1200&height=1200&v=1d8227ad14bf440',
   },
   {
     event_id: 19,
@@ -209,7 +209,7 @@ module.exports = [
     end_time: '22:00',
     event_cost: 60,
     event_location: 'The National Theatre, Upper Ground, London SE1 9PX',
-    event_img: '',
+    event_img: 'https://www.uwl.ac.uk/sites/uwl/files/styles/16_by_9_960_x_540/public/2021-02/musical%20theatre.jpg?h=c71d0c67&itok=CQkoaqTP',
   },
   {
     event_id: 20,
@@ -220,7 +220,7 @@ module.exports = [
     end_time: '17:00',
     event_cost: 20,
     event_location: 'Craft Central, 397-411 Westferry Rd, London E14 3AE',
-    event_img: '',
+    event_img: 'https://classbento.com/images/article/craft-ideas-for-adults-youll-definitely-want-to-try-800.jpg',
   },
   {
     event_id: 21,
@@ -231,7 +231,7 @@ module.exports = [
     end_time: '20:00',
     event_cost: 0,
     event_location: 'Camden Market, Camden Lock Pl, London NW1 8AF',
-    event_img: '',
+    event_img: 'https://media.timeout.com/images/106041094/750/562/image.jpg',
   },
   {
     event_id: 22,
@@ -242,7 +242,7 @@ module.exports = [
     end_time: '14:00',
     event_cost: 35,
     event_location: 'The Castle Climbing Centre, Green Lanes, London N4 2HA',
-    event_img: '',
+    event_img: 'https://www.snowcard.co.uk/sites/default/files/slider-images/Rock-climbing_1.jpeg',
   },
   {
     event_id: 23,
@@ -253,7 +253,7 @@ module.exports = [
     end_time: '20:00',
     event_cost: 25,
     event_location: 'DNA VR, 300 Kentish Town Rd, London NW5 2TG',
-    event_img: '',
+    event_img: 'https://d3mvlb3hz2g78.cloudfront.net/wp-content/uploads/2017/04/thumb_720_450_Virtual_Realitydreamstime_xl_74676617.jpg',
   },
   {
     event_id: 24,
@@ -264,7 +264,7 @@ module.exports = [
     end_time: '16:00',
     event_cost: 0,
     event_location: 'Science Museum, Exhibition Rd, London SW7 2DD',
-    event_img: '',
+    event_img: 'https://monroecentral.org/wp-content/uploads/2019/01/Science-Fair.jpg',
   },
   {
     event_id: 25,
@@ -275,7 +275,7 @@ module.exports = [
     end_time: '21:30',
     event_cost: 12,
     event_location: 'The Poetry Cafe, 22 Betterton St, London WC2H 9BX',
-    event_img: '',
+    event_img: 'https://southlondon.co.uk/wp-content/uploads/2024/02/otc004.jpg.webp',
   },
   {
     event_id: 26,
@@ -286,7 +286,7 @@ module.exports = [
     end_time: '15:00',
     event_cost: 20,
     event_location: 'Shoreditch, London E1 6GY',
-    event_img: '',
+    event_img: 'https://www.manvsglobe.com/wp-content/uploads/2018/07/Jim_Vision_paradise_lost_london_street_art.jpg',
   },
   {
     event_id: 27,
@@ -297,7 +297,7 @@ module.exports = [
     end_time: '21:00',
     event_cost: 0,
     event_location: 'TechHub, 20 Ropemaker St, London EC2Y 9AR',
-    event_img: '',
+    event_img: 'https://www.eu-startups.com/wp-content/uploads/2023/03/Pitch-Night-VU-2.png',
   },
   {
     event_id: 28,
@@ -308,7 +308,7 @@ module.exports = [
     end_time: '12:00',
     event_cost: 15,
     event_location: 'Regent’s Park, London NW1 4NR',
-    event_img: '',
+    event_img: 'https://www.ohow.com/wp-content/uploads/2021/04/OHOW-Blog-April_1280x853.jpg',
   },
   {
     event_id: 29,
@@ -319,7 +319,7 @@ module.exports = [
     end_time: '22:00',
     event_cost: 10,
     event_location: 'The Prince Charles Cinema, 7 Leicester Pl, London WC2H 7BY',
-    event_img: '',
+    event_img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeXcpAO6VqDus0OsCDHQ6tasQ-9pHnreQ6mQ&s',
   },
   {
     event_id: 30,
@@ -330,7 +330,7 @@ module.exports = [
     end_time: '16:30',
     event_cost: 5,
     event_location: 'British Museum, Great Russell St, London WC1B 3DG',
-    event_img: '',
+    event_img: 'https://www.nhm.ac.uk/content/nhmwww/en/home/events/museum-highlights-tour/_jcr_content/parentpar/row2cells21a/par/image.img.jpg/1718622217240.jpg',
   },
   {
     event_id: 31,
@@ -341,7 +341,7 @@ module.exports = [
     end_time: '14:00',
     event_cost: 50,
     event_location: 'London College of Fashion, 20 John Prince’s St, London W1G 0BJ',
-    event_img: '',
+    event_img: 'https://i0.wp.com/www.ldnfashion.com/wp-content/uploads/2016/06/fashion-workshops.jpg?fit=1280%2C768&ssl=1',
   },
   {
     event_id: 32,
@@ -352,7 +352,7 @@ module.exports = [
     end_time: '23:00',
     event_cost: 25,
     event_location: 'Ronnie Scott’s Jazz Club, 47 Frith St, London W1D 4HT',
-    event_img: '',
+    event_img: 'https://i.ytimg.com/vi/Oi01xZFR-kQ/maxresdefault.jpg',
   },
   {
     event_id: 33,
@@ -363,7 +363,7 @@ module.exports = [
     end_time: '12:00',
     event_cost: 30,
     event_location: 'Leiths School of Food and Wine, 16-20 Wendell Rd, London W12 9RT',
-    event_img: '',
+    event_img: 'https://052d1f16615cd6169700.b-cdn.net/wp-content/uploads/2020/10/pexels-ksenia-chernaya-3952054-scaled.jpg',
   },
   {
     event_id: 34,
@@ -374,7 +374,7 @@ module.exports = [
     end_time: '18:00',
     event_cost: 15,
     event_location: 'The Mechanics’ Institute, London EC1N 8LS',
-    event_img: '',
+    event_img: 'https://images.chesscomfiles.com/uploads/v1/article/19394.4e3bb975.5000x5000o.52f065f76553.jpeg',
   },
   {
     event_id: 35,
@@ -396,7 +396,7 @@ module.exports = [
     end_time: '14:00',
     event_cost: 25,
     event_location: 'Borough Market, 8 Southwark St, London SE1 1TL',
-    event_img: '',
+    event_img: 'https://www.freshpaintstudio.ca/wp-content/uploads/2018/07/paint-in-the-park-1024x683.jpg',
   },
   {
     event_id: 37,
@@ -407,7 +407,7 @@ module.exports = [
     end_time: '20:00',
     event_cost: 0,
     event_location: 'Online - Zoom',
-    event_img: '',
+    event_img: 'https://teambuildinghub.com/wp-content/uploads/2022/08/cartoon-virtual-networking-event-scaled.webp',
   },
   {
     event_id: 38,
@@ -418,7 +418,7 @@ module.exports = [
     end_time: '19:00',
     event_cost: 75,
     event_location: 'Epping Forest, London IG10 4AE',
-    event_img: '',
+    event_img: 'https://headrushtech.com/media/blog/2016/06/AdobeStock_391034603-scaled.jpeg',
   },
   {
     event_id: 39,
@@ -429,7 +429,7 @@ module.exports = [
     end_time: '21:30',
     event_cost: 12,
     event_location: 'Electric Cinema, 191 Portobello Rd, London W11 2ED',
-    event_img: '',
+    event_img: 'https://www.librarieshawaii.org/wp-content/uploads/2023/09/classic_movie_night_graphic_large_460x345.jpg',
   },
   {
     event_id: 40,
@@ -440,6 +440,6 @@ module.exports = [
     end_time: '21:00',
     event_cost: 40,
     event_location: 'Royal Albert Hall, Kensington Gore, London SW7 2AP',
-    event_img: '',
+    event_img: 'https://www.nlcs.org.uk/wp-content/uploads/2024/03/Spring-Concert-2024-3-scaled-1200x700-c-default.webp',
   },
 ];
