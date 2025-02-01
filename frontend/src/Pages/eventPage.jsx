@@ -4,6 +4,7 @@ import Header from "../Components/Header";
 import { getEventTypes } from "../api calls/fetchingEventTypes";
 import { useAuth } from "../AuthContext"; // Access global state for user
 import { addEventToCalendar } from "../googleApi"; // Import Google Calendar function
+import { supabase } from "../supabaseClient";
 
 function EventPage() {
   const { event_id } = useParams();
@@ -12,6 +13,18 @@ function EventPage() {
   const [eventDetails, setEventDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+      });
+      if (error) throw error;
+      console.log("Successfully signed in with Google");
+    } catch (error) {
+      console.error("Google sign-in error:", error.message);
+    }
+  };
 
   useEffect(() => {
     const fetchEventDetails = async () => {
@@ -42,23 +55,61 @@ function EventPage() {
       return;
     }
 
-    alert("You have signed up for this event! Adding to Google Calendar...");
-
-    // Convert to ISO format for Google Calendar
     const convertToISO = (date, time) => {
-      return new Date(`${date}T${time}:00Z`).toISOString();
+      console.log("Raw Event Date:", date);
+      console.log("Raw Event Time:", time);
+    
+      if (!date || !time) {
+        throw new Error("Event date or time is missing");
+      }
+    
+      const dateOnly = date.split("T")[0]; // "2025-02-13" from "2025-02-13T00:00:00.000Z"
+      console.log("Formatted Date:", dateOnly);
+    
+      let formattedTime = time;
+      const timeRegex = /(\d{1,2}):(\d{2})(?:\s?(AM|PM))?/;
+      const match = time.match(timeRegex);
+    
+      if (match) {
+        let [ , hour, minute, period ] = match;
+        let adjustedHour = parseInt(hour, 10);
+    
+        if (period) {
+          if (period.toUpperCase() === "PM" && adjustedHour < 12) {
+            adjustedHour += 12;
+          } else if (period.toUpperCase() === "AM" && adjustedHour === 12) {
+            adjustedHour = 0;
+          }
+        }
+    
+        formattedTime = `${adjustedHour.toString().padStart(2, "0")}:${minute}`;
+      }
+    
+      const dateTimeString = `${dateOnly}T${formattedTime}:00`;
+      console.log("Formatted DateTime String:", dateTimeString);
+    
+      const dateTime = new Date(dateTimeString);
+    
+      if (isNaN(dateTime)) {
+        throw new Error("Invalid date or time format");
+      }
+    
+      return dateTime.toISOString();
     };
 
     const eventDetailsForCalendar = {
-      title: eventDetails.event_name,
+      event_name: eventDetails.event_name,
       description: eventDetails.description || "Event registered via our platform!",
-      startTime: convertToISO(eventDetails.event_date, eventDetails.event_time),
-      endTime: convertToISO(eventDetails.event_date, eventDetails.end_time),
+      event_time: convertToISO(eventDetails.event_date, eventDetails.event_time),
+      end_time: convertToISO(eventDetails.event_date, eventDetails.end_time),
     };
 
     try {
       await addEventToCalendar(eventDetailsForCalendar);
       alert("Event added to your Google Calendar!");
+
+      // Redirect user to Google Calendar page
+      window.open("https://calendar.google.com", "_blank");
     } catch (error) {
       console.error("Error adding event:", error);
       alert("Failed to add event to Google Calendar.");
@@ -101,7 +152,7 @@ function EventPage() {
                 )}
               </>
             ) : (
-              <button className="btn-join" onClick={() => navigate("/signup")}>
+              <button className="btn-join" onClick={handleGoogleSignIn}>
                 Sign up to join
               </button>
             )}

@@ -57,5 +57,6 @@ export const addEventToCalendar = async (eventDetails) => {
     return response;
   } catch (error) {
     console.error("Error creating event:", error);
+    throw new Error("Failed to create event in Google Calendar.");
   }
 };

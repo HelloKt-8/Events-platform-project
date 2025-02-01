@@ -4,12 +4,12 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import { supabase } from "../supabaseClient";
+import { gapi } from "gapi-script"; // Ensure gapi is imported
 
 const Header = () => {
   const { user } = useAuth(); // Get user from AuthContext
   const navigate = useNavigate(); // Initialize useNavigate
 
-  // Handle Google sign-in
   const handleGoogleSignIn = async () => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
@@ -23,11 +23,35 @@ const Header = () => {
   };
 
   const handleLogout = async () => {
+    console.log("Attempting to log out...");
+
     try {
-      await supabase.auth.signOut(); // Perform logout
-      navigate("/"); // Redirect to the homepage after logout
+      // Ensure gapi is loaded
+      if (!gapi.auth2.getAuthInstance()) {
+        console.error("Google API client not initialized");
+        return;
+      }
+
+      const authInstance = gapi.auth2.getAuthInstance();
+      if (authInstance.isSignedIn.get()) {
+        await authInstance.signOut(); // Google sign out
+        console.log("Google logout successful!");
+      } else {
+        console.log("User not signed in to Google");
+      }
+
+      // Then sign out from Supabase
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Error during Supabase logout:", error.message);
+      } else {
+        console.log("Supabase logout successful!");
+
+        alert("You have successfully logged out.");
+        navigate("/"); // Redirect to homepage
+      }
     } catch (error) {
-      console.error("Error during logout:", error);
+      console.error("Error during logout:", error); // Log unexpected errors
     }
   };
 
@@ -50,9 +74,6 @@ const Header = () => {
       <a className="active" href="/">
         LondonLife
       </a>
-      <div className="clickables">
-        <a href="/events">Events Calendar</a>
-      </div>
 
       {/* Search Bar */}
       <div className="search-container">
