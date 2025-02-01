@@ -4,6 +4,7 @@ import EventPage from "./Pages/eventPage";
 import { AuthProvider } from "./AuthContext";
 import { useEffect, useState } from "react";
 import { loadGoogleAPI } from "./googleApi";
+import CreateEventPage from "./Components/CreateEventPage";
 
 const App = () => {
   const [gapiLoaded, setGapiLoaded] = useState(false);
@@ -22,9 +23,10 @@ const App = () => {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/events/:event_id" element={<EventPage />} />
+              <Route path="/create-event" element={<CreateEventPage />} />
             </Routes>
           ) : (
-            <p>Loading Google API...</p>
+            <p>Loading our fun activities...</p>
           )}
         </div>
       </Router>

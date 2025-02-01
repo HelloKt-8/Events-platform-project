@@ -43,12 +43,12 @@ const EventType = () => {
   return (
     <div>
       {Object.entries(groupedEvents).map(([type, events]) => (
-        <div key={type}>
+        <div key={type} id={type}> {/* Added id to match category name */}
           <h2>{type.charAt(0).toUpperCase() + type.slice(1)}</h2>
           <div className="cardCollection">
             {events.map((event) => (
-              <div className="card" key={event.event_id}> {/* Corrected the key here */}
-                <Link to={`/events/${event.event_id}`}> {/* Corrected Link */}
+              <div className="card" key={event.event_id}>
+                <Link to={`/events/${event.event_id}`}>
                   <img
                     className="card-img-top"
                     src={event.event_img || "https://www.charitycomms.org.uk/wp-content/uploads/2019/02/placeholder-image-square.jpg"}
@@ -73,6 +73,7 @@ const EventType = () => {
       ))}
     </div>
   );
+  
 };
 
 export default EventType;

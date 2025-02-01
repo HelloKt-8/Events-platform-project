@@ -2,17 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import { getEventTypes } from "../api calls/fetchingEventTypes";
-import { useAuth } from "../AuthContext"; // Access global state for user
-import { addEventToCalendar } from "../googleApi"; // Import Google Calendar function
+import { useAuth } from "../AuthContext";
+import { addEventToCalendar } from "../googleApi";
 import { supabase } from "../supabaseClient";
 
 function EventPage() {
   const { event_id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth(); // Get user from global state
+  const { user } = useAuth();
   const [eventDetails, setEventDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
+  const [updatedEventDetails, setUpdatedEventDetails] = useState({}); // State for modal form inputs
 
   const handleGoogleSignIn = async () => {
     try {
@@ -63,7 +65,7 @@ function EventPage() {
         throw new Error("Event date or time is missing");
       }
     
-      const dateOnly = date.split("T")[0]; // "2025-02-13" from "2025-02-13T00:00:00.000Z"
+      const dateOnly = date.split("T")[0]; 
       console.log("Formatted Date:", dateOnly);
     
       let formattedTime = time;
@@ -107,12 +109,52 @@ function EventPage() {
     try {
       await addEventToCalendar(eventDetailsForCalendar);
       alert("Event added to your Google Calendar!");
-
-      // Redirect user to Google Calendar page
       window.open("https://calendar.google.com", "_blank");
     } catch (error) {
       console.error("Error adding event:", error);
       alert("Failed to add event to Google Calendar.");
+    }
+  };
+
+  const handleModalChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedEventDetails({
+      ...updatedEventDetails,
+      [name]: value,
+    });
+  };
+
+  const handleSubmitEdit = async () => {
+    const response = await fetch(`https://events-platform-project-z29t.onrender.com/api/events/${event_id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedEventDetails),
+    });
+    
+    if (response.ok) {
+      alert("Event updated successfully!");
+      setShowModal(false); // Close the modal
+      setEventDetails((prevDetails) => ({
+        ...prevDetails,
+        ...updatedEventDetails,
+      }));
+    } else {
+      alert("Failed to update event.");
+    }
+  };
+
+  const handleDeleteEvent = async () => {
+    const response = await fetch(`https://events-platform-project-z29t.onrender.com/api/events/${event_id}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      alert("Event deleted successfully!");
+      navigate("/"); // Redirect to homepage after deletion
+    } else {
+      alert("Failed to delete event.");
     }
   };
 
@@ -145,7 +187,7 @@ function EventPage() {
                     <button className="btn-signup" onClick={handleSignUp}>
                       Sign Up!
                     </button>
-                    <button className="btn-manage" onClick={() => alert("Redirecting to event management page...")}>
+                    <button className="btn-manage" onClick={() => setShowModal(true)}>
                       Manage
                     </button>
                   </>
@@ -156,6 +198,53 @@ function EventPage() {
                 Sign up to join
               </button>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Modal for event editing */}
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Edit Event</h2>
+            <label>
+              Event Name:
+              <input
+                type="text"
+                name="event_name"
+                value={updatedEventDetails.event_name || eventDetails.event_name}
+                onChange={handleModalChange}
+              />
+            </label>
+            <label>
+              Description:
+              <textarea
+                name="description"
+                value={updatedEventDetails.description || eventDetails.description}
+                onChange={handleModalChange}
+              />
+            </label>
+            <label>
+              Event Location:
+              <input
+                type="text"
+                name="event_location"
+                value={updatedEventDetails.event_location || eventDetails.event_location}
+                onChange={handleModalChange}
+              />
+            </label>
+            <label>
+              Event Cost:
+              <input
+                type="number"
+                name="event_cost"
+                value={updatedEventDetails.event_cost || eventDetails.event_cost}
+                onChange={handleModalChange}
+              />
+            </label>
+            <button onClick={handleSubmitEdit}>Submit</button>
+            <button onClick={() => setShowModal(false)}>Cancel</button>
+            <button onClick={handleDeleteEvent}>Delete Event</button>
           </div>
         </div>
       )}

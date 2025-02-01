@@ -1,12 +1,24 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const getEventTypes = (event_type, event_id) => {
-    let queryStr = "https://events-platform-project-z29t.onrender.com/api/events"
+    let queryStr = "https://events-platform-project-z29t.onrender.com/api/events";
+    
+    const params = [];
+    
+    if (event_type) {
+        params.push(`event_type=${event_type}`);
+    }
+    if (event_id) {
+        params.push(`event_id=${event_id}`);
+    }
+    
+    if (params.length > 0) {
+        queryStr += "?" + params.join("&");
+    }
 
-    if(event_type){queryStr += `?event_type=${event_type}`}
-    if(event_id){queryStr += `?event_id=${event_id}`}
+    return axios.get(queryStr)
+        .then((response) => { return response.data.events })
+        .catch((err) => { console.log("error from getEventTypes", err) });
+};
 
-    return axios.get(queryStr).then((response) => {return response.data.events}).catch((err) => {console.log("error from getEventTypes")})
-}
-
-export {getEventTypes}
+export { getEventTypes };
