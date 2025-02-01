@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import { getEventTypes } from "../api calls/fetchingEventTypes";
 import { useAuth } from "../AuthContext"; // Access global state for user
+import { addEventToCalendar } from "../googleApi"; // Import Google Calendar function
 
 function EventPage() {
   const { event_id } = useParams();
@@ -11,9 +12,6 @@ function EventPage() {
   const [eventDetails, setEventDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // Debugging: Log the user object
-  console.log("User object from global state:", user);
 
   useEffect(() => {
     const fetchEventDetails = async () => {
@@ -38,60 +36,52 @@ function EventPage() {
     }
   }, [event_id]);
 
-  // Debugging: Log eventDetails after fetch
-  useEffect(() => {
-    if (eventDetails) {
-      console.log("Fetched event details:", eventDetails);
-    }
-  }, [eventDetails]);
-
-  if (loading) {
-    return (
-      <div>
-        <Header />
-        <p className="loading">Loading event details...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div>
-        <Header />
-        <p className="error">{error}</p>
-      </div>
-    );
-  }
-
-  // Handle button actions
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     if (!user) {
-      navigate("/login"); // Redirect to login page if user is not logged in
-    } else {
-      alert("You have signed up for this event!");
+      navigate("/login");
+      return;
     }
-  };
 
-  const handleManage = () => {
-    alert("Redirecting to event management page...");
-    // Add navigation logic to the event management page
+    alert("You have signed up for this event! Adding to Google Calendar...");
+
+    // Convert to ISO format for Google Calendar
+    const convertToISO = (date, time) => {
+      return new Date(`${date}T${time}:00Z`).toISOString();
+    };
+
+    const eventDetailsForCalendar = {
+      title: eventDetails.event_name,
+      description: eventDetails.description || "Event registered via our platform!",
+      startTime: convertToISO(eventDetails.event_date, eventDetails.event_time),
+      endTime: convertToISO(eventDetails.event_date, eventDetails.end_time),
+    };
+
+    try {
+      await addEventToCalendar(eventDetailsForCalendar);
+      alert("Event added to your Google Calendar!");
+    } catch (error) {
+      console.error("Error adding event:", error);
+      alert("Failed to add event to Google Calendar.");
+    }
   };
 
   return (
     <div>
       <Header />
-      {eventDetails ? (
+      {loading && <p className="loading">Loading event details...</p>}
+      {error && <p className="error">{error}</p>}
+
+      {eventDetails && (
         <div className="event-details">
           <h1 className="event-title">{eventDetails.event_name}</h1>
-          <p><strong>Date:</strong> {eventDetails.event_date.slice(0, -14)}</p>
+          <p><strong>Date:</strong> {eventDetails.event_date}</p>
           <p><strong>Time:</strong> {eventDetails.event_time} - {eventDetails.end_time}</p>
-          <p><strong>Description:</strong>{eventDetails.description}</p>
+          <p><strong>Description:</strong> {eventDetails.description}</p>
           <p><strong>Location:</strong> {eventDetails.event_location}</p>
           <p><strong>Type:</strong> {eventDetails.event_type}</p>
           <p><strong>Cost:</strong> {eventDetails.event_cost === 0 ? "Free" : `£${eventDetails.event_cost}`}</p>
           
           <div className="event-buttons">
-            {/* Buttons logic */}
             {user ? (
               <>
                 {user.user_type === "member" && (
@@ -104,7 +94,7 @@ function EventPage() {
                     <button className="btn-signup" onClick={handleSignUp}>
                       Sign Up!
                     </button>
-                    <button className="btn-manage" onClick={handleManage}>
+                    <button className="btn-manage" onClick={() => alert("Redirecting to event management page...")}>
                       Manage
                     </button>
                   </>
@@ -117,8 +107,6 @@ function EventPage() {
             )}
           </div>
         </div>
-      ) : (
-        <p className="no-event">No event details available.</p>
       )}
     </div>
   );
