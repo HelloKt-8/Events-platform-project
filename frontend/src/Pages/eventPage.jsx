@@ -84,7 +84,8 @@ function EventPage() {
         <div className="event-details">
           <h1 className="event-title">{eventDetails.event_name}</h1>
           <p><strong>Date:</strong> {eventDetails.event_date.slice(0, -14)}</p>
-          <p><strong>Time:</strong> {eventDetails.event_time}</p>
+          <p><strong>Time:</strong> {eventDetails.event_time} - {eventDetails.end_time}</p>
+          <p><strong>Description:</strong>{eventDetails.description}</p>
           <p><strong>Location:</strong> {eventDetails.event_location}</p>
           <p><strong>Type:</strong> {eventDetails.event_type}</p>
           <p><strong>Cost:</strong> {eventDetails.event_cost === 0 ? "Free" : `£${eventDetails.event_cost}`}</p>

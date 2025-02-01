@@ -51,7 +51,7 @@ const EventType = () => {
                 <Link to={`/events/${event.event_id}`}> {/* Corrected Link */}
                   <img
                     className="card-img-top"
-                    src={event.image || "https://www.charitycomms.org.uk/wp-content/uploads/2019/02/placeholder-image-square.jpg"}
+                    src={event.event_img || "https://www.charitycomms.org.uk/wp-content/uploads/2019/02/placeholder-image-square.jpg"}
                     alt={event.event_name}
                   />
                   <div className="card-body">
