@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/Events-platform-project/",  // Set this to your repo name
+  base: "/Events-platform-project/", 
 })
