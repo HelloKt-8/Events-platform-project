@@ -24,7 +24,6 @@ export const loadGoogleAPI = () => {
   });
 };
 
-// **Google Sign-In Function**
 export const signInToGoogle = async () => {
   const authInstance = gapi.auth2.getAuthInstance();
   if (!authInstance.isSignedIn.get()) {
@@ -33,10 +32,9 @@ export const signInToGoogle = async () => {
   return authInstance.currentUser.get();
 };
 
-// **Function to Add Event to Google Calendar**
 export const addEventToCalendar = async (eventDetails) => {
   try {
-    const user = await signInToGoogle(); // Ensure the user is signed in
+    const user = await signInToGoogle(); 
 
     const response = await gapi.client.calendar.events.insert({
       calendarId: "primary",
@@ -44,11 +42,10 @@ export const addEventToCalendar = async (eventDetails) => {
         summary: eventDetails.event_name,
         description: eventDetails.description,
         start: {
-          dateTime: eventDetails.event_time, // Example: "2025-02-15T14:00:00Z"
-          timeZone: "Europe/London",
+          dateTime: eventDetails.event_time, 
         },
         end: {
-          dateTime: eventDetails.end_time, // Example: "2025-02-15T16:00:00Z"
+          dateTime: eventDetails.end_time, 
           timeZone: "Europe/London",
         },
       },

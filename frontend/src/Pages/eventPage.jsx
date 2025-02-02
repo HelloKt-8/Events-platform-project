@@ -13,8 +13,8 @@ function EventPage() {
   const [eventDetails, setEventDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showModal, setShowModal] = useState(false); // State to control modal visibility
-  const [updatedEventDetails, setUpdatedEventDetails] = useState({}); // State for modal form inputs
+  const [showModal, setShowModal] = useState(false);
+  const [updatedEventDetails, setUpdatedEventDetails] = useState({}); 
 
   const handleGoogleSignIn = async () => {
     try {
@@ -135,7 +135,7 @@ function EventPage() {
     
     if (response.ok) {
       alert("Event updated successfully!");
-      setShowModal(false); // Close the modal
+      setShowModal(false); 
       setEventDetails((prevDetails) => ({
         ...prevDetails,
         ...updatedEventDetails,
@@ -152,7 +152,7 @@ function EventPage() {
 
     if (response.ok) {
       alert("Event deleted successfully!");
-      navigate("/"); // Redirect to homepage after deletion
+      navigate("/");
     } else {
       alert("Failed to delete event.");
     }
@@ -202,7 +202,6 @@ function EventPage() {
         </div>
       )}
 
-      {/* Modal for event editing */}
       {showModal && (
         <div className="modal">
           <div className="modal-content">

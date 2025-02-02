@@ -17,13 +17,11 @@ const CreateEventPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate that all fields are filled
     if (!eventName || !eventType || !eventDate || !eventTime || !endTime || !eventDescription || !eventLocation || !eventCost || !eventImg) {
       alert("Please fill in all fields.");
       return;
     }
 
-    // Prepare event data
     const eventData = {
       event_name: eventName,
       event_type: eventType,
@@ -37,7 +35,7 @@ const CreateEventPage = () => {
     };
 
     try {
-      // Send event data to the backend to create the event
+
       const response = await fetch("https://events-platform-project-z29t.onrender.com/api/events", {
         method: "POST",
         headers: {
@@ -50,9 +48,8 @@ const CreateEventPage = () => {
         throw new Error("Failed to create event.");
       }
 
-      // Redirect to homepage or event list after successful creation
       alert("Event created successfully!");
-      navigate("/"); // Or navigate to an events listing page if needed
+      navigate("/"); 
     } catch (error) {
       console.error("Error creating event:", error);
       alert("Error creating event. Please try again.");

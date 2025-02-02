@@ -12,17 +12,12 @@ const fetchUserProfile = async () => {
       }
     );
 
-    // Check if the response is ok
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
     const data = await response.json();
 
-    // Log the data to see if it's fetched
-    console.log("User Profile Data:", data);
-
-    // Optional: Check if the data is empty
     if (data.length === 0) {
       console.log("No data found for the given user_id.");
     }

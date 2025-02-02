@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 
 const LondonBanner = () => {
   const [slideIndex, setSlideIndex] = useState(1);
-  const [direction, setDirection] = useState(1);  // 1 means forward, -1 means backward
+  const [direction, setDirection] = useState(1); 
 
-  // Slide data
   const slides = [
     {
       img: "https://www.chambersstudent.co.uk/media/1198/the_city_london.jpg",
@@ -20,37 +19,31 @@ const LondonBanner = () => {
     },
   ];
 
-  // Function to change slides
   const showSlides = (n) => {
-    if (n > slides.length) setSlideIndex(1);   // loop back to first slide
-    if (n < 1) setSlideIndex(slides.length);  // loop back to last slide
+    if (n > slides.length) setSlideIndex(1);   
+    if (n < 1) setSlideIndex(slides.length);  
     setSlideIndex(n);
   };
 
-  // Function to move to the next/previous slide
   const plusSlides = (n) => {
     showSlides(slideIndex + n);
   };
 
-  // Function to set the slide directly
   const currentSlide = (n) => {
     showSlides(n);
   };
 
-  // Set an interval to automatically rotate slides every 5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
-      plusSlides(direction);  // Move forward or backward depending on direction
-    }, 5000); // 5000ms (5 seconds)
+      plusSlides(direction);  
+    }, 5000); 
 
-    // Cleanup timer when component unmounts
     return () => clearInterval(timer);
-  }, [slideIndex, direction]); // The effect depends on the slideIndex and direction
+  }, [slideIndex, direction]); 
 
-  // Change direction when reaching the first or last slide
   useEffect(() => {
     if (slideIndex === slides.length || slideIndex === 1) {
-      setDirection(direction * -1); // Reverse direction
+      setDirection(direction * -1); 
     }
   }, [slideIndex]);
 
@@ -67,11 +60,9 @@ const LondonBanner = () => {
         </div>
       ))}
 
-      {/* Navigation Buttons */}
       <button onClick={() => plusSlides(-1)}>&#10094;</button>
       <button onClick={() => plusSlides(1)}>&#10095;</button>
 
-      {/* Dots Navigation */}
       <div style={{ textAlign: "center" }}>
         {slides.map((_, index) => (
           <span

@@ -4,44 +4,41 @@ import { supabase } from "./supabaseClient";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null); // Combined auth + profile state
-  const [loading, setLoading] = useState(true); // To handle loading state
+  const [user, setUser] = useState(null); 
+  const [loading, setLoading] = useState(true); 
 
-  // Function to fetch the user profile using UUID
   const fetchUserProfile = async (uuid) => {
     try {
       const { data: profile, error } = await supabase
         .from("user_profiles")
         .select("*")
         .eq("uuid", uuid)
-        .single(); // Fetch profile by UUID
-
+        .single(); 
       if (error) {
         throw error;
       }
 
-      return profile; // Return the fetched profile
+      return profile; 
     } catch (error) {
       console.error("Error fetching user profile:", error.message);
       return null;
     }
   };
 
-  // Fetch session and combine auth + profile data
   useEffect(() => {
     const fetchSession = async () => {
       const { data: session } = await supabase.auth.getSession();
       const authUser = session?.user || null;
 
       if (authUser) {
-        const profile = await fetchUserProfile(authUser.id); // Fetch profile by UUID
+        const profile = await fetchUserProfile(authUser.id); 
         if (profile) {
-          setUser({ ...authUser, ...profile }); // Merge auth user with profile
+          setUser({ ...authUser, ...profile }); 
         } else {
           console.error("User profile not found for:", authUser.id);
         }
       } else {
-        setUser(null); // Clear user state on logout
+        setUser(null); 
       }
 
       setLoading(false);
@@ -49,7 +46,6 @@ export const AuthProvider = ({ children }) => {
 
     fetchSession();
 
-    // Listen for auth state changes (login/logout)
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         const authUser = session?.user || null;
@@ -57,12 +53,12 @@ export const AuthProvider = ({ children }) => {
         if (authUser) {
           const profile = await fetchUserProfile(authUser.id);
           if (profile) {
-            setUser({ ...authUser, ...profile }); // Merge auth user with profile
+            setUser({ ...authUser, ...profile }); 
           } else {
             console.error("User profile not found for:", authUser.id);
           }
         } else {
-          setUser(null); // Clear user state on logout
+          setUser(null); 
         }
       }
     );

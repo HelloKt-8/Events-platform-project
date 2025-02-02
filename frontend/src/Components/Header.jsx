@@ -4,14 +4,13 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import { supabase } from "../supabaseClient";
-import { gapi } from "gapi-script"; // Ensure gapi is imported
+import { gapi } from "gapi-script"; 
 import { getEventTypes } from "../api calls/fetchingEventTypes"; // Import event fetching function
 
 const Header = () => {
-  const { user } = useAuth(); // Get user from AuthContext
-  const navigate = useNavigate(); // Initialize useNavigate
+  const { user } = useAuth();
+  const navigate = useNavigate(); 
 
-  // State for search input, results, and dropdown visibility
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -31,7 +30,6 @@ const Header = () => {
   const handleLogout = async () => {
     console.log("Attempting to log out...");
     try {
-      // Ensure gapi is loaded
       if (!gapi.auth2.getAuthInstance()) {
         console.error("Google API client not initialized");
         return;
@@ -39,20 +37,19 @@ const Header = () => {
 
       const authInstance = gapi.auth2.getAuthInstance();
       if (authInstance.isSignedIn.get()) {
-        await authInstance.signOut(); // Google sign out
+        await authInstance.signOut(); 
         console.log("Google logout successful!");
       } else {
         console.log("User not signed in to Google");
       }
 
-      // Then sign out from Supabase
       const { error } = await supabase.auth.signOut();
       if (error) {
         console.error("Error during Supabase logout:", error.message);
       } else {
         console.log("Supabase logout successful!");
         alert("You have successfully logged out.");
-        navigate("/"); // Redirect to homepage
+        navigate("/"); 
       }
     } catch (error) {
       console.error("Error during logout:", error);
@@ -68,9 +65,9 @@ const Header = () => {
   };
 
   const handleEventSelect = (eventId) => {
-    navigate(`/event/${eventId}`); // Navigate to the event page
-    setSearchQuery(""); // Clear search input
-    setShowDropdown(false); // Hide dropdown
+    navigate(`/event/${eventId}`);
+    setSearchQuery(""); 
+    setShowDropdown(false); 
   };
 
   useEffect(() => {
@@ -98,7 +95,6 @@ const Header = () => {
         LondonLife
       </a>
 
-      {/* Search Bar */}
       <div className="search-container">
         <input
           type="text"
@@ -108,7 +104,6 @@ const Header = () => {
           onFocus={() => setShowDropdown(searchResults.length > 0)}
         />
 
-        {/* Search Dropdown */}
         {showDropdown && (
           <ul className="search-dropdown">
             {searchResults.map((event) => (
@@ -129,16 +124,13 @@ const Header = () => {
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
       </div>
-      {/* Navigation Links */}
-
-      {/* Create Event Button (only visible for admin or staff) */}
+    
       {user && (user.user_type === "admin" || user.user_type === "staff") && (
         <button className="create-event-button" onClick={handleCreateEvent}>
           Create Event
         </button>
       )}
 
-      {/* Google Sign In / Logout Button */}
       <div className="auth-button-container">
         {!user ? (
           <button className="auth-button" onClick={handleGoogleSignIn}>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getEventTypes } from "../api calls/fetchingEventTypes";
-import { Link } from "react-router-dom"; // Corrected import
-import { fetchUserProfile } from "../api calls/fetchUserProfiles";
+import { Link } from "react-router-dom"; 
 
 const EventType = () => {
   const [groupedEvents, setGroupedEvents] = useState({});
@@ -23,14 +22,14 @@ const EventType = () => {
       const grouped = {};
       for (const eventType of event_Types) {
         try {
-          const events = await getEventTypes(eventType); // Fetch events by type
+          const events = await getEventTypes(eventType); 
           grouped[eventType] = events;
         } catch (error) {
           console.log(`Error fetching events for type: ${eventType}`);
         }
       }
-      setGroupedEvents(grouped); // Set grouped events
-      setLoading(false); // Mark loading as complete
+      setGroupedEvents(grouped); 
+      setLoading(false); 
     };
 
     fetchEventsByType();
@@ -43,7 +42,7 @@ const EventType = () => {
   return (
     <div>
       {Object.entries(groupedEvents).map(([type, events]) => (
-        <div key={type} id={type}> {/* Added id to match category name */}
+        <div key={type} id={type}> 
           <h2>{type.charAt(0).toUpperCase() + type.slice(1)}</h2>
           <div className="cardCollection">
             {events.map((event) => (
