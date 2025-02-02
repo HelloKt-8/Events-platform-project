@@ -348,12 +348,27 @@ exports.makePreference = async (user_id, preference_type) => {
   return preference.rows[0];
 };
 
-exports.makeEvent = async (event_name, event_type, event_date, event_cost) => {
+exports.makeEvent = async (
+  event_name, 
+  event_type, 
+  event_date, 
+  event_time, 
+  end_time, 
+  event_cost, 
+  event_location, 
+  event_img, 
+  description
+) => {
   if (
     typeof event_name !== 'string' ||
     typeof event_type !== 'string' ||
     typeof event_date !== 'string' ||
-    isNaN(Number(event_cost))
+    (event_time !== null && typeof event_time !== 'string') ||
+    (end_time !== null && typeof end_time !== 'string') ||
+    isNaN(Number(event_cost)) ||
+    (event_location !== null && typeof event_location !== 'string') ||
+    (event_img !== null && typeof event_img !== 'string') ||
+    (description !== null && typeof description !== 'string')
   ) {
     return Promise.reject({
       status: 400,
@@ -362,20 +377,30 @@ exports.makeEvent = async (event_name, event_type, event_date, event_cost) => {
   }
 
   const sqlQuery = `
-        INSERT INTO events (event_name, event_type, event_date, event_cost)
-        VALUES ($1, $2, $3, $4)
-        RETURNING *;
-    `;
+    INSERT INTO events (
+      event_name, event_type, event_date, event_time, end_time, 
+      event_cost, event_location, event_img, description
+    )
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    RETURNING *;
+  `;
 
   const event = await db.query(sqlQuery, [
     event_name,
     event_type,
     event_date,
+    event_time,
+    end_time,
     event_cost,
+    event_location,
+    event_img,
+    description
   ]);
+
   console.log(event.rows[0]);
   return event.rows[0];
 };
+
 
 exports.insertEventAttendee = async (
   event_id,

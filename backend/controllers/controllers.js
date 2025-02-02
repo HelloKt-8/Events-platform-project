@@ -198,27 +198,52 @@ exports.createPreferences = async (req, res, next) => {
 };
 
 exports.createEvent = async (req, res, next) => {
-  const { event_name, event_type, event_date, event_cost } = req.body;
+  const { 
+    event_name, 
+    event_type, 
+    event_date, 
+    event_time, 
+    end_time, 
+    event_cost, 
+    event_location, 
+    event_img, 
+    description 
+  } = req.body;
+
   try {
     const newEvent = await makeEvent(
       event_name,
       event_type,
       event_date,
-      event_cost
+      event_time,
+      end_time,
+      event_cost,
+      event_location,
+      event_img,
+      description
     );
+
     res.status(201).send({
       msg: 'Event created successfully',
       event_id: newEvent.event_id,
       event_name: newEvent.event_name,
       event_type: newEvent.event_type,
       event_date: newEvent.event_date,
+      event_time: newEvent.event_time,
+      end_time: newEvent.end_time,
       event_cost: newEvent.event_cost,
+      created_at: newEvent.created_at,
+      updated_at: newEvent.updated_at,
+      event_location: newEvent.event_location,
+      event_img: newEvent.event_img,
+      description: newEvent.description
     });
   } catch (error) {
     console.error(error);
     next(error);
   }
 };
+
 
 exports.addEventAttendee = async (req, res, next) => {
   const { event_id, user_id } = req.params;
