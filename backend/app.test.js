@@ -757,16 +757,29 @@ describe('POST /api/events', () => {
       event_name: 'Tech Conference 2025',
       event_type: 'conference',
       event_date: '2025-05-10',
+      event_time: '09:00:00',
+      end_time: '17:00:00',
       event_cost: 100,
+      event_location: 'London Conference Hall',
+      event_img: 'https://example.com/event.jpg',
+      description: 'A premier tech conference featuring industry leaders.'
     };
 
     const response = await request(app).post('/api/events').send(newEvent);
     expect(response.status).toBe(201);
     expect(response.body.msg).toBe('Event created successfully');
+    expect(response.body.event_id).toBeDefined(); // Ensure ID is returned
     expect(response.body.event_name).toBe(newEvent.event_name);
     expect(response.body.event_type).toBe(newEvent.event_type);
+    expect(response.body.event_time).toBe(newEvent.event_time);
+    expect(response.body.end_time).toBe(newEvent.end_time);
     expect(response.body.event_cost).toBe(newEvent.event_cost);
+    expect(response.body.event_location).toBe(newEvent.event_location);
+    expect(response.body.event_img).toBe(newEvent.event_img);
+    expect(response.body.description).toBe(newEvent.description);
   });
+;
+
 
   test.only('400: returns an error when required fields are missing', async () => {
     const incompleteEvent = {
