@@ -167,7 +167,7 @@ function EventPage() {
       {eventDetails && (
         <div className="event-details">
           <h1 className="event-title">{eventDetails.event_name}</h1>
-          <p><strong>Date:</strong> {eventDetails.event_date}</p>
+          <p><strong>Date:</strong> {eventDetails.event_date.slice(0,-14)}</p>
           <p><strong>Time:</strong> {eventDetails.event_time} - {eventDetails.end_time}</p>
           <p><strong>Description:</strong> {eventDetails.description}</p>
           <p><strong>Location:</strong> {eventDetails.event_location}</p>
@@ -185,7 +185,7 @@ function EventPage() {
                 {(user.user_type === "admin" || user.user_type === "staff") && (
                   <>
                     <button className="btn-signup" onClick={handleSignUp}>
-                      Sign Up!
+                      Join
                     </button>
                     <button className="btn-manage" onClick={() => setShowModal(true)}>
                       Manage
@@ -206,8 +206,8 @@ function EventPage() {
       {showModal && (
         <div className="modal">
           <div className="modal-content">
-            <h2>Edit Event</h2>
-            <label>
+            <h2 className="edit">Edit Event</h2>
+            <label className="label">
               Event Name:
               <input
                 type="text"
@@ -215,16 +215,16 @@ function EventPage() {
                 value={updatedEventDetails.event_name || eventDetails.event_name}
                 onChange={handleModalChange}
               />
-            </label>
-            <label>
+            </label><br></br><br></br>
+            <label className="label">
               Description:
               <textarea
                 name="description"
                 value={updatedEventDetails.description || eventDetails.description}
                 onChange={handleModalChange}
               />
-            </label>
-            <label>
+            </label><br></br><br></br>
+            <label className="label">
               Event Location:
               <input
                 type="text"
@@ -232,8 +232,8 @@ function EventPage() {
                 value={updatedEventDetails.event_location || eventDetails.event_location}
                 onChange={handleModalChange}
               />
-            </label>
-            <label>
+            </label><br></br><br></br>
+            <label className="label">
               Event Cost:
               <input
                 type="number"
@@ -241,10 +241,14 @@ function EventPage() {
                 value={updatedEventDetails.event_cost || eventDetails.event_cost}
                 onChange={handleModalChange}
               />
-            </label>
-            <button onClick={handleSubmitEdit}>Submit</button>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
-            <button onClick={handleDeleteEvent}>Delete Event</button>
+            </label><br></br><br></br>
+            <div className="modalButtons">
+            <button className="btn-editDelete" onClick={handleDeleteEvent}>Delete Event</button>
+            <button className="btn-editSubmit" onClick={handleSubmitEdit}>Submit</button>
+            <button className="btn-editCancel" onClick={() => setShowModal(false)}>Cancel</button>
+
+            </div>
+            
           </div>
         </div>
       )}

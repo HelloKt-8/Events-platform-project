@@ -1,7 +1,8 @@
 import { gapi } from "gapi-script";
 
-const CLIENT_ID = "34184742042-hlstvun9lu5f2c00d25t7kg0gded2fq6.apps.googleusercontent.com";
-const API_KEY = "AIzaSyCut8fTMLzxVyXKRn50QmDkjNlV_qafU0w";
+const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+
 const SCOPES = "https://www.googleapis.com/auth/calendar.events";
 const DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
 

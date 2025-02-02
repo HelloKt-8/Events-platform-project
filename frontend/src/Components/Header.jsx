@@ -94,30 +94,9 @@ const Header = () => {
 
   return (
     <div className="topnav">
-      {/* Google Sign In / Logout Button */}
-      <div className="auth-button-container">
-        {!user ? (
-          <button className="auth-button" onClick={handleGoogleSignIn}>
-            Login / Sign Up with Google
-          </button>
-        ) : (
-          <button className="auth-button" onClick={handleLogout}>
-            Logout
-          </button>
-        )}
-      </div>
-
-      {/* Navigation Links */}
       <a className="active" href="/">
         LondonLife
       </a>
-
-      {/* Create Event Button (only visible for admin or staff) */}
-      {user && (user.user_type === "admin" || user.user_type === "staff") && (
-        <button className="create-event-button" onClick={handleCreateEvent}>
-          Create Event
-        </button>
-      )}
 
       {/* Search Bar */}
       <div className="search-container">
@@ -128,9 +107,6 @@ const Header = () => {
           onChange={handleSearchChange}
           onFocus={() => setShowDropdown(searchResults.length > 0)}
         />
-        <button type="submit">
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-        </button>
 
         {/* Search Dropdown */}
         {showDropdown && (
@@ -147,6 +123,31 @@ const Header = () => {
               </li>
             ))}
           </ul>
+        )}
+
+        <button type="submit">
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+        </button>
+      </div>
+      {/* Navigation Links */}
+
+      {/* Create Event Button (only visible for admin or staff) */}
+      {user && (user.user_type === "admin" || user.user_type === "staff") && (
+        <button className="create-event-button" onClick={handleCreateEvent}>
+          Create Event
+        </button>
+      )}
+
+      {/* Google Sign In / Logout Button */}
+      <div className="auth-button-container">
+        {!user ? (
+          <button className="auth-button" onClick={handleGoogleSignIn}>
+            Login / Sign Up with Google
+          </button>
+        ) : (
+          <button className="auth-button" onClick={handleLogout}>
+            Logout
+          </button>
         )}
       </div>
     </div>
