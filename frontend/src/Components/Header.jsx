@@ -1,145 +1,61 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../AuthContext";
-import { supabase } from "../supabaseClient";
-import { gapi } from "gapi-script"; 
-import { getEventTypes } from "../api calls/fetchingEventTypes"; // Import event fetching function
+import { getEventTypes } from "../api calls/fetchingEventTypes";
+import supabase from "../supabaseClient";
+import { UserContext } from "../context/UserContext"; 
 
 const Header = () => {
-  const { user } = useAuth();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const { user, userProfile, setUserProfile } = useContext(UserContext);
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { queryParams: { prompt: "select_account" } },
+    });
 
-  const handleGoogleSignIn = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-      });
-      if (error) throw error;
-      console.log("Successfully signed in with Google");
-    } catch (error) {
-      console.error("Google sign-in error:", error.message);
+    if (error) console.error("Google Sign-in Error:", error);
+  };
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) console.error("Sign out error:", error);
+    else {
+      setUserProfile(null); // Reset user profile on logout
     }
-  };
-
-  const handleLogout = async () => {
-    console.log("Attempting to log out...");
-    try {
-      if (!gapi.auth2.getAuthInstance()) {
-        console.error("Google API client not initialized");
-        return;
-      }
-
-      const authInstance = gapi.auth2.getAuthInstance();
-      if (authInstance.isSignedIn.get()) {
-        await authInstance.signOut(); 
-        console.log("Google logout successful!");
-      } else {
-        console.log("User not signed in to Google");
-      }
-
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error("Error during Supabase logout:", error.message);
-      } else {
-        console.log("Supabase logout successful!");
-        alert("You have successfully logged out.");
-        navigate("/"); 
-      }
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
-  };
-
-  const handleCreateEvent = () => {
-    navigate("/create-event");
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  const handleEventSelect = (eventId) => {
-    navigate(`/event/${eventId}`);
-    setSearchQuery(""); 
-    setShowDropdown(false); 
   };
 
   useEffect(() => {
-    if (searchQuery.trim() === "") {
-      setSearchResults([]);
-      setShowDropdown(false);
-      return;
-    }
-
-    getEventTypes(searchQuery)
-      .then((events) => {
-        setSearchResults(events || []);
-        setShowDropdown(events.length > 0);
-      })
-      .catch((err) => {
-        console.error("Error fetching events:", err);
-        setSearchResults([]);
-        setShowDropdown(false);
-      });
-  }, [searchQuery]);
+    console.log("User:", user);
+    console.log("UserProfile:", userProfile);
+  }, [user, userProfile]);
 
   return (
     <div className="topnav">
-      <a className="active" href="/">
-        LondonLife
-      </a>
+      <a className="active" href="/">LondonLife</a>
 
       <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search event"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          onFocus={() => setShowDropdown(searchResults.length > 0)}
-        />
-
-        {showDropdown && (
-          <ul className="search-dropdown">
-            {searchResults.map((event) => (
-              <li
-                key={event.event_id}
-                className="search-result-item"
-                onClick={() => handleEventSelect(event.event_id)}
-              >
-                <strong>{event.event_name}</strong>
-                <p>{event.event_location}</p>
-                <p>{new Date(event.event_date).toLocaleDateString()}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-
+        <input type="text" placeholder="Search event" />
         <button type="submit">
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>
       </div>
-    
-      {user && (user.user_type === "admin" || user.user_type === "staff") && (
-        <button className="create-event-button" onClick={handleCreateEvent}>
-          Create Event
-        </button>
-      )}
 
-      <div className="auth-button-container">
-        {!user ? (
-          <button className="auth-button" onClick={handleGoogleSignIn}>
-            Login / Sign Up with Google
-          </button>
+      <div className="auth-container">
+        {userProfile ? (
+          <div>
+            <p>Welcome, {userProfile.username || userProfile.email}</p>
+
+            {(userProfile.user_type === "admin" || userProfile.user_type === "staff") && (
+              <button onClick={() => navigate("/create-event")}>Create Event</button>
+            )}
+
+            <button onClick={signOut}>Sign Out</button>
+          </div>
         ) : (
-          <button className="auth-button" onClick={handleLogout}>
-            Logout
-          </button>
+          <button onClick={signInWithGoogle}>Sign in with Google</button>
         )}
       </div>
     </div>
