@@ -132,50 +132,91 @@ exports.changeEvent = async (
   event_id,
   event_name,
   event_date,
+  event_time,
+  end_time,
   event_type,
-  event_cost
+  event_cost,
+  event_location,
+  event_img,
+  description
 ) => {
-  if (
-    (!event_name && !event_date && !event_type && !event_cost) ||
-    isNaN(Number(event_id)) ||
-    (event_name && typeof event_name !== 'string') ||
-    (event_date && typeof event_date !== 'date') ||
-    (event_type && typeof event_type !== 'string') ||
-    (event_cost && isNaN(Number(event_id)))
-  ) {
+  if (!event_id || isNaN(Number(event_id))) {
     return Promise.reject({
       status: 400,
-      msg: 'Bad request: invalid data format',
+      msg: 'Bad request: invalid event_id format',
     });
   }
 
   const checkEvent = await db.query(
-    `SELECT * FROM events WHERE event_id = ${event_id}`
+    `SELECT * FROM events WHERE event_id = $1`,
+    [event_id]
   );
+
   if (checkEvent.rows.length === 0) {
     return Promise.reject({
       status: 404,
       msg: `Event_id does not exist: ${event_id}`,
     });
-  } else {
-    const queryValues = [
-      event_id,
-      event_name,
-      event_date,
-      event_type,
-      event_cost,
-    ];
-    const sqlQuery = `UPDATE events SET 
-event_name = COALESCE($2, event_name),
-event_date = COALESCE($3, event_date),
-event_type = COALESCE($4, event_type),
-event_cost = COALESCE($5, event_cost)
-WHERE event_id = $1 RETURNING *;`;
-    const result = await db.query(sqlQuery, queryValues);
-
-    return result.rows[0];
   }
+
+  const queryValues = [];
+  const updateFields = [];
+
+  // Dynamically build the update query to only modify provided fields
+  if (event_name) {
+    updateFields.push(`event_name = $${queryValues.length + 1}`);
+    queryValues.push(event_name);
+  }
+  if (event_date) {
+    updateFields.push(`event_date = $${queryValues.length + 1}`);
+    queryValues.push(event_date);
+  }
+  if (event_time) {
+    updateFields.push(`event_time = $${queryValues.length + 1}`);
+    queryValues.push(event_time);
+  }
+  if (end_time) {
+    updateFields.push(`end_time = $${queryValues.length + 1}`);
+    queryValues.push(end_time);
+  }
+  if (event_type) {
+    updateFields.push(`event_type = $${queryValues.length + 1}`);
+    queryValues.push(event_type);
+  }
+  if (event_cost !== undefined) {
+    updateFields.push(`event_cost = $${queryValues.length + 1}`);
+    queryValues.push(event_cost);
+  }
+  if (event_location) {
+    updateFields.push(`event_location = $${queryValues.length + 1}`);
+    queryValues.push(event_location);
+  }
+  if (event_img) {
+    updateFields.push(`event_img = $${queryValues.length + 1}`);
+    queryValues.push(event_img);
+  }
+  if (description) {
+    updateFields.push(`description = $${queryValues.length + 1}`);
+    queryValues.push(description);
+  }
+
+  if (updateFields.length === 0) {
+    return Promise.reject({
+      status: 400,
+      msg: 'No valid fields provided for update',
+    });
+  }
+
+  queryValues.push(event_id);
+  const sqlQuery = `
+    UPDATE events SET ${updateFields.join(', ')}
+    WHERE event_id = $${queryValues.length} RETURNING *;
+  `;
+
+  const result = await db.query(sqlQuery, queryValues);
+  return result.rows[0];
 };
+
 
 exports.changePreference = async (user_id, preference_id, preference_type) => {
   if (

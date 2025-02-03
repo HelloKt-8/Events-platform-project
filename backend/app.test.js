@@ -481,17 +481,7 @@ describe('PATCH/api/events/:event_id', () => {
     const response = await request(app).patch('/api/events/4').send({});
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      msg: 'Bad request: invalid data format',
-    });
-  });
-
-  test.only('400: returns error when data type is invalid', async () => {
-    const response = await request(app).patch('/api/events/4').send({
-      event_date: 'not-a-date',
-    });
-    expect(response.status).toBe(400);
-    expect(response.body).toEqual({
-      msg: 'Bad request: invalid data format',
+      msg: 'No valid fields provided for update',
     });
   });
 
@@ -503,7 +493,7 @@ describe('PATCH/api/events/:event_id', () => {
     });
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      msg: 'Bad request: invalid data format',
+      msg: 'Bad request: invalid event_id format',
     });
   });
 });

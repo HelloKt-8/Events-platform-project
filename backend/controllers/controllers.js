@@ -95,21 +95,37 @@ exports.patchUser = async (req, res, next) => {
 
 exports.patchEvent = async (req, res, next) => {
   const { event_id } = req.params;
-  const { event_name, event_date, event_type, event_cost } = req.body;
+  const {
+    event_name,
+    event_date,
+    event_time,
+    end_time,
+    event_type,
+    event_cost,
+    event_location,
+    event_img,
+    description,
+  } = req.body;
 
   try {
     const updatedEvent = await changeEvent(
       event_id,
       event_name,
       event_date,
+      event_time,
+      end_time,
       event_type,
-      event_cost
+      event_cost,
+      event_location,
+      event_img,
+      description
     );
     res.status(200).send({ updatedEvent });
   } catch (error) {
     next(error);
   }
 };
+
 
 exports.patchUserPreferences = async (req, res, next) => {
   const { user_id, preference_id } = req.params;
