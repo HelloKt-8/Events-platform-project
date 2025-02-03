@@ -10,19 +10,47 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      // Get current session from Supabase
       const { data: sessionData } = await supabase.auth.getSession();
       const currentUser = sessionData?.session?.user;
 
       if (currentUser) {
         setUser(currentUser);
-        console.log("User is logged in:", currentUser);
+        console.log("✅ User is logged in:", currentUser);
 
-        // Fetch user profile using the UUID
-        const profile = await fetchUserProfile(currentUser.id);
-        if (profile) {
+        // Fetch user profile using UUID
+        let profile = await fetchUserProfile(currentUser.id);
+
+        if (!profile) {
+          console.log("⚡ No profile found. Checking before inserting...");
+
+          // Check again to avoid duplicates
+          const { data: existingProfile } = await supabase
+            .from("user_profiles")
+            .select("*")
+            .eq("uuid", currentUser.id)
+            .single();
+
+          if (!existingProfile) {
+            console.log("⚡ Inserting new user profile...");
+
+            const { data, error } = await supabase
+              .from("user_profiles")
+              .insert([{ uuid: currentUser.id, email: currentUser.email, user_type: "user" }])
+              .select()
+              .single();
+
+            if (error) {
+              console.error("❌ Error creating user profile:", error);
+            } else {
+              console.log("✅ New user profile created:", data);
+              setUserProfile(data);
+            }
+          } else {
+            console.log("🔍 Profile already exists, no need to insert.");
+            setUserProfile(existingProfile);
+          }
+        } else {
           setUserProfile(profile);
-          console.log("User Profile:", profile);
         }
       } else {
         console.log("No active user session found.");
@@ -31,22 +59,11 @@ export const UserProvider = ({ children }) => {
       }
     };
 
-    // Listen for auth state changes (login/logout)
-    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session?.user) {
-        setUser(session.user);
-        fetchUserProfile(session.user.id).then(setUserProfile);
-      } else {
-        setUser(null);
-        setUserProfile(null);
-      }
+    supabase.auth.onAuthStateChange(() => {
+      fetchUserData();
     });
 
     fetchUserData();
-
-    return () => {
-      listener?.subscription.unsubscribe();
-    };
   }, []);
 
   return (

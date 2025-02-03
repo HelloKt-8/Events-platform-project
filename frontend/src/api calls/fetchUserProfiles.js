@@ -13,13 +13,13 @@ const fetchUserProfile = async (uuid) => {
     );
 
     if (response.data.length === 0) {
-      console.log("No profile found for the given UUID.");
+      console.log("❌ No profile found for the given UUID. Creating new profile...");
       return null;
     }
 
     return response.data[0]; // Return the user profile object
   } catch (error) {
-    console.error("Error fetching user profile:", error);
+    console.error("❌ Error fetching user profile:", error);
     return null;
   }
 };
