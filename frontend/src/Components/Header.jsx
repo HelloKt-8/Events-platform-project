@@ -43,13 +43,13 @@ const Header = () => {
 
             {/* ✅ Show Create Event button only for admin and staff */}
             {userProfile.user_type === "admin" || userProfile.user_type === "staff" ? (
-              <button onClick={() => navigate("/create-event")}>Create Event</button>
+              <button className="create-event-button" onClick={() => navigate("/create-event")}>Create Event</button>
             ) : null} {/* Non-admin/staff users will NOT see this */}
 
-            <button onClick={signOut}>Sign Out</button>
+            <button className="auth-button" onClick={signOut}>Sign Out</button>
           </div>
         ) : (
-          <button onClick={signInWithGoogle}>Sign in with Google</button>
+          <button className="auth-button" onClick={signInWithGoogle}>Sign in with Google</button>
         )}
       </div>
     </div>

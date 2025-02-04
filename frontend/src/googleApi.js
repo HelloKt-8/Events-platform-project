@@ -36,16 +36,21 @@ export const addEventToCalendar = async (eventDetails) => {
   try {
     const user = await signInToGoogle(); 
 
+    const eventStart = new Date(`${eventDetails.event_date.split("T")[0]}T${eventDetails.event_time}`);
+    const eventEnd = new Date(`${eventDetails.event_date.split("T")[0]}T${eventDetails.end_time}`);
+
     const response = await gapi.client.calendar.events.insert({
       calendarId: "primary",
       resource: {
         summary: eventDetails.event_name,
         description: eventDetails.description,
+        location: eventDetails.event_location,
         start: {
-          dateTime: eventDetails.event_time, 
+          dateTime: eventStart.toISOString(),
+          timeZone: "Europe/London",
         },
         end: {
-          dateTime: eventDetails.end_time, 
+          dateTime: eventEnd.toISOString(),
           timeZone: "Europe/London",
         },
       },
