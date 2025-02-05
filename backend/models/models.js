@@ -81,6 +81,18 @@ exports.selectEvents = async (event_id, event_type) => {
   return events.rows;
 };
 
+exports.selectEventByName = async (event_name) => {
+  const sqlQuery = 'SELECT * events WHERE event_name = $1;';
+  const eventName = await db.query(sqlQuery, [event_name]);
+  if(eventName.rows.length === 0){
+    return Promise.reject({
+      status: 404, 
+      msg: `Event does not exist`
+    })
+  }
+  return eventName.rows;
+}
+
 exports.selectEventAttendees = async (event_id) => {
   const sqlQuery = 'SELECT * FROM event_attendees WHERE event_id = $1;';
   const eventAttendees = await db.query(sqlQuery, [event_id]);

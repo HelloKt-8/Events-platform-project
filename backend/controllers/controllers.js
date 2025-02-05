@@ -15,7 +15,8 @@ const {
   makeUser,
   makePreference,
   makeEvent,
-  insertEventAttendee
+  insertEventAttendee,
+  selectEventByName
 } = require('../models/models');
 
 exports.getUsers = async (req, res, next) => {
@@ -69,6 +70,16 @@ exports.getEvents = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getEventName = async (req, res, next) => {
+  try {
+    const {event_name} = req.query;
+    const eventName = await selectEventByName(event_name);
+    res.status(200).send({eventName})
+  } catch (error){
+    next(error)
+  }
+}
 
 exports.getEventAttendees = async (req, res, next) => {
   try {

@@ -22,7 +22,8 @@ const {
     createUser,
     createPreferences,
     createEvent,
-    addEventAttendee
+    addEventAttendee,
+    getEventName
  } = require('./controllers/controllers');
 
 
@@ -32,6 +33,7 @@ app.get('/api/user_preferences', getUserPreferences)
 app.get('/api/user_activity', getUserActivity)
 app.get('/api/events', getEvents)
 app.get('/api/event_attendees/:event_id', getEventAttendees)
+app.get('/api/events/event_name', getEventName)
 
 app.patch('/api/users/:user_id', patchUser)
 app.patch('/api/events/:event_id', patchEvent)
