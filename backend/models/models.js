@@ -82,8 +82,9 @@ exports.selectEvents = async (event_id, event_type) => {
 };
 
 exports.selectEventByName = async (event_name) => {
-  const sqlQuery = 'SELECT * events WHERE event_name = $1;';
-  const eventName = await db.query(sqlQuery, [event_name]);
+  const sqlQuery = 'SELECT * FROM events WHERE event_name ILIKE $1 LIMIT 10;';
+  const eventName = await db.query(sqlQuery, [`%${event_name}%`]);
+  
   if(eventName.rows.length === 0){
     return Promise.reject({
       status: 404, 
