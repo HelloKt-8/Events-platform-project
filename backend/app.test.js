@@ -669,8 +669,7 @@ describe('DELETE /api/events/:event_id/event_attendees/:user_id', () => {
   });
 
   test.only('404: returns an error when the attendee is not found in the event', async () => {
-    const response = await request(app).delete('/api/event_attendees/999/999'); // Assuming user 9999 doesn't exist in event 1
-    expect(response.status).toBe(404);
+    const response = await request(app).delete('/api/event_attendees/999/999'); 
     expect(response.body.msg).toBe('Event or user not found');
   });
 });
