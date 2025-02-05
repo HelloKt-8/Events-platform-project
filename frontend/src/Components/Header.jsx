@@ -1,6 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import supabase from "../supabaseClient";
@@ -60,27 +58,26 @@ const Header = () => {
 
   return (
     <div className="topnav">
-      <a className="active" href="/">LondonLife</a>
+      <a className="logo" href="/">
+        LONDONLIFE
+      </a>
 
-      <div className="search-container relative">
+      <div className="search-container">
         <input
           type="text"
           placeholder="Search event"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="searchBarInput border p-2 rounded w-full"
+          className="search-bar"
         />
-        <button type="submit">
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
-        </button>
 
         {/* Dropdown Results */}
         {searchResults.length > 0 && (
-          <ul className="dropdown absolute bg-white border w-full mt-1 rounded shadow-lg max-h-60 overflow-y-auto">
+          <ul className="dropdown">
             {searchResults.map((event) => (
               <li
                 key={event.event_id}
-                className="p-2 hover:bg-gray-200 cursor-pointer"
+                className="dropdown-item"
                 onClick={() => handleSelectEvent(event)}
               >
                 {event.event_name}
@@ -88,20 +85,26 @@ const Header = () => {
             ))}
           </ul>
         )}
-
-        {loading && <div className="absolute bg-white p-2">Loading...</div>}
       </div>
 
       <div className="auth-container">
         {userProfile ? (
           <div>
-            <p>Welcome, {userProfile.username || userProfile.email}</p>
-            {userProfile.user_type === "admin" || userProfile.user_type === "staff" ? (
-              <button className="create-event-button" onClick={() => navigate("/create-event")}>
+            <span className="welcome-text">
+              Welcome, {userProfile.username || userProfile.email}
+            </span>
+            {userProfile.user_type === "admin" ||
+            userProfile.user_type === "staff" ? (
+              <button
+                className="create-event-button"
+                onClick={() => navigate("/create-event")}
+              >
                 Create Event
               </button>
             ) : null}
-            <button className="auth-button" onClick={signOut}>Sign Out</button>
+            <button className="auth-button" onClick={signOut}>
+              Sign Out
+            </button>
           </div>
         ) : (
           <button className="auth-button" onClick={signInWithGoogle}>
