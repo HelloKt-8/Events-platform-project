@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../context/UserContext"; // Import User Context
+import { UserContext } from "../context/UserContext"; 
 
 const CreateEventPage = () => {
   const navigate = useNavigate();
-  const { userProfile } = useContext(UserContext); // Get global user profile
+  const { userProfile } = useContext(UserContext); 
   const [eventName, setEventName] = useState("");
   const [eventType, setEventType] = useState("");
   const [eventDate, setEventDate] = useState("");
@@ -14,9 +14,9 @@ const CreateEventPage = () => {
   const [eventLocation, setEventLocation] = useState("");
   const [eventCost, setEventCost] = useState("");
   const [eventImg, setEventImg] = useState("");
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false); 
 
-  // Redirect unauthorized users
+
   useEffect(() => {
     if (!userProfile || (userProfile.user_type !== "admin" && userProfile.user_type !== "staff")) {
       alert("You are not authorized to create events.");
@@ -42,11 +42,11 @@ const CreateEventPage = () => {
       event_location: eventLocation,
       event_cost: parseFloat(eventCost),
       event_img: eventImg,
-      user_id: userProfile?.user_id, // Attach user_id from global state
+      user_id: userProfile?.user_id, 
     };
 
     try {
-      setLoading(true); // Show loading state
+      setLoading(true); 
       const response = await fetch("https://events-platform-project-z29t.onrender.com/api/events", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -56,9 +56,9 @@ const CreateEventPage = () => {
       if (!response.ok) throw new Error("Failed to create event.");
 
       alert("✅ Event created successfully!");
-      navigate("/"); // Redirect to homepage
+      navigate("/"); 
     } catch (error) {
-      console.error("❌ Error creating event:", error);
+      console.error(error);
       alert("Error creating event. Please try again.");
     } finally {
       setLoading(false);

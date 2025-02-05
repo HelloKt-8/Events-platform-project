@@ -22,7 +22,7 @@ function EventPage() {
         const events = await getEventTypes(null, event_id);
         if (events.length > 0) {
           setEventDetails(events[0]);
-          setUpdatedEventDetails(events[0]); // Initialize modal with current event data
+          setUpdatedEventDetails(events[0]); 
         } else {
           setError("Event not found.");
         }
@@ -48,17 +48,14 @@ function EventPage() {
 
     try {
       await addEventToCalendar(eventDetails);
-      alert("✅ Event added to your Google Calendar!");
+      alert("Event added to your Google Calendar!");
 
-      // ✅ Open Google Calendar in a new tab
       window.open("https://calendar.google.com/calendar/u/0/r", "_blank");
     } catch (error) {
-      console.error("❌ Error adding event to Google Calendar:", error);
       alert("Error adding event to Google Calendar. Please try again.");
     }
   };
 
-  // Handle input changes in the modal form
   const handleModalChange = (e) => {
     setUpdatedEventDetails({
       ...updatedEventDetails,
@@ -66,22 +63,17 @@ function EventPage() {
     });
   };
 
-  // Handle event update (Submit changes)
   const handleSubmitEdit = async () => {
-    console.log("🔄 Updating event with ID:", event_id);
-    console.log("📦 Updated event details:", updatedEventDetails);
 
     try {
       const response = await fetch(
-        `https://events-platform-project-z29t.onrender.com/api/events/${event_id}`, // ✅ Using POST instead
+        `https://events-platform-project-z29t.onrender.com/api/events/${event_id}`, 
         {
-          method: "PATCH", // ✅ Change from PUT to POST
+          method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ event_id, ...updatedEventDetails }), // ✅ Send event_id in the body
+          body: JSON.stringify({ event_id, ...updatedEventDetails }), 
         }
       );
-
-      console.log("📡 API Response:", response);
 
       if (!response.ok) {
         const errorMessage = await response.text();
@@ -90,16 +82,14 @@ function EventPage() {
         );
       }
 
-      alert("✅ Event updated successfully!");
+      alert("Event updated successfully!");
       setEventDetails(updatedEventDetails);
       setShowModal(false);
     } catch (error) {
-      console.error("❌ Error updating event:", error);
       alert(`Error updating event: ${error.message}`);
     }
   };
 
-  // Handle event deletion
   const handleDeleteEvent = async () => {
     const confirmDelete = window.confirm(
       "⚠️ Are you sure you want to delete this event?"
@@ -116,10 +106,10 @@ function EventPage() {
         throw new Error("Failed to delete event.");
       }
 
-      alert("🗑 Event deleted successfully!");
-      navigate("/"); // Redirect to homepage after deletion
+      alert("Event deleted successfully!");
+      navigate("/");
     } catch (error) {
-      console.error("❌ Error deleting event:", error);
+      console.error(error);
       alert("Error deleting event. Please try again.");
     }
   };
@@ -156,12 +146,10 @@ function EventPage() {
               : `£${eventDetails.event_cost}`}
           </p>
 
-          {/* ✅ "Join" button */}
           <button onClick={handleJoinEvent} className="btn-join">
             Join Event
           </button>
 
-          {/* Manage Button (Visible to Admin/Staff) */}
           {(userProfile?.user_type === "admin" ||
             userProfile?.user_type === "staff") && (
             <button className="btn-manage" onClick={() => setShowModal(true)}>
@@ -171,7 +159,6 @@ function EventPage() {
         </div>
       )}
 
-      {/* Manage Event Modal */}
       {showModal && (
         <div className="modal">
           <div className="modal-content">

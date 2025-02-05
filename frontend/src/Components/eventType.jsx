@@ -25,7 +25,7 @@ const EventType = () => {
           const events = await getEventTypes(eventType); 
           grouped[eventType] = events;
         } catch (error) {
-          console.log(`Error fetching events for type: ${eventType}`);
+          console.log(`error: ${eventType}`);
         }
       }
       setGroupedEvents(grouped); 

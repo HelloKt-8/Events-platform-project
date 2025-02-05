@@ -15,15 +15,11 @@ export const UserProvider = ({ children }) => {
 
       if (currentUser) {
         setUser(currentUser);
-        console.log("✅ User is logged in:", currentUser);
 
-        // Fetch user profile using UUID
         let profile = await fetchUserProfile(currentUser.id);
 
         if (!profile) {
-          console.log("⚡ No profile found. Checking before inserting...");
 
-          // Check again to avoid duplicates
           const { data: existingProfile } = await supabase
             .from("user_profiles")
             .select("*")
@@ -31,7 +27,6 @@ export const UserProvider = ({ children }) => {
             .single();
 
           if (!existingProfile) {
-            console.log("⚡ Inserting new user profile...");
 
             const { data, error } = await supabase
               .from("user_profiles")
@@ -40,20 +35,17 @@ export const UserProvider = ({ children }) => {
               .single();
 
             if (error) {
-              console.error("❌ Error creating user profile:", error);
+              console.error(error);
             } else {
-              console.log("✅ New user profile created:", data);
               setUserProfile(data);
             }
           } else {
-            console.log("🔍 Profile already exists, no need to insert.");
             setUserProfile(existingProfile);
           }
         } else {
           setUserProfile(profile);
         }
       } else {
-        console.log("No active user session found.");
         setUser(null);
         setUserProfile(null);
       }

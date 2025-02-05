@@ -25,20 +25,20 @@ const Header = () => {
         );
         setSearchResults(response.data.eventName);
       } catch (error) {
-        console.error("Search error:", error);
+        console.error("search error:", error);
         setSearchResults([]);
       }
       setLoading(false);
     };
 
-    const debounce = setTimeout(fetchEvents, 300); // Debounce API calls
+    const debounce = setTimeout(fetchEvents, 300); 
     return () => clearTimeout(debounce);
   }, [searchQuery]);
 
   const handleSelectEvent = (event) => {
     setSearchQuery(event.event_name);
-    setSearchResults([]); // Hide dropdown after selection
-    navigate(`/events/${event.event_id}`); // Navigate to event details page
+    setSearchResults([]); 
+    navigate(`/events/${event.event_id}`);
   };
 
   const signInWithGoogle = async () => {
@@ -47,13 +47,13 @@ const Header = () => {
       options: { queryParams: { prompt: "select_account" } },
     });
 
-    if (error) console.error("Google Sign-in Error:", error);
+    if (error) console.error(error);
   };
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
-    if (error) console.error("Sign out error:", error);
-    else setUserProfile(null); // Reset user profile on logout
+    if (error) console.error(error);
+    else setUserProfile(null); 
   };
 
   return (
@@ -71,7 +71,6 @@ const Header = () => {
           className="search-bar"
         />
 
-        {/* Dropdown Results */}
         {searchResults.length > 0 && (
           <ul className="dropdown">
             {searchResults.map((event) => (
@@ -90,9 +89,9 @@ const Header = () => {
       <div className="auth-container">
         {userProfile ? (
           <div>
-            <span className="welcome-text">
+             <div className="welcome-text">
               Welcome, {userProfile.username || userProfile.email}
-            </span>
+            </div>
             {userProfile.user_type === "admin" ||
             userProfile.user_type === "staff" ? (
               <button
