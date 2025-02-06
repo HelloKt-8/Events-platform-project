@@ -22,7 +22,8 @@ function EventPage() {
         const events = await getEventTypes(null, event_id);
         if (events.length > 0) {
           setEventDetails(events[0]);
-          setUpdatedEventDetails(events[0]); 
+          setUpdatedEventDetails(events[0]);
+          console.log(eventDetails);
         } else {
           setError("Event not found.");
         }
@@ -40,7 +41,6 @@ function EventPage() {
   }, [event_id]);
 
   const handleJoinEvent = async () => {
-
     if (!userProfile) {
       alert("Sign up to LondonLife to join!");
       return;
@@ -69,14 +69,13 @@ function EventPage() {
   };
 
   const handleSubmitEdit = async () => {
-
     try {
       const response = await fetch(
-        `https://events-platform-project-z29t.onrender.com/api/events/${event_id}`, 
+        `https://events-platform-project-z29t.onrender.com/api/events/${event_id}`,
         {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ event_id, ...updatedEventDetails }), 
+          body: JSON.stringify({ event_id, ...updatedEventDetails }),
         }
       );
 

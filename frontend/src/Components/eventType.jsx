@@ -60,9 +60,6 @@ const EventType = () => {
                       <strong>Time:</strong> {event.event_time} <br />
                       <strong>Cost:</strong> £{event.event_cost}
                     </p>
-                    <a href="#" className="btn-btn-primary">
-                      Learn More
-                    </a>
                   </div>
                 </Link>
               </div>
