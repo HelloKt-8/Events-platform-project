@@ -31,29 +31,32 @@ const Header = () => {
       setLoading(false);
     };
 
-    const debounce = setTimeout(fetchEvents, 300); 
+    const debounce = setTimeout(fetchEvents, 300);
     return () => clearTimeout(debounce);
   }, [searchQuery]);
 
   const handleSelectEvent = (event) => {
     setSearchQuery(event.event_name);
-    setSearchResults([]); 
+    setSearchResults([]);
     navigate(`/events/${event.event_id}`);
   };
 
   const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { queryParams: { prompt: "select_account" } },
+      options: {
+        queryParams: { prompt: "select_account" },
+        scopes: "https://www.googleapis.com/auth/calendar.events",
+      },
     });
-
+console.log(data.session?.provider_token)
     if (error) console.error(error);
   };
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) console.error(error);
-    else setUserProfile(null); 
+    else setUserProfile(null);
   };
 
   return (
@@ -89,7 +92,7 @@ const Header = () => {
       <div className="auth-container">
         {userProfile ? (
           <div>
-             <div className="welcome-text">
+            <div className="welcome-text">
               Welcome, {userProfile.username || userProfile.email}
             </div>
             {userProfile.user_type === "admin" ||

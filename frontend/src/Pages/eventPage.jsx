@@ -3,12 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import Header from "../Components/Header";
 import { getEventTypes } from "../api calls/fetchingEventTypes";
-import { loadGoogleAPI, addEventToCalendar } from "../googleApi";
+import { addEventToCalendar } from "../googleApi";
 
 function EventPage() {
   const { event_id } = useParams();
   const navigate = useNavigate();
-  const { userProfile } = useContext(UserContext);
+  const { userProfile, session } = useContext(UserContext);
   const [eventDetails, setEventDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -37,17 +37,22 @@ function EventPage() {
     if (event_id) {
       fetchEventDetails();
     }
-    loadGoogleAPI();
   }, [event_id]);
 
   const handleJoinEvent = async () => {
+
     if (!userProfile) {
       alert("Sign up to LondonLife to join!");
       return;
     }
 
+    if (!session) {
+      alert("Session not found. Please log in again.");
+      return;
+    }
+
     try {
-      await addEventToCalendar(eventDetails);
+      await addEventToCalendar(eventDetails, session.provider_token);
       alert("Event added to your Google Calendar!");
 
       window.open("https://calendar.google.com/calendar/u/0/r", "_blank");

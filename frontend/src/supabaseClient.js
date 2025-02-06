@@ -5,8 +5,7 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-console.log('Supabase URL:', SUPABASE_URL);
-console.log('Supabase Key:', SUPABASE_ANON_KEY);
+
 
 export default supabase;
 

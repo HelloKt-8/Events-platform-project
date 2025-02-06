@@ -7,30 +7,30 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [session, setUserSession] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       const { data: sessionData } = await supabase.auth.getSession();
-      const currentUser = sessionData?.session?.user;
+      const currentSession = sessionData?.session;
+      if (currentSession) {
+        setUserSession(currentSession); 
+        setUser(currentSession.user);
 
-      if (currentUser) {
-        setUser(currentUser);
-
-        let profile = await fetchUserProfile(currentUser.id);
-
+        let profile = await fetchUserProfile(currentSession.user.id);
         if (!profile) {
-
           const { data: existingProfile } = await supabase
             .from("user_profiles")
             .select("*")
-            .eq("uuid", currentUser.id)
+            .eq("uuid", currentSession.user.id)
             .single();
 
           if (!existingProfile) {
-
             const { data, error } = await supabase
               .from("user_profiles")
-              .insert([{ uuid: currentUser.id, email: currentUser.email, user_type: "user" }])
+              .insert([
+                { uuid: currentSession.user.id, email: currentSession.user.email, user_type: "user" },
+              ])
               .select()
               .single();
 
@@ -47,19 +47,24 @@ export const UserProvider = ({ children }) => {
         }
       } else {
         setUser(null);
+        setUserSession(null);
         setUserProfile(null);
       }
     };
 
-    supabase.auth.onAuthStateChange(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange(() => {
       fetchUserData();
     });
 
     fetchUserData();
+
+    return () => {
+      listener?.subscription?.unsubscribe(); 
+    };
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, userProfile, setUserProfile }}>
+    <UserContext.Provider value={{ user, userProfile, setUserProfile, session }}>
       {children}
     </UserContext.Provider>
   );
