@@ -1,4 +1,4 @@
-#**Events-platform-project**
+##Events-platform-project
 
 Hosted website: https://events-platform-7mhf4i466-katies-projects-4122f895.vercel.app/
 
@@ -28,10 +28,9 @@ Please view the below instructions on how to run this project locally.
    - npm run dev
 6. Open the web app on local host.
 
-POVs: 
-Non a member: You can still browse a list of events but you will need to sign up to join any. 
 
 # Login Details
+Non a member: You can still browse a list of events but you will need to sign up to join any. 
 - **Member**:
   - Email: `tt2350592@gmail.com`
   - Password: `Developer123`
