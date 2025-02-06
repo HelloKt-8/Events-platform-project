@@ -28,7 +28,7 @@ Please view the below instructions on how to run this project locally.
    - npm run dev
 6. Open the web app on local host.
 
-##Login Details
+## Login Details
 Non a member: You can still browse a list of events but you will need to sign up to join any. 
 - **Member**:
   - Email: `tt2350592@gmail.com`
