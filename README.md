@@ -1,6 +1,6 @@
 # Events-platform-project
 
-Hosted website: https://events-platform-7mhf4i466-katies-projects-4122f895.vercel.app/
+Hosted website: https://events-platform-project-i6pvhdx3z-katies-projects-4122f895.vercel.app/
 
 ## Project Summary
 Welcome! This web application allows users to sign in through Google Authentication to browse a list of events. Depending on your user type (admin/member), you will be presented with different permissions. 
