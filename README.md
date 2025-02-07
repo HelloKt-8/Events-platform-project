@@ -21,9 +21,6 @@ Please view the below instructions on how to run this project locally.
 2. Clone the repository (https://github.com/HelloKt-8/Events-platform-project)
 3. Install dependencies:
    - npm install
-4. In the frontend directory, create a .env.local file to set up the environment variables:
-   VITE_GOOGLE_CLIENT_ID='your-client-id'(obtain from Google Cloud Console)
-   VITE_GOOGLE_API_KEY='google-api-key' (obtain from Google Cloud Console)
 5. In the terminal, run the project locally by typing:
    - npm run dev
 6. Open the web app on local host.
