@@ -10,7 +10,7 @@ Welcome! This web application allows users to sign in through Google Authenticat
 
 Once a user decides to join an event, they will be redirected to their Google Calendar where they can view the event they wish to attend.
 
-Please see video demostration here: 
+Please see video demostration here: https://youtu.be/WgHaYnk3v1Y
 
 
 ## To run the project locally: 
