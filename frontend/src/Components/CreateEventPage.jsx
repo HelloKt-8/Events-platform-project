@@ -55,7 +55,7 @@ const CreateEventPage = () => {
 
       if (!response.ok) throw new Error("Failed to create event.");
 
-      alert("✅ Event created successfully!");
+      alert("Event created successfully!");
       navigate("/"); 
     } catch (error) {
       console.error(error);
@@ -77,7 +77,7 @@ const CreateEventPage = () => {
 
         <div>
           <label>Event Type:</label>
-          <input type="text" value={eventType} onChange={(e) => setEventType(e.target.value)} required />
+          <input type="text" value={eventType} onChange={(e) => setEventType(e.target.value.toLowerCase())} required />
         </div>
 
         <div>
