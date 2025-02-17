@@ -65,37 +65,47 @@ Follow these steps to set up the project on your local machine.
   Vite will show a URL like this: 
    "Local: http://localhost:5173/
 
-🔑 Login Credentials
-If you want to test different user roles, use the credentials below:
+## 🔑 Login Credentials  
 
-👤 Member Login:
+If you want to test different user roles, use the credentials below:  
 
-Email: tt2350592@gmail.com
-Password: Developer123
-🛠 Admin (Staff) Login:
+### **👤 Member Login**  
+- **Email:** `tt2350592@gmail.com`  
+- **Password:** `Developer123`  
 
-Email: devel6842@gmail.com
-Password: Developer123!
-📌 Guests can browse events but must sign in to join.
+### **🛠 Admin (Staff) Login**  
+- **Email:** `devel6842@gmail.com`  
+- **Password:** `Developer123!`  
 
-💻 Technologies Used
-🔹 Backend (Node.js & Express.js)
-Node.js
-Express.js
-PostgreSQL (Database)
-Supabase (Authentication & Data Management)
-CORS Middleware
-🔹 Frontend (React & Vite)
-React.js
-Vite
-React Router
-Axios
-Google Calendar API
-Supabase Authentication
-🔹 Deployment & Hosting
-Render → Backend Hosting
-Vercel → Frontend Deployment
-Google Cloud Console → OAuth & API Management
-❓ Need Help?
-If you run into any issues, feel free to contact me:
-📧 Email: katieluc8@gmail.com
+📌 *Guests can browse events but must sign in to join.*  
+
+---
+
+## 💻 Technologies Used  
+
+### 🔹 **Backend (Node.js & Express.js)**  
+- Node.js  
+- Express.js  
+- PostgreSQL (Database)  
+- Supabase (Authentication & Data Management)  
+- CORS Middleware  
+
+### 🔹 **Frontend (React & Vite)**  
+- React.js  
+- Vite  
+- React Router  
+- Axios  
+- Google Calendar API  
+- Supabase Authentication  
+
+### 🔹 **Deployment & Hosting**  
+- **Render** → Backend Hosting  
+- **Vercel** → Frontend Deployment  
+- **Google Cloud Console** → OAuth & API Management  
+
+---
+
+## ❓ Need Help?  
+If you run into any issues, feel free to contact me:  
+📧 **Email:** [katieluc8@gmail.com](mailto:katieluc8@gmail.com)  
+
