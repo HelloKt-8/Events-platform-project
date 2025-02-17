@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 const LondonBanner = () => {
-  const [slideIndex, setSlideIndex] = useState(1);
-  const [direction, setDirection] = useState(1); 
+  const [slideIndex, setSlideIndex] = useState(0);
 
   const slides = [
     {
@@ -19,55 +18,49 @@ const LondonBanner = () => {
     },
   ];
 
-  const showSlides = (n) => {
-    if (n > slides.length) setSlideIndex(1);   
-    if (n < 1) setSlideIndex(slides.length);  
-    setSlideIndex(n);
+  const nextSlide = () => {
+    setSlideIndex((prevIndex) => (prevIndex + 1) % slides.length);
   };
 
-  const plusSlides = (n) => {
-    showSlides(slideIndex + n);
-  };
-
-  const currentSlide = (n) => {
-    showSlides(n);
+  const prevSlide = () => {
+    setSlideIndex(
+      (prevIndex) => (prevIndex - 1 + slides.length) % slides.length
+    );
   };
 
   useEffect(() => {
     const timer = setInterval(() => {
-      plusSlides(direction);  
-    }, 5000); 
+      nextSlide();
+    }, 5000);
 
     return () => clearInterval(timer);
-  }, [slideIndex, direction]); 
-
-  useEffect(() => {
-    if (slideIndex === slides.length || slideIndex === 1) {
-      setDirection(direction * -1); 
-    }
-  }, [slideIndex]);
+  }, []);
 
   return (
     <div className="slideshow-container">
       {slides.map((slide, index) => (
         <div
           className="mySlides"
-          style={{ display: slideIndex === index + 1 ? "block" : "none" }}
+          style={{ display: slideIndex === index ? "block" : "none" }}
           key={index}
         >
-          <img src={slide.img} alt={slide.caption} style={{ maxWidth: "100%", maxHeight:"100%" }} />
+          <img
+            src={slide.img}
+            alt={slide.caption}
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
+          />
           <div className="text">{slide.caption}</div>
         </div>
       ))}
 
-      <button onClick={() => plusSlides(-1)}>&#10094;</button>
-      <button onClick={() => plusSlides(1)}>&#10095;</button>
+      <button onClick={prevSlide}>&#10094;</button>
+      <button onClick={nextSlide}>&#10095;</button>
 
       <div style={{ textAlign: "center" }}>
         {slides.map((_, index) => (
           <span
-            className={`dot ${slideIndex === index + 1 ? "active" : ""}`}
-            onClick={() => currentSlide(index + 1)}
+            className={`dot ${slideIndex === index ? "active" : ""}`}
+            onClick={() => setSlideIndex(index)}
             key={index}
           ></span>
         ))}
