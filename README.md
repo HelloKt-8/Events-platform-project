@@ -1,58 +1,101 @@
-# Events-platform-project
+# Events Platform Project  
 
-Hosted website: https://events-platform-project-8hptujha4-katies-projects-4122f895.vercel.app/
+📍 **Hosted Website:** [Events Platform](https://events-platform-project-8hptujha4-katies-projects-4122f895.vercel.app/)  
 
-## Project Summary
-Welcome! This web application allows users to sign in through Google Authentication to browse a list of events. Depending on your user type (admin/member), you will be presented with different permissions. 
+## 📌 Project Summary  
+Welcome! This web application allows users to **sign in through Google Authentication** to browse a list of events. Depending on your **user type (Admin/Member/Guest)**, you will have different permissions.  
 
-- **User**: You can view and join events upon logging in.
-- **Staff Member**: You can create, modify (edit/delete), and join events.
+### 🔹 User Roles & Permissions:  
+- **Guest (Not Logged In):** You can browse events but need to sign in to join.  
+- **Member:** You can **view & join events** after logging in.  
+- **Staff Member (Admin):** You can **create, modify (edit/delete), and join events**.  
 
-Once a user decides to join an event, they will be redirected to their Google Calendar where they can view the event they wish to attend.
+### 📅 Google Calendar Integration  
+When a user joins an event, they will be redirected to their **Google Calendar** where they can view the event details.  
+⚠️ **Note:** Make sure your Google Calendar is set to the **same month as the event** to see it correctly!  
 
-Please see video demostration here: https://youtu.be/WgHaYnk3v1Y
+🎥 **Video Demonstration:** [Watch Here](https://youtu.be/WgHaYnk3v1Y)  
 
+---
 
-## To run the project locally: 
-Please view the below instructions on how to run this project locally. 
-1. Have the following installed:
-   - Node.js
-   - npm
-2. Clone the repository (https://github.com/HelloKt-8/Events-platform-project)
-3. Install dependencies:
-   - npm install
-5. In the terminal, run the project locally by typing:
-   - npm run dev
-6. Open the web app on local host.
+## 🛠 How to Run the Project Locally  
 
-## Login Details
-Non a member: You can still browse a list of events but you will need to sign up to join any. 
-- **Member**:
-  - Email: `tt2350592@gmail.com`
-  - Password: `Developer123`
-- **Admin**:
-  - Email: `devel6842@gmail.com`
-  - Password: `Developer123!`
+Follow these steps to set up the project on your local machine.  
 
-## Technologies used: 
-### Backend (Node.js & Express): 
-- Node.js
-- Express.js
-- PostgreSQL
-- Supabase
-- CORS Middleware
+### 🔹 **Backend Setup (Node.js & Express)**  
+1. **Clone the repository:**  
+   ```bash
+   git clone https://github.com/HelloKt-8/Events-platform-project.git
+   cd Events-platform-project
 
-### Frontend (React):
-- React
-- Vite
-- React Router
-- Axios
-- Google Calendar API
-- Supabase Authentication
+2. **Navigate to the backend folder:**
+   ```bash 
+   cd backend 
 
-### Deployment & Hosting: 
-- Render (Backend host)
-- Vercel (Frontend deploy)
-- Google Cloud Console (Managing OAuth & API keys)
+3. **Install dependencies:**
+   ```bash 
+   npm install
 
-If you run into any issues, please contact me at katieluc8@gmail.com and I will be happy to assist!
+4. **Set up environment variables:**
+   **For development (`.env.development`):**  
+   ```env
+   PGDATABASE=events_platform_db
+
+5. **Start the backened server:**
+   **For local development setup:**
+   ```bash
+   npm run setup-dbs
+   npm run seed
+   npm run dev
+
+### 🔹 **Frontend Setup (React and Vite)**  
+1. **Navigate to the frontend folder:**  
+   ```bash
+   cd frontend
+
+2. **Install dependencies:**
+   ```bash 
+   npm install
+
+3. **Start the development server:**  
+   ```bash
+   npm run dev
+
+4. **Open app in browswer:**
+  Vite will show a URL like this: 
+   "Local: http://localhost:5173/
+
+🔑 Login Credentials
+If you want to test different user roles, use the credentials below:
+
+👤 Member Login:
+
+Email: tt2350592@gmail.com
+Password: Developer123
+🛠 Admin (Staff) Login:
+
+Email: devel6842@gmail.com
+Password: Developer123!
+📌 Guests can browse events but must sign in to join.
+
+💻 Technologies Used
+🔹 Backend (Node.js & Express.js)
+Node.js
+Express.js
+PostgreSQL (Database)
+Supabase (Authentication & Data Management)
+CORS Middleware
+🔹 Frontend (React & Vite)
+React.js
+Vite
+React Router
+Axios
+Google Calendar API
+Supabase Authentication
+🔹 Deployment & Hosting
+Render → Backend Hosting
+Vercel → Frontend Deployment
+Google Cloud Console → OAuth & API Management
+❓ Need Help?
+If you run into any issues, feel free to contact me:
+📧 Email: katieluc8@gmail.com
