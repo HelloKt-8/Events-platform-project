@@ -119,11 +119,22 @@ function EventPage() {
   };
 
   return (
-    <div>
+    <div className="event-page-container">
       <Header />
+
       {loading && <p className="loading">Loading event details...</p>}
       {error && <p className="error">{error}</p>}
 
+      <div className="event-overlay"></div>
+      <div
+        className="event-background"
+        style={{
+          backgroundImage: `url(${
+            eventDetails?.event_img ||
+            "https://via.placeholder.com/1200x800?text=Event+Image"
+          })`,
+        }}
+      ></div>
       {eventDetails && (
         <div className="event-details">
           <h1 className="event-title">{eventDetails.event_name}</h1>
@@ -271,5 +282,4 @@ function EventPage() {
     </div>
   );
 }
-
 export default EventPage;

@@ -71,48 +71,48 @@ const CreateEventPage = () => {
 
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Event Name:</label>
+          <label>Event Name:<span style={{ color: "red" }}>*</span></label>
           <input type="text" value={eventName} onChange={(e) => setEventName(e.target.value)} required />
         </div>
 
         <div>
-          <label>Event Type:</label>
+          <label>Event Type:<span style={{ color: "red" }}>*</span></label>
           <input type="text" value={eventType} onChange={(e) => setEventType(e.target.value.toLowerCase())} required />
         </div>
 
         <div>
-          <label>Event Date:</label>
+          <label>Event Date:<span style={{ color: "red" }}>*</span></label>
           <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} required />
         </div>
 
         <div>
-          <label>Event Time:</label>
+          <label>Event Time:<span style={{ color: "red" }}>*</span></label>
           <input type="time" value={eventTime} onChange={(e) => setEventTime(e.target.value)} required />
         </div>
 
         <div>
-          <label>End Time:</label>
+          <label>End Time:<span style={{ color: "red" }}>*</span></label>
           <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required />
         </div>
 
         <div>
-          <label>Description:</label>
+          <label>Description:<span style={{ color: "red" }}>*</span></label>
           <textarea value={eventDescription} onChange={(e) => setEventDescription(e.target.value)} required></textarea>
         </div>
 
         <div>
-          <label>Event Location:</label>
+          <label>Event Location:<span style={{ color: "red" }}>*</span></label>
           <input type="text" value={eventLocation} onChange={(e) => setEventLocation(e.target.value)} required />
         </div>
 
         <div>
-          <label>Event Cost (£):</label>
+          <label>Event Cost (£):<span style={{ color: "red" }}>*</span></label>
           <input type="number" value={eventCost} onChange={(e) => setEventCost(e.target.value)} required />
         </div>
 
         <div>
           <label>Event Image URL:</label>
-          <input type="url" value={eventImg} onChange={(e) => setEventImg(e.target.value)} required />
+          <input type="url" value={eventImg} onChange={(e) => setEventImg(e.target.value)} required/>
         </div>
 
         <button type="submit" className="createSubmit" disabled={loading}>
