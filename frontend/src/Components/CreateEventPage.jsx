@@ -75,7 +75,7 @@ const CreateEventPage = () => {
       toast.success("Event created successfully!");
       setTimeout(() => {
         navigate("/");
-      }, 2000);
+      }, 800);
     } catch (error) {
       console.error(error);
       toast.error("Error creating event. Please try again.");

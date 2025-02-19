@@ -115,7 +115,7 @@ function EventPage() {
       toast.success("Event deleted successfully!")
       setTimeout(() => {
         navigate("/");
-      }, 2000);
+      }, 800);
       
     } catch (error) {
       console.error(error);
