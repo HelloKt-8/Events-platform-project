@@ -49,7 +49,6 @@ const Header = () => {
         scopes: "https://www.googleapis.com/auth/calendar.events",
       },
     });
-console.log(data.session?.provider_token)
     if (error) console.error(error);
   };
 

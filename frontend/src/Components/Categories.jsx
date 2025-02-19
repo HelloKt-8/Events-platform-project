@@ -2,7 +2,7 @@ import React from "react";
 
 const Categories = () => {
   const categories = [
-    { name: "sport", img: "https://img.icons8.com/?size=100&id=9820&format=png&color=000000" },
+    { name: "sport", img: "https://img.icons8.com/?size=100&id=9820&format=png&color=000000"},
     { name: "comedy", img: "https://img.icons8.com/?size=100&id=598&format=png&color=000000" },
     { name: "party", img: "https://img.icons8.com/?size=100&id=33902&format=png&color=000000" },
     { name: "music", img: "https://img.icons8.com/?size=100&id=EKc45bPQKzyu&format=png&color=000000" },

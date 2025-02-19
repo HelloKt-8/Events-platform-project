@@ -52,9 +52,10 @@ const EventType = () => {
                     className="card-img-top"
                     src={event.event_img || "https://www.charitycomms.org.uk/wp-content/uploads/2019/02/placeholder-image-square.jpg"}
                     alt={event.event_name}
+                    loading="lazy"
                   />
                   <div className="card-body">
-                    <h5 className="card-title">{event.event_name}</h5>
+                    <h3 className="card-title">{event.event_name}</h3>
                     <p className="card-text">
                       <strong>Date:</strong> {event.event_date.slice(0,-14)} <br />
                       <strong>Time:</strong> {event.event_time} <br />

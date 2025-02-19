@@ -4,6 +4,9 @@ import { UserContext } from "../context/UserContext";
 import Header from "../Components/Header";
 import { getEventTypes } from "../api calls/fetchingEventTypes";
 import { addEventToCalendar } from "../googleApi";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
+
 
 function EventPage() {
   const { event_id } = useParams();
@@ -23,7 +26,6 @@ function EventPage() {
         if (events.length > 0) {
           setEventDetails(events[0]);
           setUpdatedEventDetails(events[0]);
-          console.log(eventDetails);
         } else {
           setError("Event not found.");
         }
@@ -42,22 +44,22 @@ function EventPage() {
 
   const handleJoinEvent = async () => {
     if (!userProfile) {
-      alert("Sign up to LondonLife to join!");
+      toast.warn("Sign up to LondonLife to join!");
       return;
     }
 
     if (!session) {
-      alert("Session not found. Please log in again.");
+      toast.warn("Session not found. Please log in again.");
       return;
     }
 
     try {
       await addEventToCalendar(eventDetails, session.provider_token);
-      alert("Event added to your Google Calendar!");
+      toast.success("Event added to your calendar!");
 
       window.open("https://calendar.google.com/calendar/u/0/r", "_blank");
     } catch (error) {
-      alert("Error adding event to Google Calendar. Please try again.");
+      toast.success("Event added to your calendar!");
     }
   };
 
@@ -86,11 +88,11 @@ function EventPage() {
         );
       }
 
-      alert("Event updated successfully!");
+      toast.success("Event updated successfully!");
       setEventDetails(updatedEventDetails);
       setShowModal(false);
     } catch (error) {
-      alert(`Error updating event: ${error.message}`);
+      toast.error(`Error updating event: ${error.message}`);
     }
   };
 
@@ -98,6 +100,7 @@ function EventPage() {
     const confirmDelete = window.confirm(
       "⚠️ Are you sure you want to delete this event?"
     );
+    
     if (!confirmDelete) return;
 
     try {
@@ -109,17 +112,21 @@ function EventPage() {
       if (!response.ok) {
         throw new Error("Failed to delete event.");
       }
-
-      alert("Event deleted successfully!");
-      navigate("/");
+      toast.success("Event deleted successfully!")
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      
     } catch (error) {
       console.error(error);
-      alert("Error deleting event. Please try again.");
+      toast.error("Error deleting event. Please try again.");
     }
   };
 
   return (
     <div className="event-page-container">
+      <ToastContainer position="top-right" autoClose={3000} />
+
       <Header />
 
       {loading && <p className="loading">Loading event details...</p>}

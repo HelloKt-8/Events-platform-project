@@ -15,7 +15,7 @@ export const addEventToCalendar = async (eventDetails, token) => {
       end: { dateTime: eventEnd.toISOString(), timeZone: "Europe/London" },
     };
 
-    console.log("event in google format", event)
+    console.log("event in google format", event);
     await fetch(
       "https://www.googleapis.com/calendar/v3/calendars/primary/events",
       {
@@ -26,16 +26,11 @@ export const addEventToCalendar = async (eventDetails, token) => {
         },
         body: JSON.stringify(event),
       }
-    )
-      .then((data) => {
-        return data.json();
-      })
-      .then((data) => {
-        console.log(data);
-      });
+    ).then((data) => {
+      return data.json();
+    });
   } catch (error) {
     console.error(error);
     throw new Error("Failed to create event in Google Calendar.");
   }
 };
-
