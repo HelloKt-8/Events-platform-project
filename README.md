@@ -13,7 +13,7 @@ Welcome! This web application allows users to **sign in through Google Authentic
 ### Google Calendar Integration  
 When a user joins an event, they will be redirected to their **Google Calendar** where they can view the event details.  
 
-⚠️**VERY IMPORTANT NOTE:** Make sure your Google Calendar is set to the **same month as the event** to see it correctly! And **ensure you are logged in as the same user google account when Google Calander opens!!**⚠️
+⚠️**VERY IMPORTANT NOTE:** Make sure your Google Calendar is set to the **same month as the event** to see it. And **ensure you are logged in as the same user Google account when Google Calander opens!! It is likely that you are already logged into a default Google account so please change this to the user account** ⚠️
 
 **Video Demonstration:** [Watch Here](https://youtu.be/WgHaYnk3v1Y)  
 
